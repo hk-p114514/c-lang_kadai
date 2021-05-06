@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cp /home/pub/practice/c-master/$1 .

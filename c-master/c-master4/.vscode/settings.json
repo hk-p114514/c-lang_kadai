@@ -1,0 +1,16 @@
+{
+    "python.pythonPath": "/bin/python3",
+    "files.associations": {
+        "stdio.h": "c",
+        "math.h": "c",
+        "*.tcc": "c",
+        "chrono": "c",
+        "cinttypes": "c",
+        "cmath": "c",
+        "complex": "c",
+        "numeric": "c",
+        "ratio": "c",
+        "cstdlib": "c",
+        "istream": "c"
+    }
+}
