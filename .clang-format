@@ -1,1 +1,7 @@
 BasedOnStyle: Google
+
+# タブを使う
+UseTab: ForIndentation
+
+# 関数の引数を整列
+AlignAfterOpenBracket: true
