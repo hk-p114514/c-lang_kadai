@@ -1,7 +1,14 @@
-BasedOnStyle: Google
+# BasedOnStyle: Google
+BasedOnStyle: Microsoft
 
 # タブを使う
 UseTab: ForIndentation
 
 # 関数の引数を整列
 AlignAfterOpenBracket: true
+
+# []の内側にスペースを入れる
+SpacesInSquareBrackets: true
+
+# 関数の定義時の波括弧の改行
+BreakBeforeBraces: Attach
