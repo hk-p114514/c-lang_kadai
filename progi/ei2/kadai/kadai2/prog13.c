@@ -7,25 +7,25 @@ int inputData(int n, double x[]);
 double sumData(int n, double x[]);
 
 int main() {
-  double x[MAX_SIZE];  // データを格納する配列
-  double s;            // 合計
-  double h;            // 平均
-  int n;               // 入力したいデータの個数
-  int num;             // 実際に入力できたデータの個数
+	double x[ MAX_SIZE ]; // データを格納する配列
+	double s;             // 合計
+	double h;             // 平均
+	int n;                // 入力したいデータの個数
+	int num;              // 実際に入力できたデータの個数
 
-  n = getint("入力データの数：");
-  // ｎ個のデータを配列ｘへ入力
-  if ((num = inputData(n, x)) < n) {  // 入力できないデータがあった時は警告
-    printf("\n入力データ数が配列の上限を超えました。\n");
-    printf("入力できたデータのみについて集計します。\n");
-  }
-  s = sumData(n, x);  // 配列ｘに格納されているデータの合計を求める
-  h = s / num;  // 平均を計算する
-  printf("\n");
+	n = getint("入力データの数：");
+	// ｎ個のデータを配列ｘへ入力
+	if ((num = inputData(n, x)) < n) { // 入力できないデータがあった時は警告
+		printf("\n入力データ数が配列の上限を超えました。\n");
+		printf("入力できたデータのみについて集計します。\n");
+	}
+	s = sumData(n, x);   // 配列ｘに格納されているデータの合計を求める
+	h = s / (double)num; // 平均を計算する
+	printf("\n");
 
-  printf("合計＝%g, 平均＝%g\n", s, h);
+	printf("合計＝%g, 平均＝%g\n", s, h);
 
-  return (0);
+	return (0);
 }
 //--------------------------------------------------------------------------
 //  実数データを配列ｘに入力し、実際に入力できたデータの個数を返す
@@ -34,23 +34,23 @@ int main() {
 //    戻 り 値　　：実際に入力したデータ数（但し、最大値は配列要素数の上限）
 //--------------------------------------------------------------------------
 int inputData(int n, double x[]) {
-  // 戻り値
-  int isInput;  // 入力する(した)データの個数
+	// 戻り値
+	int isInput; // 入力する(した)データの個数
 
-  if (MAX_SIZE < n) {
-    // 配列の最大要素数分の入力を行う
-    isInput = MAX_SIZE;
-  } else {
-    // n個のデータを入力する
-    isInput = n;
-  }
+	if (MAX_SIZE < n) {
+		// 配列の最大要素数分の入力を行う
+		isInput = MAX_SIZE;
+	} else {
+		// n個のデータを入力する
+		isInput = n;
+	}
 
-  for (int i = 0; i < isInput; i++) {
-    printf("%d番目のデータ", i + 1);
-    x[i] = getint(" : ");
-  }
+	for (int i = 0; i < isInput; i++) {
+		printf("%d番目のデータ", i + 1);
+		x[ i ] = getfloat(" : ");
+	}
 
-  return (isInput);
+	return (isInput);
 }
 
 //--------------------------------------------------------------------------
@@ -60,11 +60,11 @@ int inputData(int n, double x[]) {
 //    戻 り 値　　：配列ｘに格納されている倍精度実数データの合計
 //--------------------------------------------------------------------------
 double sumData(int n, double x[]) {
-  double sum = 0;  //合計
+	double sum = 0; //合計
 
-  for (int i = 0; i < n; i++) {
-    sum += x[i];
-  }
+	for (int i = 0; i < n; i++) {
+		sum += x[ i ];
+	}
 
-  return (sum);
+	return (sum);
 }
