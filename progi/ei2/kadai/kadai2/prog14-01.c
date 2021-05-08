@@ -16,7 +16,6 @@ int main() {
 	printf("入力したマップのサイズ: %d\n\n", n); // 入力マップサイズの確認
 
 	if (n > 0) {
-		printf("受け渡す値(n) : %d\n", n);
 		showMap(n, map); // マップの表示
 		putchar('\n');   // 見やすくするための改行
 	}
@@ -50,9 +49,6 @@ int readMap(char map[][ MAX_SIZE + 1 ]) {
 
 			// 各行の末尾にヌル文字を格納
 			map[ i ][ MAX_SIZE ] = '\0';
-			printf("test\n");
-			printf("map[i][MAX_SIZE - 1] = %c\n", map[ i ][ MAX_SIZE - 1 ]);
-			printf("%s\n", map[ i ]);
 		}
 		return (n); // マップのサイズを返す
 	}
