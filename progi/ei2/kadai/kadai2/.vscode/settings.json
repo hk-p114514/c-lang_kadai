@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "iostream": "c",
+        "ostream": "c",
+        "ios": "c",
+        "iosfwd": "c",
+        "c++config.h": "c",
+        "wchar.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
+}
