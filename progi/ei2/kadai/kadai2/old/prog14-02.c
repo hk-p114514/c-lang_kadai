@@ -58,24 +58,55 @@ int main() {
 //-------------------------------------------------------------------------------
 void transformMap(int method, int n, char map1[][ MAX_SIZE + 1 ], char map2[][ MAX_SIZE + 1 ]) {
 	// 変換したマップをmap2に格納する
-
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			if (method == 1) {
-				// 90°右回転
+	// 旧コード
+	if (method == 1) {
+		// 90°右回転
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				map2[ i ][ j ] = map1[ n - j - 1 ][ i ];
-			} else if (method == 2) {
-				// 90°左回転
+			}
+			// map2[ i ][ MAX_SIZE ] = '\0';
+		}
+	} else if (method == 2) {
+		// 90°左回転
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				map2[ i ][ j ] = map1[ j ][ n - i - 1 ];
-			} else if (method == 3) {
-				// 左右反転
+			}
+		}
+	} else if (method == 3) {
+	左右反転
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				map2[ i ][ j ] = map1[ i ][ n - j - 1 ];
-			} else if (method == 4) {
-				// 上下反転
+			}
+		}
+	} else if (method == 4) {
+	上下反転
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
 				map2[ i ][ j ] = map1[ n - i - 1 ][ j ];
 			}
 		}
 	}
+
+	// for (int i = 0; i < n; i++) {
+	// 	for (int j = 0; j < n; j++) {
+	// 		if (method == 1) {
+	// 			// 90°右回転
+	// 			map2[ i ][ j ] = map1[ n - j - 1 ][ i ];
+	// 		} else if (method == 2) {
+	// 			// 90°左回転
+	// 			map2[ i ][ j ] = map1[ j ][ n - i - 1 ];
+	// 		} else if (method == 3) {
+	// 			// 左右反転
+	// 			map2[ i ][ j ] = map1[ i ][ n - j - 1 ];
+	// 		} else if (method == 4) {
+	// 			// 上下反転
+	// 			map2[ i ][ j ] = map1[ n - i - 1 ][ j ];
+	// 		}
+	// 	}
+	// }
 
 	return;
 }
