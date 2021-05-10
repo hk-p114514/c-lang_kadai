@@ -8,9 +8,9 @@ void showMap(int n, char map[][ MAX_SIZE + 1 ]);
 void transformMap();
 
 int main() {
-	char map1[ MAX_SIZE ][ MAX_SIZE + 1 ]; // 元のマップを格納する２次元配列
-	char map2[ MAX_SIZE ][ MAX_SIZE + 1 ]; // 変換後のマップを格納する２次元配列
-	int n;                                 // 入力したマップのサイズ
+	char map1[ MAX_SIZE + 1 ][ MAX_SIZE + 1 ]; // 元のマップを格納する２次元配列
+	char map2[ MAX_SIZE + 1 ][ MAX_SIZE + 1 ]; // 変換後のマップを格納する２次元配列
+	int n;                                     // 入力したマップのサイズ
 
 	n = readMap(map1);
 
@@ -102,9 +102,6 @@ int readMap(char map[][ MAX_SIZE + 1 ]) {
 		for (i = 0; i < n; i++) {
 			printf("%d行目の文字列", i + 1);
 			len = getstring(":", map[ i ]);
-
-			// 各行の末尾にヌル文字を格納
-			map[ i ][ MAX_SIZE ] = '\0';
 		}
 		return (n); // マップのサイズを返す
 	}
@@ -120,7 +117,10 @@ void showMap(int n, char map[][ MAX_SIZE + 1 ]) {
 	int i, j;
 
 	for (i = 0; i < n; i++) {
-		printf("%s\n", map[ i ]);
+		for (j = 0; j < n; j++) {
+			printf("%c", map[ i ][ j ]);
+		}
+		putchar('\n');
 	}
 
 	return;
