@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-// #include <time.h>
 
 void paintMark();
 void prog13Input();
-double getRandom(int isFloor, double max, double min);
+void printMaxSquare();
 
 int main() {
+	printMaxSquare();
 
 	return (0);
 }
@@ -56,14 +56,14 @@ void paintMark() {
 	}
 }
 
-/*
-    getRandom()
-    乱数を取得する関数
-    第1引数 isFloor :0の場合は倍精度実数を、1の場合は整数を返す
-    第2引数 max 	:乱数生成時の最大値
-    第3引数 min		:乱数生成時の最小値
-    　戻り値 rnd	 :乱数生成時の最小値
-*/
+void printMaxSquare() {
+	int size = 50;
+	int min = ' ';
+	int max = '~';
+	int between = max - min;
+	char start = 'A';
 
-double getRandom(int isFloor, double max, double min) {
+	for (int i = 0; i < size; i++) {
+		// Aから順に文字を書く
+	}
 }
