@@ -102,14 +102,18 @@ double findVariance(double data[], double avg, int n) {
 /* 第2引数 - ソートするデータの個数 */
 /* 戻り値 - なし */
 void sortData(double data[], int n) {
+	int max_i;
+
 	for (int i = 0; i < n; i++) {
+		max_i = i; // 先頭の値を仮に最小だとする
 		for (int j = i + 1; j < n; j++) {
-			if (data[ j ] > data[ i ]) {
-				double temp = data[ j ];
-				data[ j ] = data[ i ];
-				data[ i ] = temp;
+			if (data[ j ] > data[ max_i ]) {
+				max_i = j;
 			}
 		}
+		double temp = data[ max_i ];
+		data[ max_i ] = data[ i ];
+		data[ i ] = temp;
 	}
 
 	return;
