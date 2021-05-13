@@ -12,3 +12,10 @@ SpacesInSquareBrackets: true
 
 # 関数の定義時の波括弧の改行
 BreakBeforeBraces: Attach
+
+# 1行の最大文字数
+ColumnLimit: 150
+
+#BinPackParameters: false
+
+#BinPackArguments: false
