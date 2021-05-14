@@ -7,7 +7,7 @@
 int inputData(int studentNumbers[], char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
               char studentFirstNames[][ MAX_NAME_LENGTH + 1 ], int studentScores[][ SUBJECTS ]);
 void getSum(int n, int studentScores[][ SUBJECTS ], int sum[]);
-void getRanking(int n, int studentScores[][ SUBJECTS ], int rank[]);
+void getRanking(int n, int sum[], int rank[]);
 void sortData(int data[], int n);
 int getIndex(int n, int array[], int target);
 
@@ -27,6 +27,7 @@ int main() {
 
 	// 1. データの入力
 	n = inputData(studentNumbers, studentLastNames, studentFirstNames, studentScores);
+	printf("n = %d\n", n);
 
 	// 2. 得点の合計を求める
 	int sum[ MAX_STUDENTS + 1 ] = {}; // 各生徒の合計値
@@ -35,7 +36,16 @@ int main() {
 
 	// 3. 各生徒の順位を求める
 	int rank[ MAX_STUDENTS + 1 ];
-	getRanking(n, studentScores, rank);
+	getRanking(n, sum, rank);
+
+	for (int i = 1; i <= n; i++) {
+		printf("%d %s %s ", studentNumbers[ i ], studentLastNames[ i ], studentFirstNames[ i ]);
+		for (int j = 0; j < SUBJECTS; j++) {
+			printf("%d ", studentScores[ i ][ j ]);
+		}
+		printf("合計%d点 : %d位", sum[ i ], rank[ i ]);
+		putchar('\n');
+	}
 	// 4. 各生徒の得点の平均を求める
 
 	// 5. 試験成績一覧表を表示
@@ -60,22 +70,20 @@ int main() {
 int inputData(int studentNumbers[], char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
               char studentFirstNames[][ MAX_NAME_LENGTH + 1 ], int studentScores[][ SUBJECTS ]) {
 	char buff[ 1024 ];
-	// 1.
-	// 入力するデータの個数を入力する
+	// 1.入力するデータの個数を入力する
 	int n;
 	printf("Input n :");
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &n);
 
-	// 2.
-	// 各生徒ごとのデータを受け取る
+	// 2.各生徒ごとのデータを受け取る
 	for (int i = 0; i < n; i++) {
 		int studentNumber;
 		int scores[ SUBJECTS ];
 		char lastName[ MAX_NAME_LENGTH + 1 ];
 		char firstName[ MAX_NAME_LENGTH + 1 ];
 
-		printf("%d番目の入力\n", i);
+		printf("%d番目の入力\n", i + 1);
 		printf("生徒番号 名字 名前 国語の点数 数学の点数 英語の点数\n");
 		fgets(buff, sizeof(buff), stdin);
 		sscanf(buff, "%d %s %s %d %d %d", &studentNumber, lastName, firstName, &scores[ 0 ], &scores[ 1 ], &scores[ 2 ]);
@@ -115,22 +123,21 @@ void getSum(int n, int studentScores[][ SUBJECTS ], int sum[]) {
     各生徒の得点の順位を求める
 */
 // 第1引数 - 求める合計値の個数（生徒の人数）
-// 第2引数 - 各生徒の3教科の得点
+// 第2引数 - 各生徒の3教科の得点の合計
 // 第3引数 - 順位を格納する配列
 // 戻 り 値 -　なし
-void getRanking(int n, int studentScores[][ SUBJECTS ], int rank[]) {
-	int sortedStudentScores[ MAX_STUDENTS + 1 ][ SUBJECTS ];
+void getRanking(int n, int sum[], int rank[]) {
+	int sortSum[ MAX_STUDENTS + 1 ];
 	for (int i = 1; i <= n; i++) {
-		for (int j = 0; j < SUBJECTS; j++) {
-			sortedStudentScores[ i ][ j ] = studentScores[ i ][ j ];
-		}
+		sortSum[ i ] = sum[ i ];
 	}
-	// 大きい順にソートしたデータを作成
-	sortData(sortedStudentScores, n);
+
+	// 各生徒得点の合計値を大きい順に並べ替えた配列を用意する
+	sortData(sortSum, n);
 
 	// 各生徒の順位を求める
-	for (int i = 1; i <= n; i++) {
-		rank[ i ] = getIndex(n, sortedStudentScores, studentScores[ i ]);
+	for (int i = 0; i < n; i++) {
+		rank[ i + 1 ] = getIndex(n, sortSum, sum[ i + 1 ]);
 	}
 }
 
@@ -141,14 +148,10 @@ void getRanking(int n, int studentScores[][ SUBJECTS ], int rank[]) {
 /* 第3引数 - 目的のデータ */
 /* 戻り値 - データのあった添字 */
 int getIndex(int n, int array[], int target) {
-	int ans;
-	for (int i = 1; i <= n; i++) {
-		if (array[ i ] == target) {
-			ans = i;
-			break;
-		}
+	for (int i = 0; i < n + 1; i++) {
 	}
-	return (ans);
+
+	return (0);
 }
 
 // sortData()
