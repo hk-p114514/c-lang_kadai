@@ -80,45 +80,46 @@ Input n :1番目の入力
 生徒番号 名字 名前 国語の点数 数学の点数 英語の点数
 41番目の入力
 生徒番号 名字 名前 国語の点数 数学の点数 英語の点数
-n = 41
-1 Aaon Hopa 54 55 49 合計158点 : 0位
-2 Adrian Cashmore 63 68 98 合計229点 : 0位
-3 Andrew Blowers 67 74 54 合計195点 : 0位
-4 Andrew Roose 67 74 57 合計198点 : 0位
-5 Apisai Naevo 52 54 47 合計153点 : 0位
-6 Bklair Larsen 41 15 56 合計112点 : 0位
-7 BrettMc Cormack 98 95 100 合計293点 : 0位
-8 Brian Lima 85 76 47 合計208点 : 0位
-9 Bruce Reihana 52 58 58 合計168点 : 0位
-10 Caleb Ralph 67 98 56 合計221点 : 0位
-11 Carlos Spencer 85 55 65 合計205点 : 0位
-12 Charles Riechelmann 48 65 47 合計160点 : 0位
-13 Craig Dowd 57 74 68 合計199点 : 0位
-14 Craig Innes 55 41 54 合計150点 : 0位
-15 Deon Muir 68 75 58 合計201点 : 0位
-16 Dylan Mike 69 85 95 合計249点 : 0位
-17 Eroni Clarke 75 75 68 合計218点 : 0位
-18 Erro Brain 62 84 54 合計200点 : 0位
-19 Frank Bunce 73 84 65 合計222点 : 0位
-20 Glen Marsh 56 57 47 合計160点 : 0位
-21 Glen Osborne 87 47 58 合計192点 : 0位
-22 Greg Smith 100 57 100 合計257点 : 0位
-23 Ian Foster 85 84 48 合計217点 : 0位
-24 Ian Jones 74 84 87 合計245点 : 0位
-25 Jason Barrell 54 28 58 合計140点 : 0位
-26 Jason Hammond 85 54 58 合計197点 : 0位
-27 Janson Spice 98 100 95 合計293点 : 0位
-28 Joeli Vidiri 55 15 45 合計115点 : 0位
-29 Jona Lomu 74 57 57 合計188点 : 0位
-30 Justin Collins 14 58 52 合計124点 : 0位
-31 Lee Lidgard 51 54 25 合計130点 : 0位
-32 Lee Stensness 85 98 91 合計274点 : 0位
-33 Leo Lafaialii 58 55 65 合計178点 : 0位
-34 Leon Macdonald 87 97 84 合計268点 : 0位
-35 Mark Carter 87 91 54 合計232点 : 0位
-36 Mark Cooksley 41 64 52 合計157点 : 0位
-37 Mark Robinson 58 55 56 合計169点 : 0位
-38 Matt Cooper 55 56 57 合計168点 : 0位
-39 Michael Collins 57 84 59 合計200点 : 0位
-40 Michael Jones 74 87 69 合計230点 : 0位
-41 Nick Holten 84 84 91 合計259点 : 0位
+NO 氏名                      	国語	数学	英語	合計	順位	平均
+
+ 1 Aaon Hopa                	 54	 55	 49	158	33	52.67
+ 2 Adrian Cashmore            	 63	 68	 98	229	11	76.33
+ 3 Andrew Blowers             	 67	 74	 54	195	24	65.00
+ 4 Andrew Roose               	 67	 74	 57	198	22	66.00
+ 5 Apisai Naevo               	 52	 54	 47	153	35	51.00
+ 6 Bklair Larsen              	 41	 15	 56	112	41	37.33
+ 7 BrettMc Cormack             	 98	 95	100	293	 1	97.67
+ 8 Brian Lima                	 85	 76	 47	208	16	69.33
+ 9 Bruce Reihana             	 52	 58	 58	168	29	56.00
+10 Caleb Ralph               	 67	 98	 56	221	13	73.67
+11 Carlos Spencer             	 85	 55	 65	205	17	68.33
+12 Charles Riechelmann         	 48	 65	 47	160	31	53.33
+13 Craig Dowd                	 57	 74	 68	199	21	66.33
+14 Craig Innes               	 55	 41	 54	150	36	50.00
+15 Deon Muir                	 68	 75	 58	201	18	67.00
+16 Dylan Mike                	 69	 85	 95	249	 7	83.00
+17 Eroni Clarke              	 75	 75	 68	218	14	72.67
+18 Erro Brain               	 62	 84	 54	200	19	66.67
+19 Frank Bunce               	 73	 84	 65	222	12	74.00
+20 Glen Marsh               	 56	 57	 47	160	31	53.33
+21 Glen Osborne             	 87	 47	 58	192	25	64.00
+22 Greg Smith               	100	 57	100	257	 6	85.67
+23 Ian Foster              	     85	 84	 48	217	15	72.33
+24 Ian Jones               	     74	 84	 87	245	 8	81.67
+25 Jason Barrell             	 54	 28	 58	140	37	46.67
+26 Jason Hammond             	 85	 54	 58	197	23	65.67
+27 Janson Spice               	 98	100	 95	293	 1	97.67
+28 Joeli Vidiri              	 55	 15	 45	115	40	38.33
+29 Jona Lomu                	 74	 57	 57	188	26	62.67
+30 Justin Collins             	 14	 58	 52	124	39	41.33
+31 Lee Lidgard             	 51	 54	 25	130	38	43.33
+32 Lee Stensness           	 85	 98	 91	274	 3	91.33
+33 Leo Lafaialii           	 58	 55	 65	178	27	59.33
+34 Leon Macdonald           	 87	 97	 84	268	 4	89.33
+35 Mark Carter              	 87	 91	 54	232	 9	77.33
+36 Mark Cooksley            	 41	 64	 52	157	34	52.33
+37 Mark Robinson            	 58	 55	 56	169	28	56.33
+38 Matt Cooper              	 55	 56	 57	168	29	56.00
+39 Michael Collins             	 57	 84	 59	200	19	66.67
+40 Michael Jones               	 74	 87	 69	230	10	76.67
+41 Nick Holten              	 84	 84	 91	259	 5	86.33

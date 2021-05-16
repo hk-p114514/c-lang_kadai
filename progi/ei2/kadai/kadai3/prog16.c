@@ -1,14 +1,27 @@
 #include <stdio.h>
-#define MAX_STUDENTS 100   // 生徒の最大人数
+#define MAX_STUDENTS 100 // 生徒の最大人数
 #define MAX_NAME_LENGTH 20 // 生徒の名前の最大文字（ヌル文字は含めない）
 #define MAX_SCORE 100      // 各科目の満点
 #define SUBJECTS 3         // 教科の数
 
-int inputData(int studentNumbers[], char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
-              char studentFirstNames[][ MAX_NAME_LENGTH + 1 ], int studentScores[][ SUBJECTS ]);
+int inputData(
+    int studentNumbers[],
+    char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
+    char studentFirstNames[][ MAX_NAME_LENGTH + 1 ],
+    int studentScores[][ SUBJECTS ]);
 void getSum(int n, int studentScores[][ SUBJECTS ], int sum[]);
 void getRanking(int n, int sum[], int rank[]);
 void sortData(int data[], int n);
+void getAvg(int n, int data[], double avg[]);
+void printTable(
+    int n,
+    int studentNumbers[],
+    char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
+    char studentFirstNames[][ MAX_NAME_LENGTH + 1 ],
+    int studentScores[][ SUBJECTS ],
+    int sum[],
+    int rank[],
+    double avg[]);
 int getIndex(int n, int array[], int target);
 
 int main() {
@@ -27,7 +40,6 @@ int main() {
 
 	// 1. データの入力
 	n = inputData(studentNumbers, studentLastNames, studentFirstNames, studentScores);
-	printf("n = %d\n", n);
 
 	// 2. 得点の合計を求める
 	int sum[ MAX_STUDENTS + 1 ] = {}; // 各生徒の合計値
@@ -38,18 +50,20 @@ int main() {
 	int rank[ MAX_STUDENTS + 1 ];
 	getRanking(n, sum, rank);
 
-	for (int i = 1; i <= n; i++) {
-		printf("%d %s %s ", studentNumbers[ i ], studentLastNames[ i ], studentFirstNames[ i ]);
-		for (int j = 0; j < SUBJECTS; j++) {
-			printf("%d ", studentScores[ i ][ j ]);
-		}
-		printf("合計%d点 : %d位", sum[ i ], rank[ i ]);
-		putchar('\n');
-	}
 	// 4. 各生徒の得点の平均を求める
+	double avg[ MAX_STUDENTS + 1 ];
+	getAvg(n, sum, avg);
 
 	// 5. 試験成績一覧表を表示
-	// printTable();
+	printTable(
+	    n,
+	    studentNumbers,
+	    studentLastNames,
+	    studentFirstNames,
+	    studentScores,
+	    sum,
+	    rank,
+	    avg);
 
 	// 6. 度数分布表を表示
 	// printDegreeDistributionTable();
@@ -67,8 +81,12 @@ int main() {
 // 第3引数 - 各生徒の名前
 // 第4引数 - 各生徒の国語、数学、英語の点数
 /* 戻り値　 - 生徒の人数 n */
-int inputData(int studentNumbers[], char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
-              char studentFirstNames[][ MAX_NAME_LENGTH + 1 ], int studentScores[][ SUBJECTS ]) {
+
+int inputData(
+    int studentNumbers[],
+    char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
+    char studentFirstNames[][ MAX_NAME_LENGTH + 1 ],
+    int studentScores[][ SUBJECTS ]) {
 	char buff[ 1024 ];
 	// 1.入力するデータの個数を入力する
 	int n;
@@ -86,7 +104,15 @@ int inputData(int studentNumbers[], char studentLastNames[][ MAX_NAME_LENGTH + 1
 		printf("%d番目の入力\n", i + 1);
 		printf("生徒番号 名字 名前 国語の点数 数学の点数 英語の点数\n");
 		fgets(buff, sizeof(buff), stdin);
-		sscanf(buff, "%d %s %s %d %d %d", &studentNumber, lastName, firstName, &scores[ 0 ], &scores[ 1 ], &scores[ 2 ]);
+		sscanf(
+		    buff,
+		    "%d %s %s %d %d %d",
+		    &studentNumber,
+		    lastName,
+		    firstName,
+		    &scores[ 0 ],
+		    &scores[ 1 ],
+		    &scores[ 2 ]);
 
 		studentNumbers[ studentNumber ] = studentNumber;
 
@@ -136,22 +162,83 @@ void getRanking(int n, int sum[], int rank[]) {
 	sortData(sortSum, n);
 
 	// 各生徒の順位を求める
-	for (int i = 0; i < n; i++) {
-		rank[ i + 1 ] = getIndex(n, sortSum, sum[ i + 1 ]);
+	for (int i = 1; i <= n; i++) {
+		rank[ i ] = getIndex(n, sortSum, sum[ i ]);
+	}
+}
+
+// getAvg()
+/* 概要 - 渡されたデータの平均値を求める */
+/* 第1引数 - 調べるデータの要素数 */
+/* 第2引数 - 生徒ごとの各科目の合計点数 */
+/* 第3引数 - 平均値を格納する配列 */
+/* 戻り値 - なし */
+void getAvg(int n, int data[], double avg[]) {
+	for (int i = 1; i <= n; i++) {
+		avg[ i ] = (double)data[ i ] / (double)SUBJECTS;
+	}
+}
+
+// printTable()
+/* 概要 - 各生徒についての成績一覧表を表示する */
+/* 第1引数 - 調べるデータの要素数 */
+/* 第2引数 - 生徒ごとの各科目の合計点数 */
+/* 第3引数 - 平均値を格納する配列 */
+/* 戻り値 - なし */
+void printTable(
+    int n,
+    int studentNumbers[],
+    char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
+    char studentFirstNames[][ MAX_NAME_LENGTH + 1 ],
+    int studentScores[][ SUBJECTS ],
+    int sum[],
+    int rank[],
+    double avg[]) {
+	printf(
+	    "%s %s %-20s\t%3s\t%3s\t%3s\t%3s\t%2s\t%2s\n",
+	    "NO "
+	    "氏名",
+	    "",
+	    "",
+	    "国語",
+	    "数学",
+	    "英語",
+	    "合計",
+	    "順位",
+	    "平均");
+
+	putchar('\n');
+
+	for (int i = 1; i <= n; i++) {
+		printf(
+		    "%2d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t%2.2lf",
+		    i,                       // 生徒番号
+		    studentLastNames[ i ],   // 名字
+		    studentFirstNames[ i ],  // 名前
+		    studentScores[ i ][ 0 ], // 国語の点数
+		    studentScores[ i ][ 1 ], // 数学の点数
+		    studentScores[ i ][ 2 ], // 英語の点数
+		    sum[ i ],                // 合計
+		    rank[ i ],               // 順位
+		    avg[ i ]);               // 順位
+		putchar('\n');
 	}
 }
 
 // getIndex()
-/* 概要 - 渡されたデータが渡された配列の何番目の要素かを求める */
+/* 概要 -
+ * 渡されたデータが渡された配列の何番目の要素かを求める */
 /* 第1引数 - 調べる配列の要素数 */
 /* 第2引数 - 調べる配列 */
 /* 第3引数 - 目的のデータ */
 /* 戻り値 - データのあった添字 */
 int getIndex(int n, int array[], int target) {
-	for (int i = 0; i < n + 1; i++) {
+	int i = 0;
+	while (array[ i ] != target) {
+		i++;
 	}
 
-	return (0);
+	return (i);
 }
 
 // sortData()
@@ -161,7 +248,7 @@ int getIndex(int n, int array[], int target) {
 /* 戻り値 - なし */
 void sortData(int data[], int n) {
 	for (int i = 1; i <= n; i++) {
-		for (int j = i + 1; j < n; j++) {
+		for (int j = i + 1; j <= n; j++) {
 			if (data[ j ] > data[ i ]) {
 				int temp = data[ j ];
 				data[ j ] = data[ i ];
