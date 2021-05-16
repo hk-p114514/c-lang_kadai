@@ -13,7 +13,7 @@ int main() {
 	// 1. n個の実数を入力する
 	n = inputData(data);
 
-	// // 2. 合計を求める
+	// 2. 合計を求める
 	double sum = 0; // 合計
 	sum = sumData(n, data);
 
@@ -21,24 +21,24 @@ int main() {
 	double avg; // データの平均
 	avg = sum / n;
 
-	// // 4. 分散を求める
+	// 4. 分散を求める
 	double variance; // 分散
 	variance = findVariance(data, avg, n);
 
 	// 5. 大きい順に並べ替える
 	sortData(data, n);
 
-	// // 6. 最大値と最小値を求める
+	// 6. 最大値と最小値を求める
 	double max, min;
 	max = data[ 0 ];
 	min = data[ n - 1 ];
 
-	// // 7. n個の実数を表示する
+	// 7. n個の実数を表示する
 	printNumbers(data, n);
 
 	putchar('\n'); // 見やすくするための改行
 
-	// // 8. 最大値、最小値、合計、平均、分散を表示する
+	// 8. 最大値、最小値、合計、平均、分散を表示する
 	printData(max, min, sum, avg, variance);
 	return (0);
 }
@@ -121,7 +121,7 @@ void sortData(double data[], int n) {
 /* 第2引数 - 表示するデータの個数 */
 void printNumbers(double data[], int n) {
 	for (int i = 0; i < n; i++) {
-		printf("x[ %d]: %g\n", i, data[ i ]);
+		printf("x[%3d]: %g\n", i, data[ i ]);
 	}
 
 	return;
