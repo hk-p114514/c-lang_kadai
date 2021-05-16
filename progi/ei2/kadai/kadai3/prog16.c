@@ -4,15 +4,24 @@
 #define MAX_SCORE 100      // 各科目の満点
 #define SUBJECTS 3         // 教科の数
 
+void getSum(int n, int studentScores[][ SUBJECTS ], int sum[]);
+
+void getRanking(int n, int sum[], int rank[]);
+
+void sortData(int data[], int n);
+
+void getAvg(int n, int data[], double avg[]);
+
+int getIndex(int n, int array[], int target);
+
+int searchRange(int n, int array[], int min, int max);
+
 int inputData(
     int studentNumbers[],
     char studentLastNames[][ MAX_NAME_LENGTH + 1 ],
     char studentFirstNames[][ MAX_NAME_LENGTH + 1 ],
     int studentScores[][ SUBJECTS ]);
-void getSum(int n, int studentScores[][ SUBJECTS ], int sum[]);
-void getRanking(int n, int sum[], int rank[]);
-void sortData(int data[], int n);
-void getAvg(int n, int data[], double avg[]);
+
 void printTable(
     int n,
     int studentNumbers[],
@@ -22,7 +31,8 @@ void printTable(
     int sum[],
     int rank[],
     double avg[]);
-int getIndex(int n, int array[], int target);
+
+void printDegreeDistributionTable(int n, int sum[]);
 
 int main() {
 	// 入力されたデータの個数（人数）
@@ -66,7 +76,7 @@ int main() {
 	    avg);
 
 	// 6. 度数分布表を表示
-	// printDegreeDistributionTable();
+	printDegreeDistributionTable(n, sum);
 
 	return (0);
 }
@@ -165,6 +175,8 @@ void getRanking(int n, int sum[], int rank[]) {
 	for (int i = 1; i <= n; i++) {
 		rank[ i ] = getIndex(n, sortSum, sum[ i ]);
 	}
+
+	return;
 }
 
 // getAvg()
@@ -177,6 +189,8 @@ void getAvg(int n, int data[], double avg[]) {
 	for (int i = 1; i <= n; i++) {
 		avg[ i ] = (double)data[ i ] / (double)SUBJECTS;
 	}
+
+	return;
 }
 
 // printTable()
@@ -194,6 +208,7 @@ void printTable(
     int sum[],
     int rank[],
     double avg[]) {
+	// 出力する項目を表示
 	printf(
 	    "%s %s %-20s\t%3s\t%3s\t%3s\t%3s\t%2s\t%2s\n",
 	    "NO "
@@ -209,9 +224,10 @@ void printTable(
 
 	putchar('\n');
 
+	// 生徒個人のデータを表示
 	for (int i = 1; i <= n; i++) {
 		printf(
-		    "%2d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t%2.2lf",
+		    "%2d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t%2.2lf\n",
 		    i,                       // 生徒番号
 		    studentLastNames[ i ],   // 名字
 		    studentFirstNames[ i ],  // 名前
@@ -221,8 +237,72 @@ void printTable(
 		    sum[ i ],                // 合計
 		    rank[ i ],               // 順位
 		    avg[ i ]);               // 順位
-		putchar('\n');
 	}
+	putchar('\n');
+
+	int total[ 4 ] = {}; // 全体の各教科及び合計点数
+	// 全体の点数を集計する
+	for (int i = 0; i < 3; i++) {
+		for (int j = 1; j <= n; j++) {
+			total[ i ] += studentScores[ j ][ i ];
+		}
+	}
+
+	for (int i = 1; i <= n; i++) {
+		total[ 3 ] += sum[ i ];
+	}
+
+	// 全体の合計値を表示
+	printf(" %20s%s", " ", "合計");
+	for (int i = 0; i < SUBJECTS + 1; i++) {
+		printf("\t%3d", total[ i ]);
+	}
+	putchar('\n');
+
+	// 全体の平均値を表示
+	printf(" %20s%s", " ", "平均");
+	for (int i = 0; i < SUBJECTS + 1; i++) {
+		printf("\t%.2lf", (double)total[ i ] / n);
+	}
+	putchar('\n');
+
+	return;
+}
+
+// printDegreeDistributionTable()
+/* 概要 -
+ * 度数分布表を表示する */
+/* 第1引数 - 生徒の人数 */
+/* 第2引数 - 合計値の格納された配列 */
+/* 戻り値 - なし */
+void printDegreeDistributionTable(int n, int sum[]) {
+	int min = 0;
+	int max = 49;
+	int change = 50;
+	int maxRange = SUBJECTS * MAX_SCORE;
+
+	for (int i = 0; i <= maxRange / change; i++) {
+		int count;
+
+		// 最大値に達した場合、安全のため範囲を最大値のみに絞る
+		if (min == maxRange) {
+			max = min;
+			count = searchRange(n, sum, min, max);
+			// 表示しない分を空白で埋める
+			printf("%3d - %3s [%2d] ", min, "", count);
+		} else {
+			count = searchRange(n, sum, min, max);
+			printf("%3d - %3d [%2d] ", min, max, count);
+		}
+		for (int j = 0; j < count; j++) {
+			printf("*");
+		}
+		putchar('\n');
+		min += change;
+		max += change;
+	}
+
+	return;
 }
 
 // getIndex()
@@ -258,4 +338,20 @@ void sortData(int data[], int n) {
 	}
 
 	return;
+}
+
+// searchRange()
+/* 概要 - 渡されたデータ（配列）を内に特定の範囲の値がいくつあるか調べる */
+/* 第1引数 - ソートするデータ（配列） */
+/* 第2引数 - ソートするデータの個数 */
+/* 戻り値 - なし */
+int searchRange(int n, int array[], int min, int max) {
+	int count = 0;
+	for (int i = 1; i <= n; i++) {
+		if (array[ i ] >= min && array[ i ] <= max) {
+			count++;
+		}
+	}
+
+	return (count);
 }
