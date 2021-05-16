@@ -48,20 +48,25 @@ int main() {
 	// 生徒毎の各科目の点数（国語[][0]、数学[][1]、英語[][2]）
 	int studentScores[ MAX_STUDENTS + 1 ][ SUBJECTS ];
 
+	// 各生徒の得点の合計値
+	int sum[ MAX_STUDENTS + 1 ] = {};
+
+	// 各生徒の得点の平均値
+	double avg[ MAX_STUDENTS + 1 ];
+
+	// 各生徒の順位
+	int rank[ MAX_STUDENTS + 1 ];
+
 	// 1. データの入力
 	n = inputData(studentNumbers, studentLastNames, studentFirstNames, studentScores);
 
 	// 2. 得点の合計を求める
-	int sum[ MAX_STUDENTS + 1 ] = {}; // 各生徒の合計値
-
 	getSum(n, studentScores, sum);
 
 	// 3. 各生徒の順位を求める
-	int rank[ MAX_STUDENTS + 1 ];
 	getRanking(n, sum, rank);
 
 	// 4. 各生徒の得点の平均を求める
-	double avg[ MAX_STUDENTS + 1 ];
 	getAvg(n, sum, avg);
 
 	// 5. 試験成績一覧表を表示
