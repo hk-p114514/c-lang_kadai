@@ -232,7 +232,7 @@ void printTable(
 	// 生徒個人のデータを表示
 	for (int i = 1; i <= n; i++) {
 		printf(
-		    "%2d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t%2.2lf\n",
+		    "%2d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t",
 		    i,                       // 生徒番号
 		    studentLastNames[ i ],   // 名字
 		    studentFirstNames[ i ],  // 名前
@@ -240,8 +240,18 @@ void printTable(
 		    studentScores[ i ][ 1 ], // 数学の点数
 		    studentScores[ i ][ 2 ], // 英語の点数
 		    sum[ i ],                // 合計
-		    rank[ i ],               // 順位
-		    avg[ i ]);               // 順位
+		    rank[ i ]                // 順位
+		);
+
+		if (avg[ i ] >= 100) {
+			printf("%.2lf", avg[ i ]); // 平均
+		} else if (avg[ i ] == 0) {
+			printf("  %.2lf", avg[ i ]); // 平均
+		} else {
+			printf(" %.2lf", avg[ i ]); // 平均
+		}
+
+		putchar('\n');
 	}
 	putchar('\n');
 
