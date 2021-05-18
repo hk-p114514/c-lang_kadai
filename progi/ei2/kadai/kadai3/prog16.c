@@ -156,6 +156,8 @@ void getSum(int n, int studentScores[][ SUBJECTS ], int sum[]) {
 			sum[ i ] += studentScores[ i ][ j ];
 		}
 	}
+
+	return;
 }
 
 // getRanking()
@@ -231,11 +233,40 @@ void printTable(
 
 	// 生徒個人のデータを表示
 	for (int i = 1; i <= n; i++) {
+		// printf(
+		//     "%3d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t",
+		//     i,                       // 生徒番号
+		//     studentLastNames[ i ],   // 名字
+		//     studentFirstNames[ i ],  // 名前
+		//     studentScores[ i ][ 0 ], // 国語の点数
+		//     studentScores[ i ][ 1 ], // 数学の点数
+		//     studentScores[ i ][ 2 ], // 英語の点数
+		//     sum[ i ],                // 合計
+		//     rank[ i ]                // 順位
+		// );
+
+		// 生徒番号の表示
+		printf("%3d", i);
+
+		int displayName = MAX_NAME_LENGTH; // 名前の欄の表示幅
+
+		// 名字を表示
+		printf(" %s ", studentLastNames[ i ]);
+
+		int k = 0;
+		do {
+			printf("%c", studentFirstNames[ i ][ k ]);
+			k++;
+			displayName--;
+		} while (studentFirstNames[ i ][ k ] != '\0');
+		printf("%s", "    ");
+
+		for (int j = 0; j < displayName; j++) {
+			printf("%c", ' ');
+		}
+
 		printf(
-		    "%2d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t",
-		    i,                       // 生徒番号
-		    studentLastNames[ i ],   // 名字
-		    studentFirstNames[ i ],  // 名前
+		    "%3d    %3d    %3d    %3d    %2d",
 		    studentScores[ i ][ 0 ], // 国語の点数
 		    studentScores[ i ][ 1 ], // 数学の点数
 		    studentScores[ i ][ 2 ], // 英語の点数
@@ -244,11 +275,11 @@ void printTable(
 		);
 
 		if (avg[ i ] >= 100) {
-			printf("%.2lf", avg[ i ]); // 平均
+			printf("    %.2lf", avg[ i ]); // 平均
 		} else if (avg[ i ] == 0) {
-			printf("  %.2lf", avg[ i ]); // 平均
+			printf("  %s%.2lf", "    ", avg[ i ]); // 平均
 		} else {
-			printf(" %.2lf", avg[ i ]); // 平均
+			printf(" %s%.2lf", "    ", avg[ i ]); // 平均
 		}
 
 		putchar('\n');
