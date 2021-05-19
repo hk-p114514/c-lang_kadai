@@ -60,6 +60,15 @@ int main() {
 	// 1. データの入力
 	n = inputData(studentNumbers, studentLastNames, studentFirstNames, studentScores);
 
+	// 要素数の超過によるエラー処理
+	if (n > 100) {
+		// printf("\x1b[31m"); // 前景色を赤に
+		printf("\n!!! エラー : データ数が多すぎます !!!\n");
+		printf("入力されたデータ数%dはデータの最大数%dを超えています\n", n, MAX_STUDENTS);
+		// printf("\x1b[39m"); // 前景色をデフォルトに戻す
+		return (1);
+	}
+
 	// 2. 得点の合計を求める
 	getSum(n, studentScores, sum);
 
@@ -109,6 +118,10 @@ int inputData(
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &n);
 
+	if (n > MAX_STUDENTS) {
+		return (n);
+	}
+
 	// 2.各生徒ごとのデータを受け取る
 	for (int i = 0; i < n; i++) {
 		int studentNumber;
@@ -156,6 +169,8 @@ void getSum(int n, int studentScores[][ SUBJECTS ], int sum[]) {
 			sum[ i ] += studentScores[ i ][ j ];
 		}
 	}
+
+	return;
 }
 
 // getRanking()
@@ -215,10 +230,9 @@ void printTable(
     double avg[]) {
 	// 出力する項目を表示
 	printf(
-	    "%s %s %-20s\t%3s\t%3s\t%3s\t%3s\t%2s\t%2s\n",
+	    "%s %s     %40s    %s    %s    %s    %s    %s",
 	    "NO "
 	    "氏名",
-	    "",
 	    "",
 	    "国語",
 	    "数学",
@@ -231,11 +245,34 @@ void printTable(
 
 	// 生徒個人のデータを表示
 	for (int i = 1; i <= n; i++) {
+		// 生徒番号の表示
+		printf("%3d ", i);
+
+		int displayName = MAX_NAME_LENGTH * 2; // 名前の欄の表示幅
+
+		// 名字を表示
+		int k = 0;
+
+		do {
+			printf("%c", studentLastNames[ i ][ k ]);
+			k++;
+			displayName--;
+		} while (studentLastNames[ i ][ k ] != '\0');
+
+		k = 0;
+		do {
+			printf("%c", studentFirstNames[ i ][ k ]);
+			k++;
+			displayName--;
+		} while (studentFirstNames[ i ][ k ] != '\0');
+		printf("%s", "    ");
+
+		for (int j = 0; j < displayName; j++) {
+			printf("%c", ' ');
+		}
+
 		printf(
-		    "%2d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t",
-		    i,                       // 生徒番号
-		    studentLastNames[ i ],   // 名字
-		    studentFirstNames[ i ],  // 名前
+		    "%3d     %3d     %3d     %3d     %3d",
 		    studentScores[ i ][ 0 ], // 国語の点数
 		    studentScores[ i ][ 1 ], // 数学の点数
 		    studentScores[ i ][ 2 ], // 英語の点数
@@ -243,12 +280,14 @@ void printTable(
 		    rank[ i ]                // 順位
 		);
 
-		if (avg[ i ] >= 100) {
-			printf("%.2lf", avg[ i ]); // 平均
-		} else if (avg[ i ] == 0) {
-			printf("  %.2lf", avg[ i ]); // 平均
+		if (avg[ i ] == 0) {
+			printf("  %s%.2lf", "    ", avg[ i ]); // 平均
+		} else if (avg[ i ] >= 100) {
+			printf("    %.2lf", avg[ i ]); // 平均
+		} else if (avg[ i ] >= 10) {
+			printf(" %s%.2lf", "    ", avg[ i ]); // 平均
 		} else {
-			printf(" %.2lf", avg[ i ]); // 平均
+			printf(" %s%.2lf", "     ", avg[ i ]); // 平均
 		}
 
 		putchar('\n');
@@ -268,14 +307,14 @@ void printTable(
 	}
 
 	// 全体の合計値を表示
-	printf(" %20s%s", " ", "合計");
+	printf("%40s%s", " ", "合計");
 	for (int i = 0; i < SUBJECTS + 1; i++) {
 		printf("\t%3d", total[ i ]);
 	}
 	putchar('\n');
 
 	// 全体の平均値を表示
-	printf(" %20s%s", " ", "平均");
+	printf("%40s%s", " ", "平均");
 	for (int i = 0; i < SUBJECTS + 1; i++) {
 		printf("\t%.2lf", (double)total[ i ] / n);
 	}
