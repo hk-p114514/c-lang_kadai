@@ -60,6 +60,15 @@ int main() {
 	// 1. データの入力
 	n = inputData(studentNumbers, studentLastNames, studentFirstNames, studentScores);
 
+	// 要素数の超過によるエラー処理
+	if (n > 100) {
+		// printf("\x1b[31m"); // 前景色を赤に
+		printf("\n!!! エラー : データ数が多すぎます !!!\n");
+		printf("入力されたデータ数%dはデータの最大数%dを超えています\n", n, MAX_STUDENTS);
+		// printf("\x1b[39m"); // 前景色をデフォルトに戻す
+		return (1);
+	}
+
 	// 2. 得点の合計を求める
 	getSum(n, studentScores, sum);
 
@@ -108,6 +117,10 @@ int inputData(
 	printf("Input n :");
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &n);
+
+	if (n > MAX_STUDENTS) {
+		return (n);
+	}
 
 	// 2.各生徒ごとのデータを受け取る
 	for (int i = 0; i < n; i++) {
@@ -217,7 +230,7 @@ void printTable(
     double avg[]) {
 	// 出力する項目を表示
 	printf(
-	    "%s %s%45s%3s%3s%3s%3s%3s",
+	    "%s %s     %40s    %s    %s    %s    %s    %s",
 	    "NO "
 	    "氏名",
 	    "",
@@ -259,7 +272,7 @@ void printTable(
 		}
 
 		printf(
-		    "%3d    %3d    %3d    %3d    %3d",
+		    "%3d     %3d     %3d     %3d     %3d",
 		    studentScores[ i ][ 0 ], // 国語の点数
 		    studentScores[ i ][ 1 ], // 数学の点数
 		    studentScores[ i ][ 2 ], // 英語の点数
@@ -294,14 +307,14 @@ void printTable(
 	}
 
 	// 全体の合計値を表示
-	printf(" %20s%s", " ", "合計");
+	printf("%40s%s", " ", "合計");
 	for (int i = 0; i < SUBJECTS + 1; i++) {
 		printf("\t%3d", total[ i ]);
 	}
 	putchar('\n');
 
 	// 全体の平均値を表示
-	printf(" %20s%s", " ", "平均");
+	printf("%40s%s", " ", "平均");
 	for (int i = 0; i < SUBJECTS + 1; i++) {
 		printf("\t%.2lf", (double)total[ i ] / n);
 	}
