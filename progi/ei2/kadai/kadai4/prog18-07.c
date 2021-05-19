@@ -1,12 +1,12 @@
 #include <stdio.h>
 
 typedef struct {
-	int numerator;   // 分子
-	int denominator; // 分母
+	int bunsi; // 分子
+	int bunbo; // 分母
 } Fraction;
 
 Fraction getFraction(void);
-Fraction frcCreate(int numerator, int denominator);
+Fraction frcCreate(int bunsi, int bunbo);
 Fraction frcMul(Fraction x, Fraction y);
 void frcPrint(Fraction x);
 
@@ -43,12 +43,12 @@ int main() {
 Fraction getFraction(void) {
 	char buff[ 256 ];
 	Fraction input;
-	int numerator, denominator;
+	int bunsi, bunbo;
 	fgets(buff, sizeof(buff), stdin);
-	sscanf(buff, "%d/%d", &numerator, &denominator);
+	sscanf(buff, "%d/%d", &bunsi, &bunbo);
 
-	input.numerator = numerator;
-	input.denominator = denominator;
+	input.bunsi = bunsi;
+	input.bunbo = bunbo;
 
 	return (input);
 }
@@ -59,22 +59,22 @@ Fraction getFraction(void) {
 */
 // 第一引数：表示したいFraction型のデータ
 void frcPrint(Fraction data) {
-	printf("%d/%d\n", data.numerator, data.denominator);
+	printf("%d/%d\n", data.bunsi, data.bunbo);
 
 	return;
 }
 
 /*
     frcCreate()
-    概要：分子の値numeratorと分母の値denominatorから作られる分数を返す
+    概要：分子の値bunsiと分母の値bunboから作られる分数を返す
 */
 // 第一引数：分子の値
 // 第二引数：分母の値
 // 返り値：引数から作られた分数(Fraction型)
-Fraction frcCreate(int numerator, int denominator) {
+Fraction frcCreate(int bunsi, int bunbo) {
 	Fraction created;
-	created.numerator = numerator;
-	created.denominator = denominator;
+	created.bunsi = bunsi;
+	created.bunbo = bunbo;
 
 	return (created);
 }
@@ -90,8 +90,8 @@ Fraction frcCreate(int numerator, int denominator) {
 Fraction frcMul(Fraction x, Fraction y) {
 	Fraction multiplied;
 
-	multiplied.numerator = x.numerator * y.numerator;
-	multiplied.denominator = x.denominator * y.denominator;
+	multiplied.bunsi = x.bunsi * y.bunsi;
+	multiplied.bunbo = x.bunbo * y.bunbo;
 
 	return (multiplied);
 }
