@@ -217,10 +217,9 @@ void printTable(
     double avg[]) {
 	// 出力する項目を表示
 	printf(
-	    "%s %s %-20s\t%3s\t%3s\t%3s\t%3s\t%2s\t%2s\n",
+	    "%s %s%45s%3s%3s%3s%3s%3s",
 	    "NO "
 	    "氏名",
-	    "",
 	    "",
 	    "国語",
 	    "数学",
@@ -233,27 +232,21 @@ void printTable(
 
 	// 生徒個人のデータを表示
 	for (int i = 1; i <= n; i++) {
-		// printf(
-		//     "%3d %s %-20s\t%3d\t%3d\t%3d\t%3d\t%2d\t",
-		//     i,                       // 生徒番号
-		//     studentLastNames[ i ],   // 名字
-		//     studentFirstNames[ i ],  // 名前
-		//     studentScores[ i ][ 0 ], // 国語の点数
-		//     studentScores[ i ][ 1 ], // 数学の点数
-		//     studentScores[ i ][ 2 ], // 英語の点数
-		//     sum[ i ],                // 合計
-		//     rank[ i ]                // 順位
-		// );
-
 		// 生徒番号の表示
-		printf("%3d", i);
+		printf("%3d ", i);
 
-		int displayName = MAX_NAME_LENGTH; // 名前の欄の表示幅
+		int displayName = MAX_NAME_LENGTH * 2; // 名前の欄の表示幅
 
 		// 名字を表示
-		printf(" %s ", studentLastNames[ i ]);
-
 		int k = 0;
+
+		do {
+			printf("%c", studentLastNames[ i ][ k ]);
+			k++;
+			displayName--;
+		} while (studentLastNames[ i ][ k ] != '\0');
+
+		k = 0;
 		do {
 			printf("%c", studentFirstNames[ i ][ k ]);
 			k++;
@@ -266,7 +259,7 @@ void printTable(
 		}
 
 		printf(
-		    "%3d    %3d    %3d    %3d    %2d",
+		    "%3d    %3d    %3d    %3d    %3d",
 		    studentScores[ i ][ 0 ], // 国語の点数
 		    studentScores[ i ][ 1 ], // 数学の点数
 		    studentScores[ i ][ 2 ], // 英語の点数
@@ -274,12 +267,14 @@ void printTable(
 		    rank[ i ]                // 順位
 		);
 
-		if (avg[ i ] >= 100) {
-			printf("    %.2lf", avg[ i ]); // 平均
-		} else if (avg[ i ] == 0) {
+		if (avg[ i ] == 0) {
 			printf("  %s%.2lf", "    ", avg[ i ]); // 平均
-		} else {
+		} else if (avg[ i ] >= 100) {
+			printf("    %.2lf", avg[ i ]); // 平均
+		} else if (avg[ i ] >= 10) {
 			printf(" %s%.2lf", "    ", avg[ i ]); // 平均
+		} else {
+			printf(" %s%.2lf", "     ", avg[ i ]); // 平均
 		}
 
 		putchar('\n');
