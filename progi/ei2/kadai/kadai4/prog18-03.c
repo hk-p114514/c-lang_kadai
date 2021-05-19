@@ -21,21 +21,21 @@ int main() {
 
 	b = frcCreate(2, 3); // 分数bは2/3
 
-	// printf("b = ");
-	// frcPrint(b); // 分数bを表示
-	// putchar('\n');
+	printf("b = ");
+	frcPrint(b); // 分数bを表示
+	putchar('\n');
 
-	// c = frcMul(a, b); // c = a * b
+	c = frcMul(a, b); // c = a * b
 
-	// printf("a * b = ");
-	// frcPrint(c); // 乗算結果である分数cの表示
-	// putchar('\n');
+	printf("a * b = ");
+	frcPrint(c); // 乗算結果である分数cの表示
+	putchar('\n');
 
 	return (0);
 }
 
 /*
-    getFractoin()
+    getFraction()
     概要：キーボードから、分数を n / d の形式で入力する
 */
 // 引数：なし
@@ -66,5 +66,32 @@ void frcPrint(Fraction data) {
 
 /*
     frcCreate()
-    概要：
+    概要：分子の値numeratorと分母の値denominatorから作られる分数を返す
 */
+// 第一引数：分子の値
+// 第二引数：分母の値
+// 返り値：引数から作られた分数(Fraction型)
+Fraction frcCreate(int numerator, int denominator) {
+	Fraction created;
+	created.numerator = numerator;
+	created.denominator = denominator;
+
+	return (created);
+}
+
+/*
+    frcMul()
+    概要：与えられた２つの分数xとyの乗算結果(x * y)を返す
+*/
+// 第一引数：乗算したい１つ目の分数
+// 第二引数：乗算したい２つ目の分数
+/* 第一引数と第二引数の順番は関係ない */
+// 返り値：引数に渡された分数の乗算結果の分数(Fraction型)
+Fraction frcMul(Fraction x, Fraction y) {
+	Fraction multiplied;
+
+	multiplied.numerator = x.numerator * y.numerator;
+	multiplied.denominator = x.denominator * y.denominator;
+
+	return (multiplied);
+}
