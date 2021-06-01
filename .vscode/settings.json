@@ -1,4 +1,34 @@
 {
+    "files.associations": {
+        "__config": "c",
+        "__hash_table": "c",
+        "__locale": "c",
+        "array": "c",
+        "functional": "c",
+        "filesystem": "c",
+        "iomanip": "c",
+        "ios": "c",
+        "iterator": "c",
+        "locale": "c",
+        "ostream": "c",
+        "regex": "c",
+        "span": "c",
+        "sstream": "c",
+        "string": "c",
+        "string_view": "c",
+        "thread": "c",
+        "type_traits": "c",
+        "vector": "c",
+        "*.tcc": "c",
+        "bitset": "c",
+        "istream": "c",
+        "limits": "c",
+        "ranges": "c",
+        "ratio": "c",
+        "stop_token": "c",
+        "streambuf": "c",
+        "tuple": "c"
+    }
     // "editor.defaultFormatter": "ms-vscode.cpptools",
     // "editor.formatOnSave": true
 }

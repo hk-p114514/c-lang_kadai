@@ -7,7 +7,6 @@ int data[ 1000 ]; // n個のデータを格納する大域変数
 */
 // 第一引数: データを格納する配列
 // 返り値  : 入力したデータ数n
-
 int input(int data[]) {
 	char buff[ 1024 ];
 	int n;

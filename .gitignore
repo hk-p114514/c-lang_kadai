@@ -11,3 +11,6 @@ kyou_prog/*
 c-master/c-master5/test/test.c
 .DS_Store
 jouhou_kentei/*
+c-master/c-master5/toi14/toi14-04/go
+c-master/c-master5/toi14/toi14-04/*.o
+.vscode/settings.json
