@@ -15,11 +15,17 @@ int main() {
 /* threeTimes()
     概要:呼び出される度に前の呼び出しで返した値の３倍の値を返す
 */
-// 第一引数: 無し
+// 引数: 無し
 // 返り値  : 初回の戻り値「１」を除き、前回返した値の３倍の値を返す
 int threeTimes(void) {
-	static count, firstSet = 1;
-	count = firstSet;
-	firstSet *= 3;
-	return (count);
+	static threeTimesNumber;
+	static multipleValue = 1;
+	/*
+	multipleValueは一度しか初期化されないので、
+	初回のみ1、次からは前回の呼び出しの最後で行った
+	multipleValue *= 3 の結果が返される。
+	*/
+	threeTimesNumber = multipleValue;
+	multipleValue *= 3;
+	return (threeTimesNumber);
 }
