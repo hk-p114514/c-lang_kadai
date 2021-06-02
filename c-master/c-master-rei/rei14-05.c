@@ -8,6 +8,7 @@ int main() {
 
 	up_dat = up();
 	up_dat = up();
+
 	down_dat = down();
 	down_dat = down();
 
