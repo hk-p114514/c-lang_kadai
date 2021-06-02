@@ -18,7 +18,8 @@ int main() {
 // 第一引数: 無し
 // 返り値  : 初回の戻り値「１」を除き、前回返した値の３倍の値を返す
 int threeTimes(void) {
-	static int count = 1;
-	count *= 3;
+	static count, firstSet = 1;
+	count = firstSet;
+	firstSet *= 3;
 	return (count);
 }
