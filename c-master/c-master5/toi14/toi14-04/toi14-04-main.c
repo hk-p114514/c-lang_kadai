@@ -2,20 +2,20 @@
 
 extern int data[ 1000 ];
 
-int input(int data[]);
+int input(void);
 int sum(int n);
 
 int main() {
-	int n = input(data);
+	int n = input();
 
 	// 合計を求める
 	int getSum = sum(n);
 
 	// 平均を求める
-	int avg = getSum / n;
+	double avg = getSum / (double)n;
 
 	printf("合計 : %d\n", getSum);
-	printf("平均 : %d\n", avg);
+	printf("平均 : %g\n", avg);
 
 	return (0);
 }
