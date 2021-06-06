@@ -1,8 +1,9 @@
 #include <stdio.h>
 
 // 「#define 名前　値」の後にはセミコロンはつけない
-#define SIZE 10
-#define FUDGE SIZE - 2
+// #defineマクロは徹底的に()で囲む
+#define SIZE (10)
+#define FUDGE ((SIZE) - (2))
 
 int main() {
 	int size; //  実際に用いるサイズ
