@@ -43,12 +43,8 @@ int main() {
 Fraction getFraction(void) {
 	char buff[ 256 ];
 	Fraction input;
-	int numerator, denominator;
 	fgets(buff, sizeof(buff), stdin);
-	sscanf(buff, "%d/%d", &numerator, &denominator);
-
-	input.numerator = numerator;
-	input.denominator = denominator;
+	sscanf(buff, "%d/%d", &input.numerator, &input.denominator);
 
 	return (input);
 }

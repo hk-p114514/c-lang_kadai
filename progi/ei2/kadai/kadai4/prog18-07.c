@@ -45,10 +45,7 @@ Fraction getFraction(void) {
 	Fraction input;
 	int bunsi, bunbo;
 	fgets(buff, sizeof(buff), stdin);
-	sscanf(buff, "%d/%d", &bunsi, &bunbo);
-
-	input.bunsi = bunsi;
-	input.bunbo = bunbo;
+	sscanf(buff, "%d/%d", &input.bunsi, &input.bunbo);
 
 	return (input);
 }
