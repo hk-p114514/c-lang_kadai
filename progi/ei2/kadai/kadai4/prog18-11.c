@@ -117,11 +117,11 @@ Fraction frcCreate(int numerator, int denominator) {
 //   [引　数] x, y : 加算対象となる分数
 //   [戻り値] x + y を計算して得られる分数
 Fraction frcAdd(Fraction x, Fraction y) {
-
 	Fraction added;
 
-	added.numerator = frcGetNumerator(x) + frcGetNumerator(y);
-	added.denominator = frcGetDenominator(x) + frcGetDenominator(y);
+	// 足し算する2つの分数の分母が違う場合、約分して分母を合わせる
+	if (x.denominator != y.denominator) {
+	}
 
 	return (added);
 }
@@ -130,7 +130,6 @@ Fraction frcAdd(Fraction x, Fraction y) {
 //   [引　数] x, y : 減算対象となる分数
 //   [戻り値] x - y を計算して得られる分数
 Fraction frcSub(Fraction x, Fraction y) {
-
 	Fraction substracted;
 
 	substracted.numerator = frcGetNumerator(x) - frcGetNumerator(y);
