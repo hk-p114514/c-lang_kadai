@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ol>
+      <h2>part A</h2>
+      <li>データの性質を表す適切な型名を決める</li>
+      <li>
+        1.で決めた型を扱う操作関数の洗い出しを行う<br />(最低限、アクセサー、コンストラクターは含まれる)
+      </li>
+      <h2>part B</h2>
+      <li>1.のデータ型のデータ構造を考える</li>
+      <li>2.の操作関数郡の外部仕様を決める</li>
+      <li>2.の操作関数郡を実装する</li>
+      <h2>part C</h2>
+      <li>4.の操作関数群を用いて目的のアプリケーションを作る</li>
+    </ol>
+    <p>
+      A, B,
+      Cは<i>独立して行える</i>...大規模なプログラムでは異なる人やチームで行うのが一般的
+    </p>
+    <ul>
+      <li>1, 4 -> 抽象データ型ん外部仕様の策定</li>
+      <li>3, 5 -> 抽象データ型の内部仕様の実装</li>
+    </ul>
+    <h2>留意事項</h2>
+    <ul>
+      <li>
+        2, 3の作業は、使う人の立場に立って操作関数を設計する
+        <ul>
+          <li>同じ処理でも必要なら使い方の異る複数の関数を用意する</li>
+          <li>関数名は処理内容がわかる適切な名前をつける</li>
+        </ul>
+      </li>
+      <li>
+        操作関数を作る時は、極力データ構造に依存しないようにする。
+        <ul>
+          データ構造に依存するのは、アクセサーやコンストラクターのみが理想
+        </ul>
+      </li>
+    </ul>
+  </body>
+</html>
