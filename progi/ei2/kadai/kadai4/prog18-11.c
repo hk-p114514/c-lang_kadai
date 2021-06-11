@@ -17,7 +17,9 @@ int frcGetNumerator(Fraction x);
 int frcGetDenominator(Fraction x);
 void frcPrint(Fraction x);
 void frcPrintOperation(char op, Fraction x, Fraction y);
-int gcm(int m, int n);
+// 名前変えました
+int getGcm(int m, int n);
+int getGcd(int m, int n);
 
 int main() {
 	Fraction a, b, c;
@@ -31,9 +33,15 @@ int main() {
 	b = getFraction();
 
 	// 分数a, bに対して、四則演算を実行する
-	for (i = 0; op[ i ] != '\0'; i++) {
-		frcPrintOperation(op[ i ], a, b); // 四則演算の結果表示
-	}
+	// for (i = 0; op[ i ] != '\0'; i++) {
+	// 	frcPrintOperation(op[ i ], a, b); // 四則演算の結果表示
+	// }
+
+	frcPrintOperation(op[ 0 ], a, b); // 四則演算の結果表示
+	// frcPrintOperation(op[ 1 ], a, b); // 四則演算の結果表示
+	// frcPrintOperation(op[ 2 ], a, b); // 四則演算の結果表示
+	// frcPrintOperation(op[ 3 ], a, b); // 四則演算の結果表示
+
 	putchar('\n'); // 見やすくするために改行
 
 	return (0);
@@ -118,9 +126,27 @@ Fraction frcCreate(int numerator, int denominator) {
 //   [戻り値] x + y を計算して得られる分数
 Fraction frcAdd(Fraction x, Fraction y) {
 	Fraction added;
+	int numeratorX = frcGetNumerator(x);
+	int denominatorX = frcGetDenominator(x);
 
-	// 足し算する2つの分数の分母が違う場合、約分して分母を合わせる
-	if (x.denominator != y.denominator) {
+	int numeratorY = frcGetNumerator(y);
+	int denominatorY = frcGetDenominator(y);
+
+	// 足し算する2つの分数の分母が違う場合、通分して分母を合わせる
+	if (denominatorX != denominatorY) {
+		// 二つの分母の値の最小公倍数を求める
+		int gcd = getGcd(denominatorX, denominatorY);
+		// 各分母がどれくらい変化したかを求める
+		int changeX = gcd / denominatorX;
+		int changeY = gcd / denominatorY;
+
+		// 分子の値を分母に合わせる
+		numeratorX *= changeX;
+		numeratorY *= changeY;
+
+		// 二つの分数の分母を求めた最小公倍数に直す
+		denominatorX = gcd;
+		denominatorY = gcd;
 	}
 
 	return (added);
@@ -173,7 +199,7 @@ Fraction frcReduction(Fraction x) {
 // mとnの最大公約数を正数で返す
 //   [引　数] m, n : 最大公約数を求める対象となる整数
 //   [戻り値] mとmの最大公約数
-int gcm(int m, int n) {
+int getGcm(int m, int n) {
 	int r;
 
 	// 最大公約数を正数にするため、m,nの絶対値をとる
@@ -187,6 +213,16 @@ int gcm(int m, int n) {
 		r = m % n;
 	}
 	return (n);
+}
+
+// mとnの最小公倍数を整数で返す
+//   [引　数] m, n : 最小公倍数を求める対象となる整数
+//   [戻り値] mとmの最小公倍数
+int getGcd(int n, int m) {
+	int x = n * m;
+	int gcm = getGcd(n, m);
+
+	return (x / gcm);
 }
 
 // 分数xを a/b の形で表示する（分数の値が負になるとき、符号は分子につける）
@@ -205,9 +241,9 @@ void frcPrint(Fraction x) {
 		d = abs(d);
 	}
 	if (n == 0 || d == 1) {
-		;
+		printf("%d\n", n);
 	} else {
-		;
+		printf("%d/%d\n", n, d);
 	}
 
 	return;

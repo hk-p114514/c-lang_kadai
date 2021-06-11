@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-int gcm(int m, int n);
+int getGcm(int m, int n);
 
 int main() {
 	char buff[ 1024 ];
@@ -10,7 +10,7 @@ int main() {
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d %d", &m, &n);
 
-	printf("gcm = %d\n", gcm(m, n));
+	printf("gcm = %d\n", getGcm(m, n));
 
 	return (0);
 }
@@ -18,18 +18,18 @@ int main() {
 // mとnの最大公約数を正数で返す
 //   [引　数] m, n : 最大公約数を求める対象となる整数
 //   [戻り値] mとmの最大公約数
-int gcm(int m, int n) {
+int getGcm(int a, int b) {
 	int r;
 
 	// 最大公約数を正数にするため、m,nの絶対値をとる
-	m = abs(m);
-	n = abs(n);
+	a = abs(a);
+	b = abs(b);
 
-	r = m % n;
+	r = a % b;
 	while (r != 0) {
-		m = n;
-		n = r;
-		r = m % n;
+		a = b;
+		b = r;
+		r = a % b;
 	}
-	return (n);
+	return (b);
 }
