@@ -102,8 +102,10 @@ int frcGetDenominator(Fraction x) {
 Fraction getFraction(void) {
 	char buff[ 256 ];
 	Fraction input;
+	int numerator, denominator;
 	fgets(buff, sizeof(buff), stdin);
-	sscanf(buff, "%d/%d", &input.numerator, &input.denominator);
+	sscanf(buff, "%d/%d", &numerator, &denominator);
+	input = frcCreate(numerator, denominator);
 
 	return (input);
 }
@@ -128,8 +130,6 @@ Fraction frcCreate(int numerator, int denominator) {
 //   [戻り値] x + y を計算して得られる分数
 Fraction frcAdd(Fraction x, Fraction y) {
 	// 各分数の分母、分子の値を読み込む
-	Fraction added;
-	// 各分数の分母、分子の値を読み込む
 	int numeratorX = frcGetNumerator(x);
 	int denominatorX = frcGetDenominator(x);
 
@@ -145,9 +145,10 @@ Fraction frcAdd(Fraction x, Fraction y) {
 	numeratorX *= changeX;
 	numeratorY *= changeY;
 	// 加算結果の分数の分母を求めた最小公倍数にする
-	added.denominator = lcm;
+	int denominator = lcm;
+	int numerator = numeratorX + numeratorY;
 
-	added.numerator = numeratorX + numeratorY;
+	Fraction added = frcCreate(numerator, denominator);
 
 	return (added);
 }
@@ -173,12 +174,13 @@ Fraction frcSub(Fraction x, Fraction y) {
 // 分数xとyの乗算結果を返す
 //   [引　数] x, y : 乗算対象となる分数
 //   [戻り値] x * y を計算して得られる分数
-Fraction frcMul(Fraction x, Fraction y) {
 
+Fraction frcMul(Fraction x, Fraction y) {
 	Fraction multiplied;
 
-	multiplied.numerator = frcGetNumerator(x) * frcGetNumerator(y);
-	multiplied.denominator = frcGetDenominator(x) * frcGetDenominator(y);
+	int numerator = frcGetNumerator(x) * frcGetNumerator(y);
+	int denominator = frcGetDenominator(x) * frcGetDenominator(y);
+	multiplied = frcCreate(numerator, denominator);
 
 	return (multiplied);
 }
@@ -188,10 +190,12 @@ Fraction frcMul(Fraction x, Fraction y) {
 //   [引　数] x, y : 除算対象となる分数
 //   [戻り値] x / y を計算して得られる分数
 Fraction frcDiv(Fraction x, Fraction y) {
-	Fraction isDivision;
+	// 分数の割り算は逆数の掛け算なのでfrcMul()が使える
+	int numeratorY = frcGetDenominator(y);
+	int denominatorY = frcGetNumerator(y);
+	Fraction reciprocalY = frcCreate(numeratorY, denominatorY);
 
-	isDivision.numerator = x.numerator * y.denominator;
-	isDivision.denominator = x.denominator * y.numerator;
+	Fraction isDivision = frcMul(x, reciprocalY);
 
 	return (isDivision);
 }

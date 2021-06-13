@@ -47,8 +47,10 @@ int main() {
 Fraction getFraction(void) {
 	char buff[ 256 ];
 	Fraction input;
+	int numerator, denominator;
 	fgets(buff, sizeof(buff), stdin);
-	sscanf(buff, "%d/%d", &input.numerator, &input.denominator);
+	sscanf(buff, "%d/%d", &numerator, &denominator);
+	input = frcCreate(numerator, denominator);
 
 	return (input);
 }
@@ -90,8 +92,9 @@ Fraction frcCreate(int numerator, int denominator) {
 Fraction frcMul(Fraction x, Fraction y) {
 	Fraction multiplied;
 
-	multiplied.numerator = frcGetNumerator(x) * frcGetNumerator(y);
-	multiplied.denominator = frcGetDenominator(x) * frcGetDenominator(y);
+	int numerator = frcGetNumerator(x) * frcGetNumerator(y);
+	int denominator = frcGetDenominator(x) * frcGetDenominator(y);
+	multiplied = frcCreate(numerator, denominator);
 
 	return (multiplied);
 }
