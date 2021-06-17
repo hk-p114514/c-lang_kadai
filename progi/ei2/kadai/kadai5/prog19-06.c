@@ -7,8 +7,9 @@ typedef struct {
 } Point;
 
 typedef struct {
-	Point p1; // 対角線の端点1
-	Point p2; // 対角線の端点2
+	Point p;       // 長方形の左上の点
+	double width;  // 長方形の幅
+	double height; // 長方形の高さ
 } Rect;
 /*========================================*/
 
@@ -71,6 +72,15 @@ int main() {
 
 	return (0);
 }
+// end main
+/*========================================
+    変更した関数 {
+        rctHeight(),
+        rctWidth(),
+        rctCreate1(),
+        rctCreate2(),
+    }
+========================================*/
 
 /**********************************/
 // - Point型の操作関数
@@ -149,12 +159,7 @@ double rctPerim(Rect rct) {
 // 第一引数: 幅を求めたいRect型の値
 // 返り値  : 求めた幅
 double rctWidth(Rect rct) {
-	double width = ptGetX(rct.p1) - ptGetX(rct.p2);
-	if (width < 0) {
-		width = -width;
-	}
-
-	return (width);
+	return (rct.width);
 }
 
 /*========================================*/
@@ -165,12 +170,7 @@ double rctWidth(Rect rct) {
 // 第一引数: 高さを求めたいRect型の値
 // 返り値  : 求めた高さ
 double rctHeight(Rect rct) {
-	double height = ptGetY(rct.p1) - ptGetY(rct.p2);
-	if (height < 0) {
-		height = -height;
-	}
-
-	return (height);
+	return (rct.height);
 }
 
 /*========================================*/
@@ -181,27 +181,7 @@ double rctHeight(Rect rct) {
 // 第一引数: 左上隅の点を取得したい長方形Rect型の値
 // 返り値  : 調べた左上隅の点
 Point rctTopLeftCorner(Rect rct) {
-	double x1, x2, y1, y2;
-	x1 = ptGetX(rct.p1);
-	x2 = ptGetX(rct.p2);
-
-	y1 = ptGetY(rct.p1);
-	y2 = ptGetY(rct.p2);
-	double top, left;
-
-	if (x1 < x2) {
-		left = x1;
-	} else {
-		left = x2;
-	}
-
-	if (y1 > y2) {
-		top = y1;
-	} else {
-		top = y2;
-	}
-
-	return (ptCreate(left, top));
+	return (rct.p);
 }
 
 /*========================================*/
@@ -214,8 +194,22 @@ Point rctTopLeftCorner(Rect rct) {
 // 返り値  : 生成したRect型の長方形
 Rect rctCreate1(Point p1, Point p2) {
 	Rect create;
-	create.p1 = p1;
-	create.p2 = p2;
+	Point leftTop;
+	Point rightBottom;
+	double width, height;
+
+	if (ptGetX(p1) < ptGetX(p2)) {
+		leftTop = p1;
+	} else {
+		leftTop = p2;
+	}
+
+	height = fabs(ptGetY(p1) - ptGetY(p2));
+	width = fabs(ptGetX(p1) - ptGetX(p2));
+
+	create.p = leftTop;
+	create.width = width;
+	create.height = height;
 
 	return (create);
 }
@@ -231,9 +225,9 @@ Rect rctCreate1(Point p1, Point p2) {
 // 返り値  : 生成した長方形
 Rect rctCreate2(Point p, double width, double height) {
 	Rect create;
-	create.p1 = p;
-	Point p2 = ptCreate(ptGetX(p) + width, ptGetY(p) + height);
-	create.p2 = p2;
+	create.p = p;
+	create.width = width;
+	create.height = height;
 
 	return (create);
 }
