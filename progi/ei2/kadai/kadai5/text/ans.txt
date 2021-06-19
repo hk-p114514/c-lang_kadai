@@ -1,0 +1,39 @@
+問題19
+(2)
+	1通り目
+ 	ptGetX(),
+	ptGetY(),
+	ptCreate(),
+    rctWidth(),
+	rctHeight(),
+	rctTopLeftCorner(),
+	rctCreate1(),
+	2通り目
+    ptGetX(),
+	ptGetY(),
+	ptCreate(),
+    rctWidth(),
+	rctHeight(),
+	rctTopLeftCorner(),
+	rctCreate2(),
+	
+(7)
+    rctHeight(),
+    rctWidth(),
+	rctTopLeftCorner(),
+    rctCreate1(),
+
+(9)
+    ptGetX(),
+    ptGetY(),
+	ptCreate(),
+
+(10)
+	 データの外部仕様の設計では、
+	データの内部仕様の実装方法とは分離し、
+	実装方法が変わっても外部仕様は変わらないようにする事が重要。
+	 また、データを利用する人の事を考えて、
+	機能が同じでも、必要な情報（引数）の異なる関数を複数用意することも重要だと言える。
+	 データの内部仕様の実装では、
+	あとから変更する必要がないように、十分に外部仕様を満たせることを意識し、
+	もし変更することがあっても、その影響が外部仕様にまで及ばないようにすることが重要。

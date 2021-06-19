@@ -71,13 +71,6 @@ int main() {
 	return (0);
 }
 
-/*========================================
-    修正した関数 {
-        ptGetX(),
-        ptGetY(),
-    }
-========================================*/
-
 /**********************************/
 // - Point型の操作関数
 /**********************************/
@@ -237,9 +230,16 @@ Rect rctCreate1(Point p1, Point p2) {
 // 返り値  : 生成した長方形
 Rect rctCreate2(Point p, double width, double height) {
 	Rect create;
-	create.p1 = p;
-	Point p2 = ptCreate(ptGetX(p) + width, ptGetY(p) + height);
-	create.p2 = p2;
+	Point p1, p2;
+	// 左上の点、幅、高さから、長方形の対角線の端点2つを求める
+	// 1. 左上の点は元々分かっているのでそのまま使う
+	p1 = p;
+	// 2. 右下の点の、x座標は「左の点のx座標 + 幅」、
+	// y座標は「上の点のy座標 - 高さ」 で求められる
+	p2 = ptCreate(ptGetX(p) + width, ptGetY(p) - height);
+
+	// 2. 対角線の端点2つがわかっているので、rctCreate1()が使える。
+	create = rctCreate1(p1, p2);
 
 	return (create);
 }

@@ -1,0 +1,86 @@
+10,11c10,12
+< 	Point p1; // 対角線の端点1
+< 	Point p2; // 対角線の端点2
+---
+> 	Point p;       // 長方形の左上の点
+> 	double width;  // 長方形の幅
+> 	double height; // 長方形の高さ
+55,56d55
+< 	/*========================================*/
+< 
+64a64
+> 
+74a75,81
+> /*========================================
+>     変更した関数 {
+>         rctHeight(),
+>         rctWidth(),
+>         rctCreate1(),
+>     }
+> ========================================*/
+153,158c160
+< 	double width = ptGetX(rct.p1) - ptGetX(rct.p2);
+< 	if (width < 0) {
+< 		width = -width;
+< 	}
+< 
+< 	return (width);
+---
+> 	return (rct.width);
+169,174c171
+< 	double height = ptGetY(rct.p1) - ptGetY(rct.p2);
+< 	if (height < 0) {
+< 		height = -height;
+< 	}
+< 
+< 	return (height);
+---
+> 	return (rct.height);
+185,209c182
+< 	// ２つの対角線の端点の座標をそれぞれ取得する
+< 	double x1, y1, x2, y2;
+< 	x1 = ptGetX(rct.p1);
+< 	y1 = ptGetY(rct.p1);
+< 
+< 	x2 = ptGetX(rct.p2);
+< 	y2 = ptGetY(rct.p2);
+< 
+< 	// ２つの点の内、x座標がより左の方、y座標がより上の方を取得する
+< 	double left, top;
+< 	// より値が小さい方が左
+< 	if (x1 < x2) {
+< 		left = x1;
+< 	} else {
+< 		left = x2;
+< 	}
+< 
+< 	// より値が大きい方が上
+< 	if (y1 > y2) {
+< 		top = y1;
+< 	} else {
+< 		top = y2;
+< 	}
+< 
+< 	return (ptCreate(left, top));
+---
+> 	return (rct.p);
+222,223c195,210
+< 	create.p1 = p1;
+< 	create.p2 = p2;
+---
+> 	Point leftTop;
+> 	Point rightBottom;
+> 	double width, height;
+> 
+> 	if (ptGetX(p1) < ptGetX(p2)) {
+> 		leftTop = p1;
+> 	} else {
+> 		leftTop = p2;
+> 	}
+> 
+> 	height = fabs(ptGetY(p1) - ptGetY(p2));
+> 	width = fabs(ptGetX(p1) - ptGetX(p2));
+> 
+> 	create.p = leftTop;
+> 	create.width = width;
+> 	create.height = height;

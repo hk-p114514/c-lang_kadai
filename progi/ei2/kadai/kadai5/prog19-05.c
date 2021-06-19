@@ -52,6 +52,8 @@ int main() {
 	printf("面積：%g, 周囲：%g, 対角線長：%g\n", rctArea(r), rctPerim(r), rctDiaglen(r));
 	putchar('\n');
 
+	/*========================================*/
+
 	printf("長方形２\n");
 	printf("左上の点の座標(x, y)：");
 	scanf("%lg,%lg", &x1, &y1);
@@ -60,7 +62,6 @@ int main() {
 	scanf("%lg", &w);
 	printf("縦：");
 	scanf("%lg", &h);
-
 	r = rctCreate2(p1, w, h); // 長方形の左上の点と、幅および高さで初期化
 	putchar('\n');
 	printf(
@@ -181,20 +182,24 @@ double rctHeight(Rect rct) {
 // 第一引数: 左上隅の点を取得したい長方形Rect型の値
 // 返り値  : 調べた左上隅の点
 Point rctTopLeftCorner(Rect rct) {
-	double x1, x2, y1, y2;
+	// ２つの対角線の端点の座標をそれぞれ取得する
+	double x1, y1, x2, y2;
 	x1 = ptGetX(rct.p1);
-	x2 = ptGetX(rct.p2);
-
 	y1 = ptGetY(rct.p1);
-	y2 = ptGetY(rct.p2);
-	double top, left;
 
+	x2 = ptGetX(rct.p2);
+	y2 = ptGetY(rct.p2);
+
+	// ２つの点の内、x座標がより左の方、y座標がより上の方を取得する
+	double left, top;
+	// より値が小さい方が左
 	if (x1 < x2) {
 		left = x1;
 	} else {
 		left = x2;
 	}
 
+	// より値が大きい方が上
 	if (y1 > y2) {
 		top = y1;
 	} else {
@@ -231,9 +236,16 @@ Rect rctCreate1(Point p1, Point p2) {
 // 返り値  : 生成した長方形
 Rect rctCreate2(Point p, double width, double height) {
 	Rect create;
-	create.p1 = p;
-	Point p2 = ptCreate(ptGetX(p) + width, ptGetY(p) + height);
-	create.p2 = p2;
+	Point p1, p2;
+	// 左上の点、幅、高さから、長方形の対角線の端点2つを求める
+	// 1. 左上の点は元々分かっているのでそのまま使う
+	p1 = p;
+	// 2. 右下の点の、x座標は「左の点のx座標 + 幅」、
+	// y座標は「上の点のy座標 - 高さ」 で求められる
+	p2 = ptCreate(ptGetX(p) + width, ptGetY(p) - height);
+
+	// 2. 対角線の端点2つがわかっているので、rctCreate1()が使える。
+	create = rctCreate1(p1, p2);
 
 	return (create);
 }
