@@ -1,40 +1,40 @@
 #include <stdio.h>
-#define MAX_NAME (256)
+#include <string.h>
 
-void inputName(char name[]);
 void removeLineBreaks(char *name, char *removed);
-int findSlash(char name[]);
 void rewriteSlash(char name[], int count);
 
 int main() {
-	char name[ MAX_NAME ];
-	// 名前を入力する
-	inputName(name);
+	char name[ 256 ], *mei, *sei;
+
+	// 名前入力
+	printf("「名/姓」からなる文字列を入力してください\n");
+	printf("［例 Tarou/Hamakou ］: ");
+	mei = fgets(name, sizeof(name), stdin);
+	// - mei => aaa/bbb
 
 	// 最後の改行文字を取り除く
-	char removed[ MAX_NAME ];
+	char removed[ 256 ];
 	removeLineBreaks(name, removed);
 
-	// スラッシュの位置を見つける
-	int count;
-	count = findSlash(removed);
+	// スラッシュの位置を探す
+	char *slashPosition = strchr(removed, '/');
 
-	// スラッシュを\0に書き換える
-	rewriteSlash(removed, count);
+	// スラッシュの位置を\0に置き換える
+	*(slashPosition) = '\0';
 
-	printf("removed = %s\n", removed);
+	sei = slashPosition;
+	// - sei => \0
+
+	if (sei == NULL) {
+		printf("入力した文字列に\"/\"が含まれていません。\n");
+	} else {
+		// *sei = ;
+		// sei = ;
+		printf("名: %s, 姓: %s\n", mei, sei);
+	}
 
 	return (0);
-}
-
-void inputName(char name[]) {
-	char buff[ MAX_NAME ];
-
-	printf("Input name :");
-	fgets(buff, sizeof(buff), stdin);
-	sscanf(buff, "%s", name);
-
-	return;
 }
 
 void removeLineBreaks(char *name, char *removed) {
@@ -43,15 +43,6 @@ void removeLineBreaks(char *name, char *removed) {
 	}
 
 	return;
-}
-
-int findSlash(char name[]) {
-	int i = 0;
-	do {
-		i++;
-	} while (name[ i ] != '/');
-
-	return (i);
 }
 
 void rewriteSlash(char name[], int count) {
