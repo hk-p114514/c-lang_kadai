@@ -67,19 +67,15 @@ Time addTime(Time time1, Time time2) {
 	added.hour = time1.hour + time2.hour;
 	added.minutes = time1.minutes + time2.minutes;
 
-	if (added.minutes > MAX_MINUTES) {
-		// 分が59を超えていたら、60で割った商分、時間を増やし,
-		// 分そのものを、割ったあまりにする
-		added.hour += (added.minutes / 60);
-		added.minutes %= 60;
-	}
+	// 60で割った商分、時間を増やし,
+	// 分そのものを、割ったあまりにする
+	added.hour += (added.minutes / 60);
+	added.minutes %= 60;
 
-	if (added.hour > MAX_HOUR) {
-		// 時間が23を超えていたら、24で割った商分、日を増やし,
-		// 時間そのものを、割ったあまりにする
-		added.day += (added.hour / 24);
-		added.hour %= 24;
-	}
+	// 24で割った商分、日を増やし,
+	// 時間そのものを、割ったあまりにする
+	added.day += (added.hour / 24);
+	added.hour %= 24;
 
 	return (added);
 }
