@@ -83,7 +83,20 @@ Complex cAdd(Complex x, Complex y) {
 // 第2引数: 計算する複素数c + dj
 // 返り値  : 計算した x - y
 Complex cSub(Complex x, Complex y) {
+	double realY, imagY;
 	// 引き算はマイナスの足し算なのでcAdd()が使える
+	realY = cReal(y);
+	imagY = cImag(y);
+
+	// yの各符号を反転する
+	realY = -realY;
+	imagY = -imagY;
+
+	// 符号を反転した値で足し算を行う
+	Complex substracted;
+	substracted = cAdd(x, cCreate(realY, cImag));
+
+	return (substracted);
 }
 
 /* cMul()
@@ -93,6 +106,17 @@ Complex cSub(Complex x, Complex y) {
 // 第2引数: 計算する複素数c + dj
 // 返り値  : 計算した x * y
 Complex cMul(Complex x, Complex y) {
+	double realX, imagX, realY, imagY;
+	realX = cReal(x);
+	imagX = cImag(x);
+	realY = cReal(y);
+	imagY = cImag(y);
+
+	Complex multiplied;
+	multiplied =
+	    cCreate((realX * realY - imagX * imagY), (realX * imagY + imagX * realY));
+
+	return (multiplied);
 }
 
 /* cDiv()
