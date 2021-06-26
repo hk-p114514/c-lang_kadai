@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-main() {
+int main() {
 	char *week[ 7 ] =
 	    {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 

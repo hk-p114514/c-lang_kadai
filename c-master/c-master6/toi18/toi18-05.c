@@ -19,7 +19,8 @@ int main() {
 		printf("入力した文字列に\"/\"が含まれていません。\n");
 	} else {
 		*sei = '\0';
-		sei = &*(sei + sizeof(char));
+		// sei = &*(sei + sizeof(char));
+		sei = &*(sei + 1);
 		printf("名: %s, 姓: %s\n", mei, sei);
 	}
 
