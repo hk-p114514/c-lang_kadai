@@ -1,9 +1,6 @@
 // #include <hamakou.h>
-#include <math.h>
 #include <stdio.h>
 #define POW(x) ((x) * (x))
-#define MICRO (0.000001)
-#define KILO (1000)
 
 // Complex型の定義
 typedef struct {
@@ -22,61 +19,42 @@ double cReal(Complex x);             // 実数部の取得
 double cImag(Complex x);             // 虚数部の取得
 
 int main() {
-	double L, C, R, f, omega;
-	L = 200 * MICRO;
-	C = 0.127 * MICRO;
-	R = 25;
-	f = 100 * KILO;
-	// ω = 2πf
-	omega = 2 * M_PI * f;
+	Complex x, y, z;
+	double a, b;
 
-	// 揃っている情報から、xLとxCを求める
-	double xL, xC;
-	xL = omega * L;
-	xC = 1 / (omega * C);
+	printf("x <- 実数部 虚数部："); // 実数部と虚数部の入力
+	scanf("%lg %lg", &a, &b);
+	x = cCreate(a, b); // 複素数ｘの初期化
 
-	// R_L及びCの直列インピーダンスを計算する
-	Complex inLine_RL, inLine_C;
-	inLine_RL = cCreate(R, xL);
-	inLine_C = cCreate(0, -xC);
+	printf("y <- 実数部 虚数部："); // 実数部と虚数部の入力
+	scanf("%lg %lg", &a, &b);
+	y = cCreate(a, b); // 複素数ｙの初期化
 
-	// 求めたインピーダンスの逆数を求める
-	Complex reciprocal_inLine_RL, reciprocal_inLine_C;
-	reciprocal_inLine_RL = cDiv(inLine_RL, cMul(inLine_RL, inLine_RL));
-	reciprocal_inLine_C = cDiv(inLine_C, cMul(inLine_C, inLine_C));
+	putchar('\n');
+	printf("複素数 x = ");
+	cPrint(x);
+	putchar('\n');
+	printf("複素数 y = ");
+	cPrint(y);
+	putchar('\n');
+	printf("の四則演算\n");
 
-	// 求めたインピーダンスの逆数を使い、インピーダンスZを求める
-	Complex z_dot, numerator, denominator;
-	numerator = cCreate(R, xL);
-	numerator = cMul(numerator, cCreate(0, -xC));
-	denominator = cCreate(R, xL);
-	denominator = cAdd(denominator, cCreate(0, -xC));
-
-	z_dot = cDiv(numerator, denominator);
-	printf("Z = ");
-	cPrint(z_dot);
-	printf("[Ω]\n");
-
-	// z_dotの情報からインピーダンスzの大きさを求める
-	/*========================================
-	    z_dot = a + bjのとき、 zの大きさは
-	    |z| = √(a^2 + b^2)で求められる
-	========================================*/
-	double z_size, z_real, z_imag;
-	z_real = cReal(z_dot);
-	z_imag = cImag(z_dot);
-	z_size = sqrt(POW(z_real) + POW(z_imag));
-	printf("Zの大きさ = %g[Ω]\n", z_size);
-
-	// zの位相角を求める
-	/*========================================
-	    z_dot = |z|∠θ のベクトルを描いたとき、
-	    第一象限における位相角は、
-	    θ = atan(b / a)で求められる
-	========================================*/
-	double theta;
-	theta = atan(z_imag / z_real);
-	printf("Zの位相角 = %g[rad]\n", theta);
+	z = cAdd(x, y); // 加算
+	printf("x + y = ");
+	cPrint(z);
+	putchar('\n');
+	z = cSub(x, y); // 減算
+	printf("x - y = ");
+	cPrint(z);
+	putchar('\n');
+	z = cMul(x, y); // 乗算
+	printf("x * y = ");
+	cPrint(z);
+	putchar('\n');
+	z = cDiv(x, y); // 徐算
+	printf("x / y = ");
+	cPrint(z);
+	putchar('\n');
 
 	return (0);
 }

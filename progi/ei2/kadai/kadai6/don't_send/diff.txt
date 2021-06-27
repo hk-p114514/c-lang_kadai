@@ -1,0 +1,22 @@
+10,11c10
+< 	double real; // 実数部
+< 	double imag; // 虚数部
+---
+> 	double cmplx[ 2 ]; // cmplx[0]:実数部, cmplx[1]:虚数部
+
+186,187c185,186
+< 	create.real = a;
+< 	create.imag = b;
+---
+> 	create.cmplx[ 0 ] = a;
+> 	create.cmplx[ 1 ] = b;
+
+226c225
+< 	return (x.real);
+---
+> 	return (x.cmplx[ 0 ]);
+
+235c234
+< 	return (x.imag);
+---
+> 	return (x.cmplx[ 1 ]);

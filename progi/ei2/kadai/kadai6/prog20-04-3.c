@@ -7,8 +7,7 @@
 
 // Complex型の定義
 typedef struct {
-	double real; // 実数部
-	double imag; // 虚数部
+	double cmplx[ 2 ]; // cmplx[0]:実数部, cmplx[1]:虚数部
 } Complex;
 
 // 抽象データ型として扱うために必要になる関数群
@@ -182,8 +181,8 @@ Complex cDiv(Complex x, Complex y) {
 // 返り値  : 生成した複素数a + bj
 Complex cCreate(double a, double b) {
 	Complex create;
-	create.real = a;
-	create.imag = b;
+	create.cmplx[ 0 ] = a;
+	create.cmplx[ 1 ] = b;
 
 	return (create);
 }
@@ -214,7 +213,7 @@ void cPrint(Complex x) {
 // 第1引数: 複素数x
 // 返り値  : xの実数部a
 double cReal(Complex x) {
-	return (x.real);
+	return (x.cmplx[ 0 ]);
 }
 
 /* cImag()
@@ -223,5 +222,5 @@ double cReal(Complex x) {
 // 第1引数: 複素数x
 // 返り値  : xの虚数部b
 double cImag(Complex x) {
-	return (x.imag);
+	return (x.cmplx[ 1 ]);
 }
