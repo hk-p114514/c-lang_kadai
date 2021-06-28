@@ -11,14 +11,16 @@ typedef struct {
 } Complex;
 
 // 抽象データ型として扱うために必要になる関数群
-Complex cAdd(Complex x, Complex y);  // x + y
-Complex cSub(Complex x, Complex y);  // x - y
-Complex cMul(Complex x, Complex y);  // x * y
-Complex cDiv(Complex x, Complex y);  // x / y
-void cPrint(Complex x);              // 複素数の表示
-Complex cCreate(double a, double b); // a + bj の設定
-double cReal(Complex x);             // 実数部の取得
-double cImag(Complex x);             // 虚数部の取得
+Complex cAdd(Complex x, Complex y);         // x + y
+Complex cSub(Complex x, Complex y);         // x - y
+Complex cMul(Complex x, Complex y);         // x * y
+Complex cDiv(Complex x, Complex y);         // x / y
+void cPrint(Complex x);                     // 複素数の表示
+Complex cCreate(double a, double b);        // a + bj の設定
+double cSize(Complex x_dot);                // 複素数xの大きさ
+double phaseAngle(Complex x, int quadrant); // 複素数xの位相角
+double cReal(Complex x);                    // 実数部の取得
+double cImag(Complex x);                    // 虚数部の取得
 
 int main() {
 	double L, C, R, f, omega;
@@ -57,24 +59,13 @@ int main() {
 	printf("[Ω]\n");
 
 	// z_dotの情報からインピーダンスzの大きさを求める
-	/*========================================
-	    z_dot = a + bjのとき、 zの大きさは
-	    |z| = √(a^2 + b^2)で求められる
-	========================================*/
-	double z_size, z_real, z_imag;
-	z_real = cReal(z_dot);
-	z_imag = cImag(z_dot);
-	z_size = sqrt(POW(z_real) + POW(z_imag));
+	double z_size;
+	z_size = cSize(z_dot);
 	printf("Zの大きさ = %g[Ω]\n", z_size);
 
 	// zの位相角を求める
-	/*========================================
-	    z_dot = |z|∠θ のベクトルを描いたとき、
-	    第一象限における位相角は、
-	    θ = atan(b / a)で求められる
-	========================================*/
 	double theta;
-	theta = atan(z_imag / z_real);
+	theta = phaseAngle(z_dot, 1);
 	printf("Zの位相角 = %g[rad]\n", theta);
 
 	return (0);
@@ -197,7 +188,9 @@ void cPrint(Complex x) {
 	real = cReal(x);
 	imag = cImag(x);
 
-	if (imag < 0) {
+	if (imag == 0) {
+		printf("%g", real);
+	} else if (imag < 0) {
 		imag = -imag;
 		printf("%g - %gj", real, imag);
 	} else {
@@ -223,4 +216,46 @@ double cReal(Complex x) {
 // 返り値  : xの虚数部b
 double cImag(Complex x) {
 	return (x.cmplx[ 1 ]);
+}
+
+/* cSize()
+    概要:複素数xの大きさを求める
+*/
+// 第1引数: Complex型の複素数の値x
+// 返り値  : xの大きさ
+double cSize(Complex x_dot) {
+	// z_dotの情報からインピーダンスzの大きさを求める
+	/*========================================
+	    z_dot = a + bjのとき、 zの大きさは
+	    |z| = √(a^2 + b^2)で求められる
+	========================================*/
+	double x_size, x_real, x_imag;
+	x_real = cReal(x_dot);
+	x_imag = cImag(x_dot);
+	x_size = sqrt(POW(x_real) + POW(x_imag));
+
+	return (x_size);
+}
+
+/* phaseAngle()
+    概要:複素数xの位相角を求める
+*/
+// 第1引数: Complex型の値x
+// 第2引数: 求める位相角の象限
+// 返り値  : xの位相角
+double phaseAngle(Complex x, int quadrant) {
+	/*========================================
+	    z_dot = |z|∠θ のベクトルを描いたとき、
+	    第一象限における位相角は、
+	    θ = atan(b / a)で求められる
+	========================================*/
+	double theta, z_real, z_imag;
+	z_real = cReal(x);
+	z_imag = cImag(x);
+
+	if (quadrant == 1) {
+		theta = atan(z_imag / z_real);
+	}
+
+	return (theta);
 }
