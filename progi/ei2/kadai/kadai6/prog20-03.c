@@ -242,7 +242,7 @@ double cSize(Complex x_dot) {
     概要:複素数xの位相角を求める
 */
 // 第1引数: Complex型の値x
-// 第2引数: 求める位相角の象限
+// 第2引数: 求める位相角の象限(1 ~ 4)
 // 返り値  : xの位相角
 double phaseAngle(Complex x, int quadrant) {
 	/*========================================
@@ -256,6 +256,12 @@ double phaseAngle(Complex x, int quadrant) {
 
 	if (quadrant == 1) {
 		theta = atan(z_imag / z_real);
+	} else if (quadrant == 2) {
+		theta = M_PI - atan(z_imag / z_real);
+	} else if (quadrant == 3) {
+		theta = atan(z_imag / z_real) - M_PI;
+	} else if (quadrant == 4) {
+		theta = -atan(z_imag / z_real);
 	}
 
 	return (theta);
