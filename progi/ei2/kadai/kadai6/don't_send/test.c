@@ -4,8 +4,10 @@
 int main() {
 	int a, b;
 	a = 0;
-	b = 0;
-	printf("pow = %lf\n", pow(a, b));
+	b = 1;
+	printf("a / b = %d\n", a / b);
+
+	printf("b / a = %d\n", b / a);
 
 	return (0);
 }

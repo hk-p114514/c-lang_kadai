@@ -51,6 +51,10 @@ int main() {
 	printf("x * y = ");
 	cPrint(z);
 	putchar('\n');
+	if (a == 0 && b == 0) {
+		printf("エラー!!!\n0除算です!\n");
+		return (1);
+	}
 	z = cDiv(x, y); // 徐算
 	printf("x / y = ");
 	cPrint(z);
@@ -178,6 +182,8 @@ void cPrint(Complex x) {
 
 	if (imag == 0) {
 		printf("%g", real);
+	} else if (real == 0) {
+		printf("%gj", imag);
 	} else if (imag < 0) {
 		imag = -imag;
 		printf("%g - %gj", real, imag);

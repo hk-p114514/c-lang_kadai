@@ -54,6 +54,7 @@ int main() {
 	denominator = cAdd(denominator, cCreate(0, -xC));
 
 	z_dot = cDiv(numerator, denominator);
+
 	printf("Z = ");
 	cPrint(z_dot);
 	printf("[Ω]\n");

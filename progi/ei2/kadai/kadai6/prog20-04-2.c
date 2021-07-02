@@ -177,6 +177,8 @@ void cPrint(Complex x) {
 
 	if (imag == 0) {
 		printf("%g", real);
+	} else if (real == 0) {
+		printf("%gj", imag);
 	} else if (imag < 0) {
 		imag = -imag;
 		printf("%g - %gj", real, imag);
