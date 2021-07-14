@@ -2,9 +2,10 @@
 union sensor_def {
 	unsigned int word;
 	struct bit {
-		unsigned int FL : 3;
-		unsigned int CT : 3;
-		unsigned int FR : 3;
+		unsigned char FL : 3;
+		unsigned char CT : 3;
+		unsigned char FR : 3;
+		unsigned int PD : 7;
 	} bit;
 };
 
