@@ -8,7 +8,7 @@ typedef struct {
 	/* 名前を格納する配列(空白を一つ含むため、想定している最大文字数 + 1) */
 	char name[ (MAX_NAME_LENGTH * 2) + 1 ];
 	int rank;              // 生徒の順位
-	int score[ SUBJECTS ]; // 各教科の得点(0: 国語、1: 数学、2: 英語)
+	int score[ SUBJECTS ]; // 各教科の得点(0: 国語, 1: 数学, 2: 英語)
 	int studentNumber;
 } Exam;
 
@@ -20,8 +20,8 @@ int getScoreSum(Exam *student);
 void setRank(Exam *student, int rank);
 int getRank(Exam *student);
 
-int inputData(Exam *student[]);
-int calcSumScore(Exam *student);
+int inputData(Exam *students[]);
+void calcRank(Exam *students[], int n);
 
 int main() {
 	// 入力されたデータの個数（実際に処理する人数）
@@ -40,13 +40,12 @@ int main() {
 		return (1);
 	}
 
-	// 2.得点の合計を求める
+	// 2.各生徒の順位を求める
+	calcRank(&students, n);
 
-	// 3.各生徒の順位を求める
+	// 3.各生徒の得点の平均を求める
 
-	// 4.各生徒の得点の平均を求める
-
-	// 5.試験成績一覧表を表示
+	// 4.試験成績一覧表を表示
 
 	return (0);
 }
@@ -56,7 +55,7 @@ int main() {
 */
 // 第1引数 : データを格納する各生徒の情報を指すポインタ配列
 // 返り値  : 入力されたデータの数（人数）
-int inputData(Exam *student[]) {
+int inputData(Exam *students[]) {
 	int n;
 	char buff[ 256 ];
 
@@ -84,14 +83,35 @@ int inputData(Exam *student[]) {
 
 		// 2.1受け取ったデータを割り付ける
 		// 2.1.1名前を割り付ける
-		setName(&student[ studentNumber ], name1, name2);
+		setName(&students[ studentNumber ], name1, name2);
 
 		// 2.1.2各点数を割り付ける
 		for (int i = 0; i < SUBJECTS; i++) {
-			setSubjectScore(&student[ studentNumber ], i, score[ i ]);
+			setSubjectScore(&students[ studentNumber ], i, score[ i ]);
 		}
 	}
 	return (n);
+}
+
+/* calcRank()
+    概要:各生徒の合計得点に基づく順位を求め、格納する
+*/
+// 第1引数: 順位を求める生徒のデータを指すポインタ
+// 第2引数: 生徒の人数
+// 返り値  : なし
+void calcRank(Exam *students[], int n) {
+	for (int i = 0; i < n; i++) {
+		int rank = n;
+		int sum = getScoreSum(students[ i ]);
+		for (int j = 0; j < n; j++) {
+			if (i != j && sum > getScoreSum(students[ j ])) {
+				rank--;
+			}
+		}
+		setRank(students[ i ], rank);
+	}
+
+	return;
 }
 
 /*========================================*/
