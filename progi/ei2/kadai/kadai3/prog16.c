@@ -396,9 +396,6 @@ void sortData(int data[], int n) {
 
 // searchRange()
 /* 概要 - 渡されたデータ（配列）を内に特定の範囲の値がいくつあるか調べる */
-/* 第1引数 - ソートするデータ（配列） */
-/* 第2引数 - ソートするデータの個数 */
-/* 戻り値 - なし */
 int searchRange(int n, int array[], int min, int max) {
 	int count = 0;
 	for (int i = 1; i <= n; i++) {
