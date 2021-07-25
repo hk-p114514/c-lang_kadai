@@ -10,7 +10,6 @@ typedef struct {
 	char name[ (MAX_NAME_LENGTH * 2) + 1 ];
 	int rank;              // 生徒の順位
 	int score[ SUBJECTS ]; // 各教科の得点(0: 国語, 1: 数学, 2: 英語)
-	int studentNumber;
 } Exam;
 
 void setName(Exam *student, char name1[], char name2[]);
@@ -131,7 +130,7 @@ void printTable(Exam *students, int n) {
 	// 出力する項目を出力
 	printf(
 	    "%s %s     %35s    %s    %s    %s    %s    %s",
-	    "NO "
+	    " NO "
 	    "氏名",
 	    "",
 	    "国語",
@@ -145,10 +144,10 @@ void printTable(Exam *students, int n) {
 	// 生徒個人のデータをそれぞれ表示
 	for (int i = 1; i <= n; i++) {
 		// 生徒番号の表示
-		printf("%3d", i);
+		printf("%3d ", i);
 
 		// 名前の表示
-		char name[ MAX_STUDENTS + 1 ];
+		char name[ (MAX_STUDENTS * 2) + 1 ];
 		getName(&students[ i ], name);
 		printf("%s", name);
 
@@ -298,6 +297,22 @@ void fillInTheBlanks(int max, int isFilled) {
 // 返り値  : なし
 void setName(Exam *student, char name1[], char name2[]) {
 	/* name1が姓、name2が名なので、並びとしては、 「name1name2」となればよい*/
+	int name1Len = strlen(name1);
+	int name2Len = strlen(name2);
+
+	printf("name1Len split\n");
+	if (name1Len > MAX_NAME_LENGTH) {
+		name1[ MAX_NAME_LENGTH ] = '\n';
+		sscanf(name1, "%s", name1);
+	}
+
+	printf("name2Len split\n");
+	if (name2Len > MAX_NAME_LENGTH) {
+		name2[ MAX_NAME_LENGTH ] = '\n';
+		sscanf(name2, "%s", name2);
+	}
+
+	strcat(name1, " ");
 	strcat(name1, name2);
 	strcpy(student->name, name1);
 
