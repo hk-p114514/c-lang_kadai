@@ -6,8 +6,8 @@
 #define SUBJECTS 3         // 教科の数
 
 typedef struct {
-	/* 名前を格納する配列(空白を一つ含むため、想定している最大文字数 + 1) */
-	char name[ (MAX_NAME_LENGTH * 2) + 1 ];
+	// 名前を格納する配列(空白を一つ含むかつ安全のため余裕を持って、想定している最大文字数+10)
+	char name[ (MAX_NAME_LENGTH * 2) + 10 ];
 	int rank;              // 生徒の順位
 	int score[ SUBJECTS ]; // 各教科の得点(0: 国語, 1: 数学, 2: 英語)
 } Exam;
@@ -31,7 +31,8 @@ int main() {
 	// 入力されたデータの個数（実際に処理する人数）
 	int n;
 	// 各生徒の情報
-	Exam students[ MAX_STUDENTS ];
+	/* 添字を１から利用するので想定最大数＋１の要素数を確保する */
+	Exam students[ MAX_STUDENTS + 1 ];
 
 	// 1.データの入力
 	n = inputData(students);
@@ -69,7 +70,7 @@ int inputData(Exam *students) {
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &n);
 	int score[ 3 ], studentNumber;
-	char name1[ MAX_STUDENTS + 1 ], name2[ MAX_STUDENTS + 1 ];
+	char name1[ 256 ], name2[ 256 ];
 
 	// 2.各生徒ごとのデータを受け取る
 	for (int i = 0; i < n; i++) {
@@ -129,7 +130,7 @@ void printTable(Exam *students, int n) {
 	int total[ SUBJECTS + 1 ] = {};
 	// 出力する項目を出力
 	printf(
-	    "%s %s     %35s    %s    %s    %s    %s    %s",
+	    "%s %s     %40s    %s    %s    %s    %s    %s",
 	    " NO "
 	    "氏名",
 	    "",
@@ -147,16 +148,16 @@ void printTable(Exam *students, int n) {
 		printf("%3d ", i);
 
 		// 名前の表示
-		char name[ (MAX_STUDENTS * 2) + 1 ];
+		char name[ (MAX_STUDENTS * 2) + 10 ];
 		getName(&students[ i ], name);
 		printf("%s", name);
 
 		// 文字数を合わせ
-		fillInTheBlanks(MAX_NAME_LENGTH * 2, strlen(name));
+		fillInTheBlanks((MAX_NAME_LENGTH * 2) + 1, strlen(name));
 
 		// 各教科の点数、合計、順位を表示
 		printf(
-		    "%3d     %3d     %3d     %3d     %3d",
+		    "%4d     %4d     %4d     %4d     %4d",
 		    getSubjectScore(&students[ i ], 0), // 国語の点数
 		    getSubjectScore(&students[ i ], 1), // 数学の点数
 		    getSubjectScore(&students[ i ], 2), // 英語の点数
@@ -300,13 +301,13 @@ void setName(Exam *student, char name1[], char name2[]) {
 	int name1Len = strlen(name1);
 	int name2Len = strlen(name2);
 
-	printf("name1Len split\n");
+	// 名前の文字数が最大より大きかったら
 	if (name1Len > MAX_NAME_LENGTH) {
+		// 最大文字数までのみを取り込む
 		name1[ MAX_NAME_LENGTH ] = '\n';
 		sscanf(name1, "%s", name1);
 	}
 
-	printf("name2Len split\n");
 	if (name2Len > MAX_NAME_LENGTH) {
 		name2[ MAX_NAME_LENGTH ] = '\n';
 		sscanf(name2, "%s", name2);
