@@ -1,0 +1,5 @@
+cc -c stack.c
+ar crv libstack.a stack.o
+
+// ダイナミック
+cc -c -shared -fPIC -o libstack.so stack.c
