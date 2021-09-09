@@ -6,12 +6,18 @@ int main() {
 
 	initStack(&s);
 
-	// 入力処理
-	int state = 1, n;
-	while () {
-		printf("n\t:%d\n", n);
-		printf("state\t:%d\n", state);
-		state = push(&s, n);
+	int train;
+	while (scanf("%d", &train) != EOF) {
+		if (train == 0) {
+			// 行き止まりから発車された電車を出力する
+			int leave;
+			pop(&s, &leave);
+
+			printf("%d\n", leave);
+		} else {
+			// 行き止まりに電車を詰める
+			push(&s, train);
+		}
 	}
 
 	return (0);

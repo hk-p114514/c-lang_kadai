@@ -14,11 +14,10 @@ void initStack(Stack *s) {
 // 戻り値：正常終了：1、スタック・オーバーフロー：0
 int push(Stack *s, int data) {
 	s->sp++;
-	s->storage[ s->sp ] = data;
 	if (s->sp + 1 >= STACK_SIZE) {
 		return (0);
 	} else {
-
+		s->storage[ s->sp ] = data;
 		return (1);
 	}
 }
