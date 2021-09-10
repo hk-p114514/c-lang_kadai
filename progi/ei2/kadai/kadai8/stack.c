@@ -30,7 +30,6 @@ int pop(Stack *s, int *data) {
 	} else {
 		s->sp--;
 		*data = s->storage[ s->sp ];
-		printf("data[%d] : %d\n", s->sp, *data);
 		return (1);
 	}
 }

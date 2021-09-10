@@ -13,10 +13,10 @@ void initStack(Stack *s) {
 // 引数：[s : データの格納対象となるスタック] [data : スタックsへ格納するデータ]
 // 戻り値：正常終了：1、スタック・オーバーフロー：0
 int push(Stack *s, int data) {
-	s->sp++;
 	if (s->sp + 1 >= STACK_SIZE) {
 		return (0);
 	} else {
+		s->sp++;
 		s->storage[ s->sp ] = data;
 		return (1);
 	}

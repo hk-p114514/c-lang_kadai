@@ -15,7 +15,6 @@ int main() {
 	} while (state == 1);
 
 	state = push(&stack, 999);
-	printf("state : %d\n", state);
 
 	putchar('\n');
 
