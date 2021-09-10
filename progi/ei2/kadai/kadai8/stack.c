@@ -12,11 +12,11 @@ void initStack(Stack *s) {
 // 引数：[s : データの格納対象となるスタック] [data : スタックsへ格納するデータ]
 // 戻り値：正常終了：1、スタック・オーバーフロー：0
 int push(Stack *s, int data) {
-	s->sp++;
 	if (s->sp >= STACK_SIZE) {
 		return (0);
 	} else {
 		s->storage[ s->sp ] = data;
+		s->sp++;
 		return (1);
 	}
 }
@@ -30,6 +30,7 @@ int pop(Stack *s, int *data) {
 	} else {
 		s->sp--;
 		*data = s->storage[ s->sp ];
+		printf("data[%d] : %d\n", s->sp, *data);
 		return (1);
 	}
 }

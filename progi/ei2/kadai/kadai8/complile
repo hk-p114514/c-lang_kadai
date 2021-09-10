@@ -2,4 +2,3 @@
 
 ./dlib
 cc "$1" -L . -l stack
-./a.out
