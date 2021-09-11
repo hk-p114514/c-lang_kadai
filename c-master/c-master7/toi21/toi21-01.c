@@ -1,5 +1,6 @@
 #include "myheader.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int main() {
 	Date *array_p; //  確保する領域へのポインタ
