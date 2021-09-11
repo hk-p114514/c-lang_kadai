@@ -8,7 +8,7 @@ int main() {
 
 	int train;
 	while (scanf("%d", &train) != EOF) {
-		printf("sp : %d\n", s.sp);
+		// printf("sp : %d\n", s.sp);
 		if (train == 0) {
 			// 行き止まりから発車された電車を出力する
 			int leave;
@@ -17,7 +17,7 @@ int main() {
 		} else {
 			// 行き止まりに電車を詰める
 			push(&s, train);
-			printf("push %d\n", train);
+			// printf("push %d\n", train);
 		}
 	}
 

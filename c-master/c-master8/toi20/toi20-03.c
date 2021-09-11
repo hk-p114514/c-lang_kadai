@@ -8,8 +8,8 @@ int main() {
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &n);
 
-	char *p;
-	p = (int(*)[ n ])malloc(sizeof(char) * n);
+	char **p;
+	p = (char **)malloc(sizeof(char) * n);
 
 	for (int i = 0; i < n; i++) {
 		// 文字列の入力
@@ -18,8 +18,26 @@ int main() {
 		fgets(buff, sizeof(buff), stdin);
 		sscanf(buff, "%s", s);
 
+		int len = strlen(s);
+
 		// 格納
+		p[ i ] = (char *)malloc(sizeof(char) * len);
+		for (int j = 0; j < len; j++) {
+			p[ i ][ j ] = s[ j ];
+		}
 	}
+
+	// 表示
+	for (int i = 0; i < n; i++) {
+		printf("%s", p[ i ]);
+		putchar('\n');
+	}
+
+	for (int i = 0; i < n; i++) {
+		free(p[ i ]);
+	}
+
+	free(p);
 
 	return (0);
 }
