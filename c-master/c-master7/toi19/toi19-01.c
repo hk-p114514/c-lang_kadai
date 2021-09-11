@@ -1,41 +1,65 @@
 #include <stdio.h>
-/* 各商品の値段 */
-#define APPLE_VALUE (100)
-#define BANANA_VALUE (30)
+#define PRODUCTS 4
 
-int includeTax(int value, int taxRate);
+int main(int argc, char const *argv[]) {
+	int price[ PRODUCTS ] = {100, 30, 100, 300};
+	char products[ PRODUCTS ][ 100 ] = {"りんご", "バナナ", "チェリー", "Done兵衛"};
 
-int main(int argc, char *argv[]) {
-	// オプションの有無・正誤のチェック
+	int i;
 	if (argc <= 1 || argv[ 1 ][ 0 ] != '-') {
 		printf("オプションがないかまたは不正です。\n");
 		printf("正しく入力して下さい。\n");
 	} else {
-		// オプションが正しく入力された場合
-		char goods;            // 商品を決めるオプション
-		int quantity;          // 購入する個数
-		int taxRate;           // 税率
-		int sum = 0;           // 小計
-		int includeTaxSum = 0; // 合計
+		i = 1;           // カウンタ変数の初期化
+		int taxRate = 1; // 税率
+		int sum = 0;     // 合計額
 
-		// 購入したい商品ごとに処理を振り分ける
-		for (int i = 1; i < argc && *argv[ i ] == '-'; i++) {
-			switch (*(argv[ i ] + 1)) {
-			case 'a':
-				/* apple */
-				break;
-			case 'b':
-				/* banana */
-				break;
-			default:
-				printf("該当する単語がありません : %s\n", argv[ i ]);
+		// 消費税の直前までオプションを確認する
+		while (argc > i && argv[ i ][ 0 ] == '-') {
+			if (argv[ i ][ 1 ] >= '0' && argv[ i ][ 1 ] <= '9') {
+				sscanf(argv[ i ], "-%d", &taxRate);
+			} else {
+				// 購入する個数を求める
+				int count = 1;
+				int buy;
+				int productNumber = -1;
+				char target;
+				sscanf(argv[ i ], "-%c%d", &target, &count);
+				if (target == 'a') {
+					productNumber = 0;
+				} else if (target == 'b') {
+					productNumber = 1;
+				} else if (target == 'c') {
+					productNumber = 2;
+				} else if (target == 'd') {
+					productNumber = 3;
+				} else {
+					printf("オプションとして使用できません。 : %s\n", argv[ i ]);
+				}
+
+				if (productNumber != -1) {
+					buy = price[ productNumber ];
+					int cost = buy * count;
+					sum += cost;
+
+					// 買った商品の情報を表示
+					printf(
+					    "%15s\t@%3d\t× %3d = %7d\n",
+					    products[ productNumber ],
+					    price[ productNumber ],
+					    count,
+					    cost);
+				}
 			}
+			i++;
 		}
+		int tax = (double)sum * ((double)taxRate / 100.0);
+		printf("----------------------------------------\n");
+		printf("%s\t\t\t\t\%7d\n", " 小計", sum);
+		printf("%s\t\t\t\t\%7d\n", " 消費税", tax);
+		printf("========================================\n");
+		printf("%s\t\t\t\t\%7d\n", " 合計", sum + tax);
 	}
 
 	return (0);
-}
-
-int includeTax(int value, int taxRate) {
-	return (value * (taxRate / 100));
 }
