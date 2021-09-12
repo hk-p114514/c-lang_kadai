@@ -9,7 +9,7 @@ int main() {
 	sscanf(buff, "%d", &n);
 
 	char **p;
-	p = (char **)malloc(sizeof(char) * n);
+	p = (char **)malloc(sizeof(char *) * n);
 
 	if (p == NULL) {
 		printf("メモリを確保できませんでした。\n");
@@ -43,15 +43,14 @@ int main() {
 	}
 
 	// 表示
+	putchar('\n');
 	for (int i = 0; i < n; i++) {
 		printf("%s", p[ i ]);
 		putchar('\n');
 	}
 
-	printf("============================\n");
-
 	for (int i = 0; i < n; i++) {
-		free(&p[ i ]);
+		free(p[ i ]);
 	}
 
 	free(p);
