@@ -11,7 +11,7 @@ int main() {
 	cardShuffle(card, 1000); // 1000回シャッフルする
 
 	int drawStart;
-	printf("山の何枚目から取り出しますか? : ");
+	printf("山の何枚目からカードを引きますか? : ");
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &drawStart);
 
