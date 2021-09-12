@@ -11,7 +11,7 @@ int main(int argc, char const *argv[]) {
 		printf("正しく入力して下さい。\n");
 	} else {
 		i = 1;           // カウンタ変数の初期化
-		int taxRate = 1; // 税率
+		int taxRate = 0; // 税率
 		int sum = 0;     // 合計額
 
 		// 消費税の直前までオプションを確認する
