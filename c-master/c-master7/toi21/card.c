@@ -9,6 +9,7 @@
 // 第1引数: 用意したカードを格納する配列
 // 返り値  : なし
 void cardSet(Card cards[]) {
+	printf("カードを用意しています\n");
 	char marks[] = {'H', 'D', 'S', 'C'};
 	int markP = 0;
 	int number = 1;
@@ -50,7 +51,7 @@ void cardShuffle(Card cards[], int n) {
 	char marks[] = {'H', 'D', 'S', 'C'};
 	srand(time(NULL));
 
-	printf("CARD SHUFFLE\n");
+	printf("シャッフルしています\n");
 	for (int i = 0; i < n; i++) {
 		// 0 ~ 51番目のどれかとどれかを入れ替える
 		int place1 = rand() % CARD_NUMBER;

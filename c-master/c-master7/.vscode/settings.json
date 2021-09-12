@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Default Dark+",
+  "workbench.colorTheme": "monokai-charcoal",
   "files.associations": {
     "card.h": "c"
   }
