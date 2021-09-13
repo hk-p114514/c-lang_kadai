@@ -15,17 +15,23 @@
 #define CARD_MAX (13)
 #define PLAYER_CARD (10)
 
-void makeDeckOfCard(int deck[]);
+void makeDeckOfCard(int cards[], char marks[]);
 void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2);
 void shuffleCard(int card[], int n);
-void game(Stack *p1, Stack *p2, int *p1Result, int *p2Result);
+void game(Stack *p1, Stack *p2, int *p1Result, int *p2Result, char marks[]);
 void printCard(int card);
 void printAllCards(int cards[]);
-int randInt(int max, int min);
+int randInt(int max);
 
 int main() {
-	// 53枚のトランプ
-	int cards[ CARD_NUMBER ];
+	// 乱数の発生系列を実行の度に変更
+	srand(time(NULL));
+
+	// 53枚のトランプの数字
+	int cardsNumber[ CARD_NUMBER ];
+
+	// 53枚のトランプのマーク
+	char cardsMark[ CARD_NUMBER ];
 
 	// 各プレイヤーの山
 	Stack p1, p2;
@@ -33,22 +39,19 @@ int main() {
 	initStack(&p2);
 
 	// トランプの作成
-	makeDeckOfCard(cards);
+	makeDeckOfCard(cardsNumber, cardsMark);
 
 	printf("/*========================================*/\n");
 
-	// 乱数の発生系列を実行の度に変更
-	srand(time(NULL));
-
 	// 作成したトランプのシャッフル
-	shuffleCard(cards, 1000);
+	shuffleCard(cardsNumber, 1000);
 
 	// 2つの山の作成
-	makeDeckOfPlayerCard(cards, &p1, &p2);
+	makeDeckOfPlayerCard(cardsNumber, &p1, &p2);
 
 	int p1Result, p2Result;
 	// ゲーム本体の実装
-	game(&p1, &p2, &p1Result, &p2Result);
+	game(&p1, &p2, &p1Result, &p2Result, cardsMark);
 
 	// 最終的な得点の表示
 
@@ -62,18 +65,25 @@ int main() {
 */
 // 第1引数: 要素数53の整数配列
 // 返り値  : なし
-void makeDeckOfCard(int deck[]) {
+void makeDeckOfCard(int cards[], char marks[]) {
 	printf("makeDeckOfCard\n");
 
-	int n = 1;
-	for (int i = 0; i < CARD_NUMBER - 1; i++, n++) {
+	char exampleMarks[] = {'H', 'D', 'S', 'C'};
+	int n = 1, c = 0;
+	for (int i = 0; i < CARD_NUMBER - 1; i++, n++, c++) {
 		if (n > 13) {
 			n = 1;
 		}
 
-		deck[ i ] = n;
+		if (c >= 4) {
+			c = 0;
+		}
+
+		cards[ i ] = n;
+		marks[ i ] = exampleMarks[ c ];
 	}
-	deck[ CARD_NUMBER - 1 ] = -1;
+	cards[ CARD_NUMBER - 1 ] = -1;
+	marks[ CARD_NUMBER - 1 ] = 'J';
 
 	return;
 }
@@ -88,14 +98,12 @@ void makeDeckOfCard(int deck[]) {
 void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2) {
 	printf("makeDeckOfPlayerCard\n");
 
-	int i;
-	for (i = 0; i < PLAYER_CARD; i++) {
+	for (int i = 0; i < PLAYER_CARD; i++) {
 		push(p1, deck[ i ]);
 	}
 
 	for (int j = 0; j < PLAYER_CARD; j++) {
-		push(p2, deck[ j + i ]);
-		printf("push : %d\n", deck[ j + i ]);
+		push(p2, deck[ j + PLAYER_CARD ]);
 	}
 
 	return;
@@ -107,18 +115,18 @@ void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2) {
 // 第1引数: ５３枚のカード
 // 第2引数: シャッフルする回数
 // 返り値  : なし
-void shuffleCard(int card[], int n) {
+void shuffleCard(int cards[], int n) {
 	printf("shuffleCard\n");
 
 	for (int i = 0; i < n; i++) {
 		int place1, place2;
-		place1 = randInt(0, CARD_NUMBER - 1);
-		place2 = randInt(0, CARD_NUMBER - 1);
+		place1 = randInt(CARD_NUMBER - 1);
+		place2 = randInt(CARD_NUMBER - 1);
 
-		int swap = card[ place1 ];
+		int swap = cards[ place1 ];
 
-		card[ place1 ] = card[ place2 ];
-		card[ place2 ] = swap;
+		cards[ place1 ] = cards[ place2 ];
+		cards[ place2 ] = swap;
 	}
 
 	return;
@@ -133,8 +141,8 @@ void shuffleCard(int card[], int n) {
 // 第3引数: プレイヤー１の得点
 // 第4引数: プレイヤー２の得点
 // 返り値  : なし
-void game(Stack *p1, Stack *p2, int *p1Result, int *p2Result) {
-	printf("=====game=====\n");
+void game(Stack *p1, Stack *p2, int *p1Result, int *p2Result, char marks[]) {
+	printf("=====game start=====\n");
 	int card1, card2;
 
 	pop(p1, &card1);
@@ -142,7 +150,7 @@ void game(Stack *p1, Stack *p2, int *p1Result, int *p2Result) {
 
 	// プレイヤー2の山がなくなるまで
 	while (state == 1) {
-		printf("p1 : %2d\tp2 : %2d\n", card1, card2);
+		printf("p1 : %c[%2d]\tp2 : %c[%2d]\n", marks[ card1 ], card1, marks[ card2 ], card2);
 		pop(p1, &card1);
 		state = pop(p2, &card2);
 	}
@@ -165,13 +173,12 @@ void printCard(int card) {
 }
 
 /* randInt()
-    概要:min~maxの整数の乱数を返す
+    概要:1~maxの整数の乱数を返す
 */
 // 第1引数: 乱数の最大値
-// 第2引数: 乱数の最小値
 // 返り値  : 生成した乱数
-int randInt(int max, int min) {
-	int rnd = min + rand() % (max + 1);
+int randInt(int max) {
+	int rnd = rand() % (max + 1);
 
 	return (rnd);
 }

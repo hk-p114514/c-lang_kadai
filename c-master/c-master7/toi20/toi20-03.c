@@ -4,7 +4,7 @@
 
 int main() {
 	int n;
-	char buff[ 1024 ];
+	char buff[ 256 ];
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &n);
 
@@ -21,7 +21,7 @@ int main() {
 		printf("文字列[%d] : ", i);
 		char s[ 256 ];
 		fgets(buff, sizeof(buff), stdin);
-		sscanf(buff, "%s", s);
+		strcpy(s, buff);
 
 		int len = strlen(s);
 
@@ -45,8 +45,7 @@ int main() {
 	// 表示
 	putchar('\n');
 	for (int i = 0; i < n; i++) {
-		printf("%s", p[ i ]);
-		putchar('\n');
+		printf("文字列[%d] : %s", i, p[ i ]);
 	}
 
 	for (int i = 0; i < n; i++) {
