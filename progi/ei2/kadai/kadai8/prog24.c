@@ -14,12 +14,12 @@
 #define CARD_NUMBER (53)
 #define CARD_MAX (13)
 #define PLAYER_CARD (10)
+#define JOKER_CARD (-1)
 
 void makeDeckOfCard(int cards[], char marks[]);
 void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2);
 void shuffleCard(int card[], int n);
-void game(Stack *p1, Stack *p2, int *p1Result, int *p2Result, char marks[]);
-void printCard(int card);
+void game(Stack *p1, Stack *p2, char marks[]);
 void printAllCards(int cards[]);
 int randInt(int max);
 
@@ -41,17 +41,15 @@ int main() {
 	// トランプの作成
 	makeDeckOfCard(cardsNumber, cardsMark);
 
-	printf("/*========================================*/\n");
-
 	// 作成したトランプのシャッフル
 	shuffleCard(cardsNumber, 1000);
 
 	// 2つの山の作成
 	makeDeckOfPlayerCard(cardsNumber, &p1, &p2);
 
-	int p1Result, p2Result;
+	int p1Result = 0, p2Result = 0;
 	// ゲーム本体の実装
-	game(&p1, &p2, &p1Result, &p2Result, cardsMark);
+	game(&p1, &p2, cardsMark);
 
 	// 最終的な得点の表示
 
@@ -66,8 +64,6 @@ int main() {
 // 第1引数: 要素数53の整数配列
 // 返り値  : なし
 void makeDeckOfCard(int cards[], char marks[]) {
-	printf("makeDeckOfCard\n");
-
 	char exampleMarks[] = {'H', 'D', 'S', 'C'};
 	int n = 1, c = 0;
 	for (int i = 0; i < CARD_NUMBER - 1; i++, n++, c++) {
@@ -96,8 +92,6 @@ void makeDeckOfCard(int cards[], char marks[]) {
 // 第３引数:　　プレイヤー２の山
 // 返り値  : なし
 void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2) {
-	printf("makeDeckOfPlayerCard\n");
-
 	for (int i = 0; i < PLAYER_CARD; i++) {
 		push(p1, deck[ i ]);
 	}
@@ -116,8 +110,6 @@ void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2) {
 // 第2引数: シャッフルする回数
 // 返り値  : なし
 void shuffleCard(int cards[], int n) {
-	printf("shuffleCard\n");
-
 	for (int i = 0; i < n; i++) {
 		int place1, place2;
 		place1 = randInt(CARD_NUMBER - 1);
@@ -141,35 +133,67 @@ void shuffleCard(int cards[], int n) {
 // 第3引数: プレイヤー１の得点
 // 第4引数: プレイヤー２の得点
 // 返り値  : なし
-void game(Stack *p1, Stack *p2, int *p1Result, int *p2Result, char marks[]) {
+void game(Stack *p1, Stack *p2, char marks[]) {
 	printf("=====game start=====\n");
-	int card1, card2;
+	int card1, card2, count = 1;
+
+	// 各プレイヤーの得点を初期化
+	int p1Result = 0;
+	int p2Result = 0;
 
 	pop(p1, &card1);
 	int state = pop(p2, &card2);
 
 	// プレイヤー2の山がなくなるまで
 	while (state == 1) {
-		printf("p1 : %c[%2d]\tp2 : %c[%2d]\n", marks[ card1 ], card1, marks[ card2 ], card2);
+		// ゲームのカウント
+		printf("(%2d回目) ", count);
+
+		// 各プレイヤーのカードを表示する
+		if (card1 != JOKER_CARD && card2 != JOKER_CARD) {
+			// ゲームにジョーカーが含まれない場合
+			printf("PLAYER1: %c[%2d]", marks[ card1 ], card1);
+
+			// カードの大小によって表示するマークを変える
+			if (card1 > card2) {
+				printf(" > ");
+				p1Result++;
+			} else if (card1 < card2) {
+				printf(" < ");
+				p2Result++;
+			} else if (card1 == card2) {
+				printf(" = ");
+			}
+
+			printf("PLAYER2: %c[%2d]", marks[ card2 ], card2);
+		} else {
+			char space[] = "    ";
+			if (card1 == JOKER_CARD) {
+				p1Result++;
+				printf("PLAYER1: J%s", space);
+				printf(" > ");
+				printf("PLAYER2: %c[%2d]", marks[ card2 ], card2);
+			} else if (card2 == JOKER_CARD) {
+				p2Result++;
+				printf("PLAYER1: %c[%2d]", marks[ card1 ], card1);
+				printf(" < ");
+				printf("PLAYER2: J%s", space);
+			}
+		}
+
+		// 総得点を表示する
+		printf("  総得点 - PLAYER1: %2d, PLAYER2: %2d\n", p1Result, p2Result);
+
 		pop(p1, &card1);
 		state = pop(p2, &card2);
+		count++;
 	}
+
+  putchar('\n');
+	printf("PLAYER1の得点: %2d\n", p1Result);
+	printf("PLAYER2の得点: %2d\n", p2Result);
 
 	return;
-}
-
-/* printCard()
-    概要:渡されたカードを改行なしで表示する
-*/
-// 第1引数: 表示したいカード
-// 返り値  : なし
-void printCard(int card) {
-	char marks[] = {'H', 'D', 'S', 'C'};
-
-	if (card < 0) {
-		printf("J");
-	} else if (card < 20) {
-	}
 }
 
 /* randInt()
