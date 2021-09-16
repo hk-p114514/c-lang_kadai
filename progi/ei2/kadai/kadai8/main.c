@@ -1,26 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-int randInt(int max, int min);
+int randInt(int max);
 
 int main() {
-	srand(time(NULL));
-	for (int i = 0; i < 10; i++) {
-		printf("%d\n", randInt(10, 1));
+	for (int i = 0; i < 100; i++) {
+		printf("rnd : %d\n", randInt(10));
 	}
-
-	printf("/*========================================*/\n");
-
-	for (int i = 0; i < 10; i++) {
-		printf("%d\n", randInt(10, 1));
-	}
-
-	return (0);
 }
 
-int randInt(int max, int min) {
-
-	int rnd = rand() % max + min;
+int randInt(int max) {
+	int rnd = rand() % (max + 1);
 
 	return (rnd);
 }
