@@ -14,12 +14,13 @@
 #define CARD_NUMBER (53)
 #define CARD_MAX (13)
 #define PLAYER_CARD (10)
-#define JOKER_CARD (-1)
+#define JOKER_CARD (53)
 
 void game(Stack *p1, Stack *p2);
-void printAllCards(int cards[]);
 int getCard(Stack *player, int *number, char *mark);
+void makeDeckOfPlayerCard(Stack *p1, Stack *p2);
 int randInt(int max);
+void printAllCards(int cards[]);
 
 int main() {
 	// 乱数の発生系列を実行の度に変更
@@ -29,6 +30,9 @@ int main() {
 	Stack p1, p2;
 	initStack(&p1);
 	initStack(&p2);
+
+	// プレイヤーの二つの山を作る
+	makeDeckOfPlayerCard(&p1, &p2);
 
 	int p1Result = 0, p2Result = 0;
 	// ゲーム本体の実装
@@ -60,7 +64,6 @@ void game(Stack *p1, Stack *p2) {
 	int p1Result = 0;
 	int p2Result = 0;
 
-	// pop(p1, &card1);
 	getCard(p1, &card1, &mark1);
 	int state = getCard(p2, &card2, &mark2);
 
@@ -77,24 +80,26 @@ void game(Stack *p1, Stack *p2) {
 			// カードの大小によって表示するマークを変える
 			if (card1 > card2) {
 				printf(" > ");
-				p1Result++;
+				p1Result += 2;
 			} else if (card1 < card2) {
 				printf(" < ");
-				p2Result++;
+				p2Result += 2;
 			} else if (card1 == card2) {
 				printf(" = ");
+				p1Result++;
+				p2Result++;
 			}
 
 			printf("PLAYER2: %c[%2d]", mark2, card2);
 		} else {
 			char space[] = "    ";
-			if (card1 == JOKER_CARD) {
-				p1Result++;
+			if (card1 >= JOKER_CARD) {
+				p1Result += 2;
 				printf("PLAYER1: J%s", space);
 				printf(" > ");
 				printf("PLAYER2: %c[%2d]", mark2, card2);
-			} else if (card2 == JOKER_CARD) {
-				p2Result++;
+			} else if (card2 >= JOKER_CARD) {
+				p2Result += 2;
 				printf("PLAYER1: %c[%2d]", mark1, card1);
 				printf(" < ");
 				printf("PLAYER2: J%s", space);
@@ -125,21 +130,38 @@ void game(Stack *p1, Stack *p2) {
 // 第3引数: 引いたカードのマーク
 // 戻り値：正常終了：1、スタック・アンダーフロー・0
 int getCard(Stack *player, int *number, char *mark) {
-	int card;
+	int card = 0;
 	int state;
 	char marks[] = {'H', 'D', 'S', 'C'};
 
 	state = pop(player, &card);
 
 	if (card < CARD_NUMBER) {
-		*mark = marks[ card % 13 ];
-		card %= CARD_MAX;
-	} else if (card >= CARD_NUMBER) {
-		*mark = 'J';
+		// ジョーカーでなければ
+		*mark = marks[ card % 4 ];
+		*number = 1 + card % CARD_MAX;
 	}
-	printf("card %d[%c]\n", card, *mark);
 
 	return (state);
+}
+
+/* makeDeckOfPlayerCard()
+    概要:53枚のトランプの山から10枚の山を2つ作る
+*/
+// 第1引数: 10枚の山を作り出すもとの53枚の山
+// 第2引数: プレイヤー１の山
+// 第３引数:プレイヤー２の山
+// 返り値  : なし
+void makeDeckOfPlayerCard(Stack *p1, Stack *p2) {
+	for (int i = 0; i < PLAYER_CARD; i++) {
+		push(p1, randInt(CARD_NUMBER));
+	}
+
+	for (int i = 0; i < PLAYER_CARD; i++) {
+		push(p2, randInt(CARD_NUMBER));
+	}
+
+	return;
 }
 
 /* randInt()

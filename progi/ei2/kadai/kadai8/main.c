@@ -4,16 +4,10 @@
 int randInt(int max, int min);
 
 int main() {
-	srand(time(NULL));
-	for (int i = 0; i < 10; i++) {
-		printf("%d\n", randInt(10, 1));
-	}
-
-	printf("/*========================================*/\n");
-
-	for (int i = 0; i < 10; i++) {
-		printf("%d\n", randInt(10, 1));
-	}
+	int n;
+	scanf("%d", &n);
+	n %= 13;
+	printf("n %%= 13 = %d\n", n);
 
 	return (0);
 }
