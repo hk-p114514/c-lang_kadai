@@ -76,7 +76,6 @@ void game(Stack *p1, Stack *p2) {
 		if (card1 != JOKER_CARD && card2 != JOKER_CARD) {
 			// ゲームにジョーカーが含まれない場合
 			printf("PLAYER1: %c[%2d]", mark1, card1);
-
 			// カードの大小によって表示するマークを変える
 			if (card1 > card2) {
 				printf(" > ");
@@ -140,6 +139,8 @@ int getCard(Stack *player, int *number, char *mark) {
 		// ジョーカーでなければ
 		*mark = marks[ card % 4 ];
 		*number = 1 + card % CARD_MAX;
+	} else if (card == JOKER_CARD) {
+		*number = JOKER_CARD;
 	}
 
 	return (state);

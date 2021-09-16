@@ -1,0 +1,141 @@
+FROM exec.sh
+=====game start=====
+( 1回目) PLAYER1: D[ 6] < PLAYER2: D[13]  総得点 - PLAYER1:  0, PLAYER2:  2
+( 2回目) PLAYER1: C[ 7] > PLAYER2: D[ 1]  総得点 - PLAYER1:  2, PLAYER2:  2
+( 3回目) PLAYER1: D[10] < PLAYER2: S[12]  総得点 - PLAYER1:  2, PLAYER2:  4
+( 4回目) PLAYER1: S[ 2] > PLAYER2: H[ 1]  総得点 - PLAYER1:  4, PLAYER2:  4
+( 5回目) PLAYER1: C[12] > PLAYER2: C[11]  総得点 - PLAYER1:  6, PLAYER2:  4
+( 6回目) PLAYER1: C[ 1] < PLAYER2: S[13]  総得点 - PLAYER1:  6, PLAYER2:  6
+( 7回目) PLAYER1: D[ 9] > PLAYER2: S[ 1]  総得点 - PLAYER1:  8, PLAYER2:  6
+( 8回目) PLAYER1: H[13] > PLAYER2: D[ 9]  総得点 - PLAYER1: 10, PLAYER2:  6
+( 9回目) PLAYER1: C[10] = PLAYER2: C[10]  総得点 - PLAYER1: 11, PLAYER2:  7
+(10回目) PLAYER1: H[ 8] < PLAYER2: S[10]  総得点 - PLAYER1: 11, PLAYER2:  9
+
+PLAYER1の得点: 11
+PLAYER2の得点:  9
+=====game start=====
+( 1回目) PLAYER1: D[ 6] < PLAYER2: J      総得点 - PLAYER1:  0, PLAYER2:  2
+( 2回目) PLAYER1: C[10] > PLAYER2: D[ 4]  総得点 - PLAYER1:  2, PLAYER2:  2
+( 3回目) PLAYER1: H[ 1] < PLAYER2: C[ 4]  総得点 - PLAYER1:  2, PLAYER2:  4
+( 4回目) PLAYER1: S[13] > PLAYER2: H[ 2]  総得点 - PLAYER1:  4, PLAYER2:  4
+( 5回目) PLAYER1: C[ 7] > PLAYER2: C[ 3]  総得点 - PLAYER1:  6, PLAYER2:  4
+( 6回目) PLAYER1: C[ 8] > PLAYER2: D[ 4]  総得点 - PLAYER1:  8, PLAYER2:  4
+( 7回目) PLAYER1: H[ 5] < PLAYER2: S[ 9]  総得点 - PLAYER1:  8, PLAYER2:  6
+( 8回目) PLAYER1: H[ 1] < PLAYER2: H[ 6]  総得点 - PLAYER1:  8, PLAYER2:  8
+( 9回目) PLAYER1: S[ 4] > PLAYER2: H[ 1]  総得点 - PLAYER1: 10, PLAYER2:  8
+(10回目) PLAYER1: D[ 8] > PLAYER2: H[ 2]  総得点 - PLAYER1: 12, PLAYER2:  8
+
+PLAYER1の得点: 12
+PLAYER2の得点:  8
+=====game start=====
+( 1回目) PLAYER1: D[ 6] > PLAYER2: C[ 2]  総得点 - PLAYER1:  2, PLAYER2:  0
+( 2回目) PLAYER1: S[ 9] = PLAYER2: H[ 9]  総得点 - PLAYER1:  3, PLAYER2:  1
+( 3回目) PLAYER1: H[12] > PLAYER2: C[ 2]  総得点 - PLAYER1:  5, PLAYER2:  1
+( 4回目) PLAYER1: H[ 9] > PLAYER2: H[ 3]  総得点 - PLAYER1:  7, PLAYER2:  1
+( 5回目) PLAYER1: H[ 6] = PLAYER2: H[ 6]  総得点 - PLAYER1:  8, PLAYER2:  2
+( 6回目) PLAYER1: S[ 8] = PLAYER2: H[ 8]  総得点 - PLAYER1:  9, PLAYER2:  3
+( 7回目) PLAYER1: H[12] > PLAYER2: S[ 4]  総得点 - PLAYER1: 11, PLAYER2:  3
+( 8回目) PLAYER1: D[ 9] > PLAYER2: D[ 1]  総得点 - PLAYER1: 13, PLAYER2:  3
+( 9回目) PLAYER1: D[11] > PLAYER2: H[ 7]  総得点 - PLAYER1: 15, PLAYER2:  3
+(10回目) PLAYER1: S[ 8] < PLAYER2: D[ 9]  総得点 - PLAYER1: 15, PLAYER2:  5
+
+PLAYER1の得点: 15
+PLAYER2の得点:  5
+=====game start=====
+( 1回目) PLAYER1: D[ 6] > PLAYER2: D[ 2]  総得点 - PLAYER1:  2, PLAYER2:  0
+( 2回目) PLAYER1: S[12] = PLAYER2: H[12]  総得点 - PLAYER1:  3, PLAYER2:  1
+( 3回目) PLAYER1: D[ 1] < PLAYER2: S[ 9]  総得点 - PLAYER1:  3, PLAYER2:  3
+( 4回目) PLAYER1: D[11] < PLAYER2: J      総得点 - PLAYER1:  3, PLAYER2:  5
+( 5回目) PLAYER1: H[ 1] < PLAYER2: H[11]  総得点 - PLAYER1:  3, PLAYER2:  7
+( 6回目) PLAYER1: S[ 2] < PLAYER2: C[12]  総得点 - PLAYER1:  3, PLAYER2:  9
+( 7回目) PLAYER1: C[ 8] > PLAYER2: D[ 1]  総得点 - PLAYER1:  5, PLAYER2:  9
+( 8回目) PLAYER1: C[ 8] < PLAYER2: H[11]  総得点 - PLAYER1:  5, PLAYER2: 11
+( 9回目) PLAYER1: S[ 3] < PLAYER2: D[11]  総得点 - PLAYER1:  5, PLAYER2: 13
+(10回目) PLAYER1: D[ 6] > PLAYER2: C[ 1]  総得点 - PLAYER1:  7, PLAYER2: 13
+
+PLAYER1の得点:  7
+PLAYER2の得点: 13
+=====game start=====
+( 1回目) PLAYER1: D[ 6] > PLAYER2: D[ 4]  総得点 - PLAYER1:  2, PLAYER2:  0
+( 2回目) PLAYER1: H[13] > PLAYER2: H[ 2]  総得点 - PLAYER1:  4, PLAYER2:  0
+( 3回目) PLAYER1: S[ 3] = PLAYER2: D[ 3]  総得点 - PLAYER1:  5, PLAYER2:  1
+( 4回目) PLAYER1: C[ 7] > PLAYER2: D[ 3]  総得点 - PLAYER1:  7, PLAYER2:  1
+( 5回目) PLAYER1: S[ 7] < PLAYER2: C[12]  総得点 - PLAYER1:  7, PLAYER2:  3
+( 6回目) PLAYER1: J     > PLAYER2: S[ 3]  総得点 - PLAYER1:  9, PLAYER2:  3
+( 7回目) PLAYER1: C[ 2] < PLAYER2: D[ 9]  総得点 - PLAYER1:  9, PLAYER2:  5
+( 8回目) PLAYER1: C[ 9] > PLAYER2: D[ 6]  総得点 - PLAYER1: 11, PLAYER2:  5
+( 9回目) PLAYER1: D[10] > PLAYER2: D[ 4]  総得点 - PLAYER1: 13, PLAYER2:  5
+(10回目) PLAYER1: S[ 6] > PLAYER2: C[ 4]  総得点 - PLAYER1: 15, PLAYER2:  5
+
+PLAYER1の得点: 15
+PLAYER2の得点:  5
+=====game start=====
+( 1回目) PLAYER1: D[ 6] > PLAYER2: C[ 4]  総得点 - PLAYER1:  2, PLAYER2:  0
+( 2回目) PLAYER1: C[12] > PLAYER2: C[ 7]  総得点 - PLAYER1:  4, PLAYER2:  0
+( 3回目) PLAYER1: H[ 3] < PLAYER2: H[10]  総得点 - PLAYER1:  4, PLAYER2:  2
+( 4回目) PLAYER1: C[ 5] > PLAYER2: D[ 4]  総得点 - PLAYER1:  6, PLAYER2:  2
+( 5回目) PLAYER1: S[ 2] < PLAYER2: C[ 4]  総得点 - PLAYER1:  6, PLAYER2:  4
+( 6回目) PLAYER1: D[ 9] = PLAYER2: C[ 9]  総得点 - PLAYER1:  7, PLAYER2:  5
+( 7回目) PLAYER1: C[ 9] > PLAYER2: D[ 4]  総得点 - PLAYER1:  9, PLAYER2:  5
+( 8回目) PLAYER1: D[ 8] > PLAYER2: H[ 3]  総得点 - PLAYER1: 11, PLAYER2:  5
+( 9回目) PLAYER1: D[ 8] = PLAYER2: S[ 8]  総得点 - PLAYER1: 12, PLAYER2:  6
+(10回目) PLAYER1: C[ 6] < PLAYER2: S[13]  総得点 - PLAYER1: 12, PLAYER2:  8
+
+PLAYER1の得点: 12
+PLAYER2の得点:  8
+=====game start=====
+( 1回目) PLAYER1: D[ 6] = PLAYER2: C[ 6]  総得点 - PLAYER1:  1, PLAYER2:  1
+( 2回目) PLAYER1: C[ 2] < PLAYER2: C[10]  総得点 - PLAYER1:  1, PLAYER2:  3
+( 3回目) PLAYER1: D[ 5] > PLAYER2: D[ 2]  総得点 - PLAYER1:  3, PLAYER2:  3
+( 4回目) PLAYER1: D[ 1] = PLAYER2: H[ 1]  総得点 - PLAYER1:  4, PLAYER2:  4
+( 5回目) PLAYER1: C[ 1] < PLAYER2: H[ 7]  総得点 - PLAYER1:  4, PLAYER2:  6
+( 6回目) PLAYER1: S[ 7] < PLAYER2: S[13]  総得点 - PLAYER1:  4, PLAYER2:  8
+( 7回目) PLAYER1: S[ 5] < PLAYER2: D[12]  総得点 - PLAYER1:  4, PLAYER2: 10
+( 8回目) PLAYER1: S[ 3] < PLAYER2: S[ 9]  総得点 - PLAYER1:  4, PLAYER2: 12
+( 9回目) PLAYER1: H[ 2] > PLAYER2: S[ 1]  総得点 - PLAYER1:  6, PLAYER2: 12
+(10回目) PLAYER1: H[ 6] > PLAYER2: S[ 3]  総得点 - PLAYER1:  8, PLAYER2: 12
+
+PLAYER1の得点:  8
+PLAYER2の得点: 12
+=====game start=====
+( 1回目) PLAYER1: D[ 6] = PLAYER2: D[ 6]  総得点 - PLAYER1:  1, PLAYER2:  1
+( 2回目) PLAYER1: C[ 5] > PLAYER2: S[ 2]  総得点 - PLAYER1:  3, PLAYER2:  1
+( 3回目) PLAYER1: S[ 7] < PLAYER2: H[ 9]  総得点 - PLAYER1:  3, PLAYER2:  3
+( 4回目) PLAYER1: D[12] > PLAYER2: S[ 4]  総得点 - PLAYER1:  5, PLAYER2:  3
+( 5回目) PLAYER1: C[ 9] < PLAYER2: H[12]  総得点 - PLAYER1:  5, PLAYER2:  5
+( 6回目) PLAYER1: H[ 3] < PLAYER2: D[ 4]  総得点 - PLAYER1:  5, PLAYER2:  7
+( 7回目) PLAYER1: S[12] > PLAYER2: D[ 7]  総得点 - PLAYER1:  7, PLAYER2:  7
+( 8回目) PLAYER1: S[ 4] = PLAYER2: C[ 4]  総得点 - PLAYER1:  8, PLAYER2:  8
+( 9回目) PLAYER1: C[ 9] > PLAYER2: C[ 5]  総得点 - PLAYER1: 10, PLAYER2:  8
+(10回目) PLAYER1: C[ 4] < PLAYER2: H[ 8]  総得点 - PLAYER1: 10, PLAYER2: 10
+
+PLAYER1の得点: 10
+PLAYER2の得点: 10
+=====game start=====
+( 1回目) PLAYER1: D[ 6] < PLAYER2: D[ 8]  総得点 - PLAYER1:  0, PLAYER2:  2
+( 2回目) PLAYER1: S[ 4] < PLAYER2: S[ 5]  総得点 - PLAYER1:  0, PLAYER2:  4
+( 3回目) PLAYER1: H[ 7] > PLAYER2: C[ 3]  総得点 - PLAYER1:  2, PLAYER2:  4
+( 4回目) PLAYER1: C[ 8] > PLAYER2: S[ 5]  総得点 - PLAYER1:  4, PLAYER2:  4
+( 5回目) PLAYER1: D[ 2] < PLAYER2: H[ 4]  総得点 - PLAYER1:  4, PLAYER2:  6
+( 6回目) PLAYER1: D[ 1] < PLAYER2: H[ 8]  総得点 - PLAYER1:  4, PLAYER2:  8
+( 7回目) PLAYER1: D[ 8] < PLAYER2: J      総得点 - PLAYER1:  4, PLAYER2: 10
+( 8回目) PLAYER1: H[ 3] > PLAYER2: S[ 1]  総得点 - PLAYER1:  6, PLAYER2: 10
+( 9回目) PLAYER1: H[ 1] < PLAYER2: C[11]  総得点 - PLAYER1:  6, PLAYER2: 12
+(10回目) PLAYER1: H[ 4] > PLAYER2: D[ 2]  総得点 - PLAYER1:  8, PLAYER2: 12
+
+PLAYER1の得点:  8
+PLAYER2の得点: 12
+=====game start=====
+( 1回目) PLAYER1: S[ 4] < PLAYER2: C[ 8]  総得点 - PLAYER1:  0, PLAYER2:  2
+( 2回目) PLAYER1: H[ 5] < PLAYER2: S[ 8]  総得点 - PLAYER1:  0, PLAYER2:  4
+( 3回目) PLAYER1: D[ 9] < PLAYER2: S[10]  総得点 - PLAYER1:  0, PLAYER2:  6
+( 4回目) PLAYER1: C[ 6] > PLAYER2: D[ 2]  総得点 - PLAYER1:  2, PLAYER2:  6
+( 5回目) PLAYER1: D[10] > PLAYER2: D[ 7]  総得点 - PLAYER1:  4, PLAYER2:  6
+( 6回目) PLAYER1: H[ 1] < PLAYER2: C[12]  総得点 - PLAYER1:  4, PLAYER2:  8
+( 7回目) PLAYER1: J     > PLAYER2: C[ 8]  総得点 - PLAYER1:  6, PLAYER2:  8
+( 8回目) PLAYER1: S[ 2] < PLAYER2: D[11]  総得点 - PLAYER1:  6, PLAYER2: 10
+( 9回目) PLAYER1: C[ 8] > PLAYER2: H[ 2]  総得点 - PLAYER1:  8, PLAYER2: 10
+(10回目) PLAYER1: D[ 4] < PLAYER2: C[ 7]  総得点 - PLAYER1:  8, PLAYER2: 12
+
+PLAYER1の得点:  8
+PLAYER2の得点: 12
