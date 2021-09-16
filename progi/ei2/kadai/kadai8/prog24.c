@@ -16,9 +16,9 @@
 #define PLAYER_CARD (10)
 #define JOKER_CARD (-1)
 
-void makeDeckOfPlayerCard(Stack *p1, Stack *p2);
 void game(Stack *p1, Stack *p2);
 void printAllCards(int cards[]);
+int getCard(Stack *player, int *number, char *mark);
 int randInt(int max);
 
 int main() {
@@ -29,9 +29,6 @@ int main() {
 	Stack p1, p2;
 	initStack(&p1);
 	initStack(&p2);
-
-	// 2つの山の作成
-	makeDeckOfPlayerCard(&p1, &p2);
 
 	int p1Result = 0, p2Result = 0;
 	// ゲーム本体の実装
@@ -55,14 +52,17 @@ int main() {
 // 返り値  : なし
 void game(Stack *p1, Stack *p2) {
 	printf("=====game start=====\n");
-	int card1, card2, count = 1;
+	int count = 1;
+	int card1, card2;
+	char mark1, mark2;
 
 	// 各プレイヤーの得点を初期化
 	int p1Result = 0;
 	int p2Result = 0;
 
-	pop(p1, &card1);
-	int state = pop(p2, &card2);
+	// pop(p1, &card1);
+	getCard(p1, &card1, &mark1);
+	int state = getCard(p2, &card2, &mark2);
 
 	// プレイヤー2の山がなくなるまで
 	while (state == 1) {
@@ -104,8 +104,9 @@ void game(Stack *p1, Stack *p2) {
 		// 総得点を表示する
 		printf("  総得点 - PLAYER1: %2d, PLAYER2: %2d\n", p1Result, p2Result);
 
-		pop(p1, &card1);
-		state = pop(p2, &card2);
+		// pop(p1, &card1);
+		getCard(p1, &card1, &mark1);
+		state = getCard(p2, &card2, &mark2);
 		count++;
 	}
 
@@ -114,6 +115,31 @@ void game(Stack *p1, Stack *p2) {
 	printf("PLAYER2の得点: %2d\n", p2Result);
 
 	return;
+}
+
+/* getCard()
+    概要:山から引いたカードの数字とマークを伝える
+*/
+// 第1引数: カードの山
+// 第2引数: 引いたカードの数字
+// 第3引数: 引いたカードのマーク
+// 戻り値：正常終了：1、スタック・アンダーフロー・0
+int getCard(Stack *player, int *number, char *mark) {
+	int card;
+	int state;
+	char marks[] = {'H', 'D', 'S', 'C'};
+
+	state = pop(player, &card);
+
+	if (card < CARD_NUMBER) {
+		*mark = marks[ card % 13 ];
+		card %= CARD_MAX;
+	} else if (card >= CARD_NUMBER) {
+		*mark = 'J';
+	}
+	printf("card %d[%c]\n", card, *mark);
+
+	return (state);
 }
 
 /* randInt()
