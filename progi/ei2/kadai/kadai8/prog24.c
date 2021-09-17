@@ -17,8 +17,9 @@
 #define JOKER_CARD (53)
 
 void game(Stack *p1, Stack *p2);
+void makeDeck(int deck[]);
+void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2);
 int getCard(Stack *player, int *number, char *mark);
-void makeDeckOfPlayerCard(Stack *p1, Stack *p2);
 int randInt(int max);
 void printAllCards(int cards[]);
 
@@ -26,13 +27,18 @@ int main() {
 	// 乱数の発生系列を実行の度に変更
 	srand(time(NULL));
 
+	// 53枚のカードの山
+	int deck[ CARD_NUMBER ];
+
+	makeDeck(deck);
+
 	// 各プレイヤーの山
 	Stack p1, p2;
 	initStack(&p1);
 	initStack(&p2);
 
 	// プレイヤーの二つの山を作る
-	makeDeckOfPlayerCard(&p1, &p2);
+	makeDeckOfPlayerCard(deck, &p1, &p2);
 
 	int p1Result = 0, p2Result = 0;
 	// ゲーム本体の実装
@@ -146,6 +152,14 @@ int getCard(Stack *player, int *number, char *mark) {
 	return (state);
 }
 
+/* makeDeck()
+    概要:53枚のカードの山を作る
+*/
+// 第1引数: Argument
+// 返り値  : returnValue
+void makeDeck(int deck[]) {
+}
+
 /* makeDeckOfPlayerCard()
     概要:53枚のトランプの山から10枚の山を2つ作る
 */
@@ -153,13 +167,13 @@ int getCard(Stack *player, int *number, char *mark) {
 // 第2引数: プレイヤー１の山
 // 第３引数:プレイヤー２の山
 // 返り値  : なし
-void makeDeckOfPlayerCard(Stack *p1, Stack *p2) {
+void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2) {
 	for (int i = 0; i < PLAYER_CARD; i++) {
-		push(p1, randInt(CARD_NUMBER));
+		push(p1, deck[ i ]);
 	}
 
 	for (int i = 0; i < PLAYER_CARD; i++) {
-		push(p2, randInt(CARD_NUMBER));
+		push(p2, deck[ i + PLAYER_CARD - 1 ]);
 	}
 
 	return;
