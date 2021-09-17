@@ -15,11 +15,14 @@
 #define CARD_MAX (13)
 #define PLAYER_CARD (10)
 #define JOKER_CARD (53)
+#define SHUFFLE_COUNT (10000)
 
 void game(Stack *p1, Stack *p2);
 void makeDeck(int deck[]);
 void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2);
 int getCard(Stack *player, int *number, char *mark);
+void shuffleCard(int cards[], int n);
+void swap(int *a, int *b);
 int randInt(int max);
 void printAllCards(int cards[]);
 
@@ -31,6 +34,8 @@ int main() {
 	int deck[ CARD_NUMBER ];
 
 	makeDeck(deck);
+
+	shuffleCard(deck, SHUFFLE_COUNT);
 
 	// 各プレイヤーの山
 	Stack p1, p2;
@@ -153,11 +158,18 @@ int getCard(Stack *player, int *number, char *mark) {
 }
 
 /* makeDeck()
-    概要:53枚のカードの山を作る
+    概要:53枚のトランプの山を作成する
 */
-// 第1引数: Argument
-// 返り値  : returnValue
-void makeDeck(int deck[]) {
+// 第1引数: 要素数53の整数配列
+// 返り値  : なし
+void makeDeck(int cards[]) {
+
+	// 53枚のカードを作る
+	for (int i = 0; i < CARD_NUMBER; i++) {
+		cards[ i ] = i + 1;
+	}
+
+	return;
 }
 
 /* makeDeckOfPlayerCard()
@@ -175,6 +187,43 @@ void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2) {
 	for (int i = 0; i < PLAYER_CARD; i++) {
 		push(p2, deck[ i + PLAYER_CARD - 1 ]);
 	}
+
+	return;
+}
+
+/* shuffleCard()
+    概要:５３枚のカードを指定回数シャッフルする
+*/
+// 第1引数: ５３枚のカード
+// 第2引数: シャッフルする回数
+// 返り値  : なし
+void shuffleCard(int cards[], int n) {
+	printf("shuffleCard\n");
+
+	for (int i = 0; i < n; i++) {
+		int place1, place2;
+		place1 = randInt(CARD_NUMBER);
+		place2 = randInt(CARD_NUMBER);
+
+		// int swap = cards[ place1 ];
+
+		// cards[ place1 ] = cards[ place2 ];
+		// cards[ place2 ] = swap;
+		swap(&cards[ place1 ], &cards[ place2 ]);
+	}
+
+	return;
+}
+
+/* swap()
+    概要:二つの変数の内容を置換する
+*/
+// 第1,2引数: 置換したい変数
+// 返り値  : なし
+void swap(int *a, int *b) {
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
 
 	return;
 }
