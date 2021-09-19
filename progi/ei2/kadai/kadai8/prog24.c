@@ -181,11 +181,9 @@ void makeDeck(int cards[]) {
 // 返り値  : なし
 void makeDeckOfPlayerCard(int deck[], Stack *p1, Stack *p2) {
 	for (int i = 0; i < PLAYER_CARD; i++) {
+		// 山札の枚数(10枚)分選択するカードをずらす
 		push(p1, deck[ i ]);
-	}
-
-	for (int i = 0; i < PLAYER_CARD; i++) {
-		push(p2, deck[ i + PLAYER_CARD - 1 ]);
+		push(p2, deck[ i + PLAYER_CARD ]);
 	}
 
 	return;
