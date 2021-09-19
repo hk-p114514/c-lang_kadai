@@ -202,13 +202,9 @@ void shuffleCard(int cards[], int n) {
 
 	for (int i = 0; i < n; i++) {
 		int place1, place2;
-		place1 = randInt(CARD_NUMBER);
-		place2 = randInt(CARD_NUMBER);
+		place1 = randInt(CARD_NUMBER - 1);
+		place2 = randInt(CARD_NUMBER - 1);
 
-		// int swap = cards[ place1 ];
-
-		// cards[ place1 ] = cards[ place2 ];
-		// cards[ place2 ] = swap;
 		swap(&cards[ place1 ], &cards[ place2 ]);
 	}
 
