@@ -1,3 +1,0 @@
-#!/bin/bash
-
-cc -c -shared -fPIC -o libqueue.so queue1.c

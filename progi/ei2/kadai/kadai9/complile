@@ -1,4 +1,0 @@
-#!/bin/bash
-
-./dlib
-cc "$1" -L . -l queue
