@@ -1,4 +1,4 @@
 #!/bin/bash
 
 ./dlib
-cc "$1" -L . -l queue stack
+cc "$1" -L . -l queue -l stack
