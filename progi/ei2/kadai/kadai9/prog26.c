@@ -10,6 +10,8 @@
 int main() {
 	int n;
 	char buff[ 256 ];
+
+	// 文字列の個数を入力
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &n);
 
