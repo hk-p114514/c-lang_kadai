@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "make dll file"
 cc -c -shared -fPIC -o libqueue.so queue1.c
 cc -c -shared -fPIC -o libstack.so stack.c
 

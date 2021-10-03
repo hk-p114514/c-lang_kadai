@@ -1,4 +1,5 @@
 #!/bin/bash
 
 ./dlib2
-cc "$1" -L . -l queue2 -l stack
+cc "$1" -L . -l queue -l stack
+
