@@ -25,9 +25,7 @@ int enQueue(Queue *q, int data) {
 	} else {
 		q->storage[ q->tail ] = data;
 		q->tail++;
-		if (q->tail >= QUEUE_SIZE) {
-			q->tail = 0;
-		}
+		q->tail %= QUEUE_SIZE;
 		return (1);
 	}
 }
@@ -44,9 +42,7 @@ int deQueue(Queue *q, int *data) {
 	} else {
 		*data = q->storage[ q->head ];
 		q->head++;
-		if (q->head >= QUEUE_SIZE) {
-			q->head = 0;
-		}
+		q->head %= QUEUE_SIZE;
 		return (1);
 	}
 }

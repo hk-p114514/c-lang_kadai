@@ -1,5 +1,4 @@
 #include "queue.h"
-#include <hamakou.h>
 #include <stdio.h>
 
 int main() {
@@ -12,12 +11,15 @@ int main() {
 	for (i = 1; i <= 2; i++) {
 		// キューが満杯になるまでデータを格納する
 		do {
-			data = getint("in data : "); // データ入力
+			// data = getint("in data : "); // データ入力
+			printf("in data : ");
+			scanf("%d", &data);
 		} while (enQueue(&queue, data) == 1); // キューが満杯になるまでデータを格納する
 
 		putchar('\n');
 
-		while (deQueue(&queue, &data) ==1) { // キューが空になるまでデータを取り出し続ける
+		while (deQueue(&queue, &data) == 1) {
+			// キューが空になるまでデータを取り出し続ける
 			printf("out data : %d\n", data); // 取り出したデータの表示
 		}
 

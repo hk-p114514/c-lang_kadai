@@ -7,8 +7,8 @@
 // 第1引数: 初期化するキュー
 // 返り値  : なし
 void initQueue(Queue *q) {
-	q->head = -1;
-	q->tail = -1;
+	q->head = QUEUE_SIZE - 1;
+	q->tail = QUEUE_SIZE - 1;
 
 	return;
 }
@@ -19,14 +19,12 @@ void initQueue(Queue *q) {
 // 第1引数: データの格納対象になるキュー
 // 返り値  : 正常終了：1、キューが満杯：0
 int enQueue(Queue *q, int data) {
-	if (q->head + 1 == (q->tail + 2) % QUEUE_SIZE) {
+	if (q->head == (q->tail + 1) % QUEUE_SIZE) {
 		// キューが満杯の時は1を返す
 		return (0);
 	} else {
 		q->tail++;
-		if (q->tail >= QUEUE_SIZE) {
-			q->tail = 0;
-		}
+		q->tail %= QUEUE_SIZE;
 		q->storage[ q->tail ] = data;
 		return (1);
 	}
@@ -43,9 +41,7 @@ int deQueue(Queue *q, int *data) {
 		return (0);
 	} else {
 		q->head++;
-		if (q->head >= QUEUE_SIZE) {
-			q->head = 0;
-		}
+		q->head %= QUEUE_SIZE;
 		*data = q->storage[ q->head ];
 		return (1);
 	}
