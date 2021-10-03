@@ -2,4 +2,3 @@
 
 ./dlib2
 cc "$1" -L . -l queue -l stack
-
