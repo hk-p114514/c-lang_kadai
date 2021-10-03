@@ -1,4 +1,4 @@
-#define STACK_SIZE 10
+#define STACK_SIZE (30)
 
 typedef struct {
 	int storage[ STACK_SIZE ];
