@@ -1,4 +1,4 @@
-#define QUEUE_SIZE (1100)
+#define QUEUE_SIZE (10)
 
 typedef struct {
 	int storage[ QUEUE_SIZE ];

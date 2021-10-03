@@ -19,7 +19,7 @@ void initQueue(Queue *q) {
 // 第1引数: データの格納対象になるキュー
 // 返り値  : 正常終了：1、キューが満杯：0
 int enQueue(Queue *q, int data) {
-	if (q->head == (q->tail + 1) % QUEUE_SIZE) {
+	if (q->head + 1 == (q->tail + 2) % QUEUE_SIZE) {
 		// キューが満杯の時は1を返す
 		return (0);
 	} else {
