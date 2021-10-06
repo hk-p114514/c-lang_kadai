@@ -14,9 +14,9 @@ int main(int argc, char *filename[]) {
 	// ファイルの文字数と行数をカウント
 	int count = 0;
 	int line = 0;
-	char ch;
+	int ch;
 
-	while (fscanf(fp, "%c", &ch) != EOF) {
+	while ((ch = fgetc(fp)) != EOF) {
 		count++;
 		if (ch == '\n') {
 			line++;
