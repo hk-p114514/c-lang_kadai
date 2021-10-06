@@ -4,7 +4,7 @@
 int main(int argc, char *argv[]) {
 	FILE *file1 = NULL, *file2 = NULL;
 
-	for (int i = 0; i < argc; i++) {
+	for (int i = 1; i < argc; i++) {
 		// オプションがあったら、確認の後処理
 		/*
 		 *  引数を一つ一つ確認していって、
@@ -22,10 +22,10 @@ int main(int argc, char *argv[]) {
 				file2 = fopen(argv[ i ], "w");
 			}
 		} else if (argc >= 4) {
-			if (argv[ i ][ 0 ] == '-') {
+			if (argv[ i ][ 0 ] == '-' && argv[ i ][ 1 ] != 'a') {
 				fprintf(stderr, "オプションが間違っています\n");
 				return (1);
-			} else {
+			} else if (argv[ i ][ 0 ] != '-') {
 				// オプションで無い場合(ファイルの場合)
 				if (file1 == NULL) {
 					// 書き込みする側は読取モード
@@ -39,9 +39,17 @@ int main(int argc, char *argv[]) {
 	}
 
 	if (file1 == NULL || file2 == NULL) {
-		printf("ファイルのオープンに失敗しました\n");
+		fprintf(stderr, "ファイルのオープンに失敗しました\n");
 		return (1);
 	}
+
+	// 書き込み処理
+	int ch;
+	while ((ch = fgetc(file1)) != EOF) {
+		fprintf(file2, "%c", ch);
+	}
+	fclose(file1);
+	fclose(file2);
 
 	return 0;
 }
