@@ -28,7 +28,7 @@ int main() {
 	char buff[ 1024 ];
 	while (fgets(buff, sizeof(buff), file1) != NULL) {
 		sscanf(buff, "%d", &ch);
-		fwrite(&ch, sizeof(ch), 1, file2);
+		fwrite(&ch, sizeof(int), 1, file2);
 	}
 	fclose(file1);
 	fclose(file2);

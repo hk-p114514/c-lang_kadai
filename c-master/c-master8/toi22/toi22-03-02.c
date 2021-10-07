@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int main() {
-	FILE *fp1 = fopen("number.txt", "r");
+	FILE *fp1 = fopen("number.bin", "r");
 	FILE *fp2 = fopen("rebmun.txt", "w");
 
 	if (fp1 == NULL || fp2 == NULL) {
@@ -9,14 +9,13 @@ int main() {
 		return (1);
 	}
 
-	int a, b, c;
+	int n;
 	char buff[ 1024 ];
+	int read = 1;
 
-	fread(buff, sizeof(char), 1, fp1);
-	sscanf(buff, "%d %d %d", &a, &b, &c);
-	printf("%d\n", a);
-	printf("%d\n", b);
-	printf("%d\n", c);
+	while (fread(&n, sizeof(int), read, fp1) >= read) {
+		fprintf(fp2, "%d\n", n);
+	}
 
 	fclose(fp1);
 	fclose(fp2);
