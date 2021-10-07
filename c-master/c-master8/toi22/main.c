@@ -1,32 +1,30 @@
-#include <stdio.h>
+#include <stdio.h> //  ファイルに関して定義されているヘッダファイル
+#include <stdlib.h>
+#include <string.h>
 
-int main(void) {
-	FILE *fp = NULL;
-	unsigned char Array[ 16 ] = {
-	    0x01,
-	    0x02,
-	    0x03,
-	    0x04,
-	    0x05,
-	    0x06,
-	    0x07,
-	    0x08,
-	    0x09,
-	    0x0A,
-	    0x0B,
-	    0x0C,
-	    0x0D,
-	    0x0E,
-	    0x0F,
-	    0x10};
+int main() {
+	FILE *in_file;               //  入力ファイルへのファイルポインタ
+	int ch;                      //  データを入力する変数
+	char *filename = "file.txt"; //  データを入力するファイル
 
-	//	バイナリファイルの書き込みでオープン
-	fopen_s(&fp, "num.bin", "wb");
+	in_file = fopen(filename, "w"); //  ファイルのオープン
+	if (in_file == NULL) {
+		printf("%sがオープンできませんでした。\n", filename);
+		exit(8); //  異常終了である非ゼロを返してプログラム終了
+	}
 
-	//	ファイルへ書き込み
-	fwrite(Array, sizeof(unsigned char), sizeof(Array) / sizeof(Array[ 0 ]), fp);
+	char message[] = "Hello World\nThis is a test message\nfor main.c"; //
+	int numbers[ 100 ];
 
-	fclose(fp);
+	for (int i = 0; i < 100; i++) {
+		numbers[ i ] = i; //
+	}
 
-	return 0;
+	// fprintf(in_file, "Hello World\n");
+	fwrite(message, sizeof(char), strlen(message), in_file);
+	fwrite(numbers, sizeof(int), sizeof(numbers) / sizeof(numbers[ 0 ]), in_file);
+
+	fclose(in_file); //  ファイルのクローズ
+
+	return (0);
 }
