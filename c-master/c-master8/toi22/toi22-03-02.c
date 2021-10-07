@@ -13,7 +13,7 @@ int main() {
 	char buff[ 1024 ];
 	int read = 1;
 
-	while (fread(&n, sizeof(int), read, fp1) >= read) {
+	while (fread(&n, sizeof(int), read, fp1) >= 1) {
 		fprintf(fp2, "%d\n", n);
 	}
 
