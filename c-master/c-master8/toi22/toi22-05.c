@@ -8,12 +8,11 @@ int main(int argc, char const *argv[]) {
 		return (1);
 	}
 
-	int unit = 16;
+	int row = 16;
 
 	// アドレス表示
-	// printf("addr\t");
 	printf("addr\t\t");
-	for (int i = 0; i < unit; i++) {
+	for (int i = 0; i < row; i++) {
 		printf("+%X ", i);
 	}
 	printf("\t\tキャラクタ");
@@ -37,9 +36,16 @@ int main(int argc, char const *argv[]) {
 			}
 		}
 
+		// 文字数合わせ
+		if (success < row) {
+			for (int i = 0; i < row - success; i++) {
+				printf("   ");
+			}
+		}
+
 		printf("\t\t%s", data);
 		putchar('\n');
-		if (success < unit) {
+		if (success < row) {
 			break;
 		}
 		addr += 0x0010;
