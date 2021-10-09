@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]) {
 		char data[ 1024 ] = {0};
 		int success = fread(data, sizeof(char), 16, fp);
 		for (int i = 0; i < success; i++) {
-			printf("%02X ", data[ i ]);
+			printf("%08X ", data[ i ]);
 			if ((data[ i ] < ' ' || data[ i ] > '~')) {
 				data[ i ] = '.';
 			}
