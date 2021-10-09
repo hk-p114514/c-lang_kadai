@@ -6,7 +6,9 @@ int main(int argc, char *argv[]) {
 
 	if (input == NULL || ans == NULL) {
 		// Error
-		printf("Error opening input file.\n");
+		fprintf(stderr, "Error opening input file.\n");
+		fclose(input);
+		fclose(ans);
 		return (1);
 	}
 
@@ -30,7 +32,7 @@ int main(int argc, char *argv[]) {
 	printf("平均\t: %.1lf\n", avg);
 
 	// write the result to output
-	fprintf(ans, "データ数 : %d\n", numberOfData);
+	fprintf(ans, "データ数: %d\n", numberOfData);
 	fprintf(ans, "合計\t: %d\n", sum);
 	fprintf(ans, "平均\t: %.1lf\n", avg);
 

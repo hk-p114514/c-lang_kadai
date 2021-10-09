@@ -40,6 +40,8 @@ int main(int argc, char *argv[]) {
 
 	if (file1 == NULL || file2 == NULL) {
 		fprintf(stderr, "ファイルのオープンに失敗しました\n");
+		fclose(file1);
+		fclose(file2);
 		return (1);
 	}
 

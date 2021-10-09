@@ -4,7 +4,7 @@ int main(int argc, char const *argv[]) {
 	FILE *fp = fopen(argv[ 1 ], "r");
 
 	if (fp == NULL) {
-		printf("Error opening input file.\n");
+		fprintf(stderr, "Error opening input file.\n");
 		return (1);
 	}
 

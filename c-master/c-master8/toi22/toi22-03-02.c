@@ -6,6 +6,8 @@ int main() {
 
 	if (fp1 == NULL || fp2 == NULL) {
 		fprintf(stderr, "ファイルをオープンできませんでした\n");
+		fclose(fp1);
+		fclose(fp2);
 		return (1);
 	}
 

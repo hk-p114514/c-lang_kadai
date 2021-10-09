@@ -9,6 +9,8 @@ int main() {
 
 	if (file1 == NULL || file2 == NULL) {
 		fprintf(stderr, "ファイルをオープンできませんでした\n");
+		fclose(file1);
+		fclose(file2);
 		return (1);
 	}
 
@@ -21,6 +23,7 @@ int main() {
 
 	if (file2 == NULL) {
 		fprintf(stderr, "ファイルをオープンできませんでした\n");
+		fclose(file2);
 		return (1);
 	}
 
