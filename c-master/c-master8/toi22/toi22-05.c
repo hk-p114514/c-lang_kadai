@@ -33,9 +33,6 @@ int main(int argc, char const *argv[]) {
 		char data[ 1024 ] = {0};
 		int success = fread(data, sizeof(char), 16, fp);
 		for (int i = 0; i < success; i++) {
-			if ((unsigned char)data[ i ] > 0x00FF) {
-				printf("\nover : %0x\n", data[ i ]);
-			}
 
 			printf("%02X ", (unsigned char)data[ i ]);
 			if ((data[ i ] < ' ' || data[ i ] > '~')) {
@@ -46,7 +43,7 @@ int main(int argc, char const *argv[]) {
 		// 文字数合わせ
 		if (success < row) {
 			for (int i = 0; i < row - success; i++) {
-				printf("         ");
+				printf("   ");
 			}
 		}
 
