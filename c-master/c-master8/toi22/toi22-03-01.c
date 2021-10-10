@@ -1,17 +1,18 @@
 #include <stdio.h>
+int openFileCheck(FILE *file);
 
 int main() {
 	char *filename1 = "number.txt";
 	char *filename2 = "number.bin";
 
 	FILE *file1 = fopen(filename1, "r");
-	FILE *file2 = fopen(filename2, "w");
-
-	if (file1 == NULL || file2 == NULL) {
-		fprintf(stderr, "ファイルをオープンできませんでした\n");
-		fclose(file1);
-		fclose(file2);
+	if (openFileCheck(file1)) {
 		return (1);
+	}
+
+	FILE *file2 = fopen(filename2, "w");
+	if (openFileCheck(file2) == 1) {
+		fclose(file1);
 	}
 
 	// ファイルをまっさらな状態にする
@@ -21,8 +22,7 @@ int main() {
 	// ファイルを開き直す
 	file2 = fopen(filename2, "a");
 
-	if (file2 == NULL) {
-		fprintf(stderr, "ファイルをオープンできませんでした\n");
+	if (openFileCheck(file2) == 1) {
 		fclose(file2);
 		return (1);
 	}
@@ -35,6 +35,15 @@ int main() {
 	}
 	fclose(file1);
 	fclose(file2);
+
+	return (0);
+}
+
+int openFileCheck(FILE *file) {
+	if (file == NULL) {
+		printf("ファイルをオープンできませんでした\n");
+		return (1);
+	}
 
 	return (0);
 }
