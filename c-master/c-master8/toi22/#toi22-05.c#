@@ -15,7 +15,8 @@ int main(int argc, char const *argv[]) {
 	for (int i = 0; i < row; i++) {
 		printf("+%X ", i);
 	}
-	printf("\t\tキャラクタ");
+
+	printf("\t\tキャラクタ")
 	putchar('\n');
 
 	int addr = 0x0000;
@@ -30,7 +31,7 @@ int main(int argc, char const *argv[]) {
 		char data[ 1024 ] = {0};
 		int success = fread(data, sizeof(char), 16, fp);
 		for (int i = 0; i < success; i++) {
-			printf("%02X ", data[ i ]);
+			printf("%08X ", data[ i ]);
 			if ((data[ i ] < ' ' || data[ i ] > '~')) {
 				data[ i ] = '.';
 			}
