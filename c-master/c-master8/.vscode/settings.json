@@ -1,5 +1,6 @@
 {
   "files.associations": {
     "cstdlib": "c"
-  }
+  },
+  "workbench.colorTheme": "monokai-charcoal (yellow)"
 }

@@ -1,14 +1,14 @@
 #include <stdio.h>
+int openFileCheck(FILE *file);
 
 int main(int argc, char *argv[]) {
 	FILE *input = fopen(argv[ 1 ], "r");
+	if (openFileCheck(input) == 1) {
+		return (1);
+	}
 	FILE *ans = fopen("sum.ans", "w");
-
-	if (input == NULL || ans == NULL) {
-		// Error
-		fprintf(stderr, "Error opening input file.\n");
+	if (openFileCheck(ans) == 1) {
 		fclose(input);
-		fclose(ans);
 		return (1);
 	}
 
@@ -38,6 +38,15 @@ int main(int argc, char *argv[]) {
 
 	fclose(input);
 	fclose(ans);
+
+	return (0);
+}
+
+int openFileCheck(FILE *file) {
+	if (file == NULL) {
+		printf("ファイルをオープンできませんでした\n");
+		return (1);
+	}
 
 	return (0);
 }
