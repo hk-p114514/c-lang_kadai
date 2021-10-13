@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void openFileCheck(FILE *file);
+int openFileCheck(FILE *file);
 
 int main(int argc, char *argv[]) {
 	FILE *file1 = NULL, *file2 = NULL;
@@ -21,11 +21,16 @@ int main(int argc, char *argv[]) {
 				if (file1 == NULL) {
 					// コピーする側は読取モード
 					file1 = fopen(argv[ i ], "r");
-					openFileCheck(file1);
+					if (openFileCheck(file1) == 1) {
+						exit(1);
+					}
 				} else if (file2 == NULL) {
 					// コピーされる側は書き込みモード
 					file2 = fopen(argv[ i ], "w");
-					openFileCheck(file2);
+					if (openFileCheck(file2) == 1) {
+						fclose(file1);
+						exit(1);
+					}
 				}
 			} else if (argc >= 4) {
 				if (argv[ i ][ 0 ] == '-') {
@@ -39,11 +44,16 @@ int main(int argc, char *argv[]) {
 					if (file1 == NULL) {
 						// 書き込みする側は読取モード
 						file1 = fopen(argv[ i ], "r");
-						openFileCheck(file1);
+						if (openFileCheck(file1) == 1) {
+							exit(1);
+						}
 					} else if (file2 == NULL) {
 						// 書き込みされる側は追加書き込みモード
 						file2 = fopen(argv[ i ], "a");
-						openFileCheck(file2);
+						if (openFileCheck(file2) == 1) {
+							fclose(file1);
+							exit(1);
+						}
 					}
 				}
 			}
@@ -64,11 +74,11 @@ int main(int argc, char *argv[]) {
 	return 0;
 }
 
-void openFileCheck(FILE *file) {
+int openFileCheck(FILE *file) {
 	if (file == NULL) {
 		printf("ファイルをオープンできませんでした\n");
-		exit(1);
+		return (1);
 	}
 
-	return;
+	return (0);
 }
