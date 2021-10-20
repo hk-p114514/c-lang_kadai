@@ -7,10 +7,8 @@
 // 第1引数: 初期化するキュー
 // 返り値  : なし
 void initQueue(Queue *q) {
-	// q->head = QUEUE_SIZE - 1;
-	// q->tail = QUEUE_SIZE - 1;
-	q->head = 0;
-	q->tail = 0;
+	q->head = -1;
+	q->tail = -1;
 
 	return;
 }
