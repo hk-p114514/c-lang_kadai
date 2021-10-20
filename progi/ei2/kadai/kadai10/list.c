@@ -1,5 +1,6 @@
 #include "list.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /*
     概要:空リストを取得する
@@ -7,6 +8,7 @@
 // 第1引数: なし
 // 返り値  : 空リストへのポインタ
 List *getEmptyList(void) {
+	return ((List *)NULL);
 }
 
 /*
@@ -16,6 +18,14 @@ List *getEmptyList(void) {
 // 第2引数: 次のセルを指すポインタ
 // 返り値  : 正しくつくれた：作ったセルを指すポインタ、失敗：空リスト
 Cell *createCell(int data, List *next) {
+	Cell *p;
+	if ((p = (Cell *)malloc(sizeof(Cell))) != NULL) {
+		setCellData(p, data);
+		setNextCell(p, next);
+		return (p);
+	} else {
+		return (getEmptyList());
+	}
 }
 
 /*
