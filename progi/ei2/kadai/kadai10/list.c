@@ -18,6 +18,7 @@ List *getEmptyList(void) {
 // 第2引数: 次のセルを指すポインタ
 // 返り値  : 正しくつくれた：作ったセルを指すポインタ、失敗：空リスト
 Cell *createCell(int data, List *next) {
+	printf("start createCell\n");
 	Cell *p;
 	if ((p = (Cell *)malloc(sizeof(Cell))) != NULL) {
 		setCellData(p, data);
@@ -26,6 +27,7 @@ Cell *createCell(int data, List *next) {
 	} else {
 		return (getEmptyList());
 	}
+	printf("end createCell\n");
 }
 
 /*
@@ -35,6 +37,8 @@ Cell *createCell(int data, List *next) {
 // 第2引数: セルへ格納する整数のデータ
 // 返り値  : returnValue
 void setCellData(Cell *cell, int data) {
+	cell->data = data;
+	return;
 }
 
 /*
@@ -43,6 +47,7 @@ void setCellData(Cell *cell, int data) {
 // 第1引数: 操作対象になるセルへのポインタ
 // 返り値  : 取り出した整数のデータ
 int getCellData(Cell *cell) {
+	return (cell->data);
 }
 
 /*
@@ -52,6 +57,8 @@ int getCellData(Cell *cell) {
 // 第2引数: 次のセルを指すポインタ
 // 返り値  : なし
 void setNextCell(Cell *cell, List *next) {
+	cell->next = next;
+	return;
 }
 
 /*
@@ -60,6 +67,8 @@ void setNextCell(Cell *cell, List *next) {
 // 第1引数: 操作対象になるセルへのポインタ
 // 返り値  : 次のセルを指すポインタ
 List *getNextCell(Cell *cell) {
+	printf("start getNextCell\n");
+	return (cell->next);
 }
 
 /*
@@ -68,6 +77,12 @@ List *getNextCell(Cell *cell) {
 // 第1引数: リストの先頭へのポインタ
 // 返り値  : headが空リストの時：1、headが空リストで無い時：0
 int isEmptyList(List *head) {
+	printf("start isEmptyList\n");
+	if (head == getEmptyList()) {
+		return (1);
+	} else {
+		return (0);
+	}
 }
 
 /*
@@ -77,6 +92,20 @@ int isEmptyList(List *head) {
 // 第2引数: リストの先頭へ挿入するセルの整数データ
 // 返り値  : 追加に成功した時：1、失敗した時：0
 int insertHead(List **head, int data) {
+	printf("start insertHead\n");
+	// 新しいセルをひとつ作る -> この時、現在のheadがnextになる
+	Cell *p = createCell(data, getNextCell(*head));
+
+	// エラーチェック
+	if (isEmptyList(p) == 1) {
+		return (0);
+	}
+
+	// 新しく作ったセルリストの先頭にする
+	*head = p;
+
+	printf("end insertHead\n");
+	return (1);
 }
 
 /*
@@ -85,6 +114,22 @@ int insertHead(List **head, int data) {
 // 第1引数: リストの先頭アドレスを格納している変数へのポインタ
 // 返り値  : 正しく削除できた時：1、失敗した時：0
 int removeHead(List **head) {
+	// 現在の先頭を保存しておく
+	List *p;
+	p = *head;
+
+	// 現在の先頭のnextを新たな先頭にする
+	*head = getNextCell(*head);
+
+	// エラーチェック
+	if (isEmptyList(*head) == 1) {
+		return (0);
+	}
+
+	// 保存してあった古いheadをfree()
+	free(p);
+
+	return (1);
 }
 
 /*
@@ -93,7 +138,30 @@ int removeHead(List **head) {
 // 第1引数: リストの先頭アドレスを格納している変数へのポインタ
 // 返り値  : なし
 void printList(List *head) {
+	Cell *cell;
+	cell = getNextCell(head);
+	int data;
+	while (isEmptyList(cell) != 1) {
+		// データを取得
+		data = getCellData(cell);
+		// 表示
+		printf("%d ", data);
+
+		// 次のセルを取得
+		cell = getNextCell(cell);
+		// 空かどうか確認
+		if (isEmptyList(cell) != 1) {
+			// 次のデータを取得
+			data = getCellData(cell);
+			// 次のデータがあるので矢印表示
+			printf("-> ");
+		}
+	}
+
+	return;
 }
+
+// ======= (2) =======
 
 /*
     概要:先頭からデータが昇順に並ぶようにセルを追加
