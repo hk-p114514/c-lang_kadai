@@ -18,7 +18,7 @@ List *getEmptyList(void) {
 // 第2引数: 次のセルを指すポインタ
 // 返り値  : 正しくつくれた：作ったセルを指すポインタ、失敗：空リスト
 Cell *createCell(int data, List *next) {
-	// printf("start createCell\n");
+	printf("start createCell\n");
 	Cell *p;
 	if ((p = (Cell *)malloc(sizeof(Cell))) != NULL) {
 		setCellData(p, data);
@@ -27,7 +27,7 @@ Cell *createCell(int data, List *next) {
 	} else {
 		return (getEmptyList());
 	}
-	// printf("end createCell\n");
+	printf("end createCell\n");
 }
 
 /*
@@ -67,7 +67,7 @@ void setNextCell(Cell *cell, List *next) {
 // 第1引数: 操作対象になるセルへのポインタ
 // 返り値  : 次のセルを指すポインタ
 List *getNextCell(Cell *cell) {
-	// printf("start getNextCell\n");
+	printf("start getNextCell\n");
 	return (cell->next);
 }
 
@@ -77,12 +77,12 @@ List *getNextCell(Cell *cell) {
 // 第1引数: リストの先頭へのポインタ
 // 返り値  : headが空リストの時：1、headが空リストで無い時：0
 int isEmptyList(List *head) {
-	// printf("start isEmptyList\n");
+	printf("start isEmptyList\n");
 	if (head == getEmptyList()) {
-		// printf("end isEmptyList\n");
+		printf("end isEmptyList\n");
 		return (1);
 	} else {
-		// printf("end isEmptyList\n");
+		printf("end isEmptyList\n");
 		return (0);
 	}
 }
@@ -94,7 +94,7 @@ int isEmptyList(List *head) {
 // 第2引数: リストの先頭へ挿入するセルの整数データ
 // 返り値  : 追加に成功した時：1、失敗した時：0
 int insertHead(List **head, int data) {
-	// printf("start insertHead\n");
+	printf("start insertHead\n");
 	// 新しいセルをひとつ作る -> この時、現在のheadがnextになる
 	Cell *p;
 	p = createCell(data, *head);
@@ -107,7 +107,7 @@ int insertHead(List **head, int data) {
 	// 新しく作ったセルリストの先頭にする
 	*head = p;
 
-	// printf("end insertHead\n");
+	printf("end insertHead\n");
 	return (1);
 }
 
@@ -167,12 +167,50 @@ void printList(List *head) {
 // ======= (2) =======
 
 /*
+   概要:次のセルを指すポインタを保持しているメンバ変数のアドレスを取得する
+*/
+// 第1引数: 操作対象になるセルへのポインタ
+// 返り値  : 次のセルへのへのポインタを保持しているメンバ変数のアドレス
+List **getNextCellHead(Cell *cell) {
+	return (&(cell->next));
+}
+
+/*
     概要:先頭からデータが昇順に並ぶようにセルを追加
 */
 // 第1引数: リストの先頭アドレスを格納している変数へのポインタ
 // 第2引数: 新たに挿入するセルの整数値データ
 // 返り値  : 追加に成功した時：1、失敗した時：0(元のリストは不変)
 int insertUpOrder(List **head, int data) {
+	Cell *before, *after;
+	before = *head;
+	after = getNextCell(*head);
+
+	int beforeData, afterData;
+	int isPossible = 1;
+	beforeData = getCellData(before);
+	afterData = getCellData(after);
+
+	// 1. 二つの連なったセルのデータと挿入するデータを比較する
+	while (!(beforeData < data && afterData > data) && (isPossible = isEmptyList(after)) == 0) {
+		// 1.2条件に合わなければ、次の二つを用意する
+		before = getNextCell(before);
+		after = getNextCell(after);
+
+		beforeData = getCellData(before);
+		afterData = getCellData(after);
+	}
+	// 2.挿入するデータが二つのデータの中間なら挿入して終了
+	if (isPossible == 1) {
+		// 昇順にできなかった
+		return (0);
+	} else {
+		// 挿入するセルを作成
+		Cell *new = createCell(data, after);
+		// 一つ前のセルを新たに作成したセルに繋げる
+		setNextCell(before, new);
+		return (1);
+	}
 }
 
 /*
