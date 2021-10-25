@@ -3,5 +3,6 @@
     "*.tcc": "c",
     "cstdlib": "c",
     "memory": "c"
-  }
+  },
+  "workbench.colorTheme": "monokai-charcoal (orange)"
 }

@@ -18,7 +18,7 @@ List *getEmptyList(void) {
 // 第2引数: 次のセルを指すポインタ
 // 返り値  : 正しくつくれた：作ったセルを指すポインタ、失敗：空リスト
 Cell *createCell(int data, List *next) {
-	printf("start createCell\n");
+	// printf("start createCell\n");
 	Cell *p;
 	if ((p = (Cell *)malloc(sizeof(Cell))) != NULL) {
 		setCellData(p, data);
@@ -27,7 +27,7 @@ Cell *createCell(int data, List *next) {
 	} else {
 		return (getEmptyList());
 	}
-	printf("end createCell\n");
+	// printf("end createCell\n");
 }
 
 /*
@@ -67,7 +67,7 @@ void setNextCell(Cell *cell, List *next) {
 // 第1引数: 操作対象になるセルへのポインタ
 // 返り値  : 次のセルを指すポインタ
 List *getNextCell(Cell *cell) {
-	printf("start getNextCell\n");
+	// printf("start getNextCell\n");
 	return (cell->next);
 }
 
@@ -77,10 +77,12 @@ List *getNextCell(Cell *cell) {
 // 第1引数: リストの先頭へのポインタ
 // 返り値  : headが空リストの時：1、headが空リストで無い時：0
 int isEmptyList(List *head) {
-	printf("start isEmptyList\n");
+	// printf("start isEmptyList\n");
 	if (head == getEmptyList()) {
+		// printf("end isEmptyList\n");
 		return (1);
 	} else {
+		// printf("end isEmptyList\n");
 		return (0);
 	}
 }
@@ -92,9 +94,10 @@ int isEmptyList(List *head) {
 // 第2引数: リストの先頭へ挿入するセルの整数データ
 // 返り値  : 追加に成功した時：1、失敗した時：0
 int insertHead(List **head, int data) {
-	printf("start insertHead\n");
+	// printf("start insertHead\n");
 	// 新しいセルをひとつ作る -> この時、現在のheadがnextになる
-	Cell *p = createCell(data, getNextCell(*head));
+	Cell *p;
+	p = createCell(data, *head);
 
 	// エラーチェック
 	if (isEmptyList(p) == 1) {
@@ -104,7 +107,7 @@ int insertHead(List **head, int data) {
 	// 新しく作ったセルリストの先頭にする
 	*head = p;
 
-	printf("end insertHead\n");
+	// printf("end insertHead\n");
 	return (1);
 }
 
@@ -139,7 +142,7 @@ int removeHead(List **head) {
 // 返り値  : なし
 void printList(List *head) {
 	Cell *cell;
-	cell = getNextCell(head);
+	cell = head;
 	int data;
 	while (isEmptyList(cell) != 1) {
 		// データを取得
