@@ -174,10 +174,17 @@ List **getNextCellHead(Cell *cell) {
 // 第2引数: 新たに挿入するセルの整数値データ
 // 返り値  : 追加に成功した時：1、失敗した時：0(元のリストは不変)
 int insertUpOrder(List **head, int data) {
+	// 対象のセルが空でない、かつ、対象のセルのデータが新しいデータより小さい場合
 	while (isEmptyList(*head) == 0 && getCellData(*head) < data) {
+		// 対象のセルを次のセルへ移動
 		head = getNextCellHead(*head);
 	}
 
+	/*
+	 * insertHead()の返り値は、
+	 * 成功時：1、失敗時：0なので、
+	 * その結果をそのまま返す
+	 */
 	return (insertHead(head, data));
 }
 
@@ -186,7 +193,17 @@ int insertUpOrder(List **head, int data) {
 */
 // 第1引数: リストの先頭アドレスを格納している変数へのポインタ
 // 返り値  : 正しく削除できた時：1、空リストから削除しようとした時：0
-int removeTail(List **head);
+int removeTail(List **head) {
+	while (isEmptyList(*head) == 0) {
+		if (getNextCell(*head) == getEmptyList()) {
+			return (removeHead(head));
+		} else {
+			head = getNextCellHead(*head);
+		}
+	}
+
+	return (0);
+}
 
 /*
     概要:リスト全体を削除
