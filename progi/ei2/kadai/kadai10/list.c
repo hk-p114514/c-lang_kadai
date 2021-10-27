@@ -182,35 +182,32 @@ List **getNextCellHead(Cell *cell) {
 // 第2引数: 新たに挿入するセルの整数値データ
 // 返り値  : 追加に成功した時：1、失敗した時：0(元のリストは不変)
 int insertUpOrder(List **head, int data) {
+	// リストの連続する2要素を見て、dataがその中間かどうか調べる
 	Cell *before, *after;
-	before = *head;
-	after = getNextCell(*head);
 
-	int beforeData, afterData;
-	int isPossible = 1;
-	beforeData = getCellData(before);
-	afterData = getCellData(after);
-
-	// 1. 二つの連なったセルのデータと挿入するデータを比較する
-	while (!(beforeData < data && afterData > data) && (isPossible = isEmptyList(after)) == 0) {
-		// 1.2条件に合わなければ、次の二つを用意する
-		before = getNextCell(before);
-		after = getNextCell(after);
-
-		beforeData = getCellData(before);
-		afterData = getCellData(after);
-	}
-	// 2.挿入するデータが二つのデータの中間なら挿入して終了
-	if (isPossible == 1) {
-		// 昇順にできなかった
-		return (0);
-	} else {
-		// 挿入するセルを作成
-		Cell *new = createCell(data, after);
-		// 一つ前のセルを新たに作成したセルに繋げる
-		setNextCell(before, new);
+	if (isEmptyList(*head) == 1) {
+		// まだリストが空（比較対象が無い）
+		insertHead(head, data);
 		return (1);
-	}
+	} else if (isEmptyList(getNextCell(*head)) == 1) {
+		// 二つ以上セルが存在しない（やっぱり比較できない）
+		insertHead(getNextCellHead(*head), data);
+		return (1);
+	} else {
+		// 既に二つ以上のセルが存在する
+		before = getNextCell(*head);
+		after = getNextCell(*getNextCellHead(*head));
+		int data1, data2;
+		data1 = getCellData(before);
+		data2 = getCellData(after);
+
+		while (data1 <= data && data <= data2) {
+			before = getNextCell(before);
+			after = getNextCell(after);
+			data1 = getCellData(before);
+			data2 = getCellData(after);
+		}
+		}
 }
 
 /*
