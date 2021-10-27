@@ -18,7 +18,6 @@ List *getEmptyList(void) {
 // 第2引数: 次のセルを指すポインタ
 // 返り値  : 正しくつくれた：作ったセルを指すポインタ、失敗：空リスト
 Cell *createCell(int data, List *next) {
-	printf("start createCell\n");
 	Cell *p;
 	if ((p = (Cell *)malloc(sizeof(Cell))) != NULL) {
 		setCellData(p, data);
@@ -27,7 +26,6 @@ Cell *createCell(int data, List *next) {
 	} else {
 		return (getEmptyList());
 	}
-	printf("end createCell\n");
 }
 
 /*
@@ -67,7 +65,6 @@ void setNextCell(Cell *cell, List *next) {
 // 第1引数: 操作対象になるセルへのポインタ
 // 返り値  : 次のセルを指すポインタ
 List *getNextCell(Cell *cell) {
-	printf("start getNextCell\n");
 	return (cell->next);
 }
 
@@ -77,12 +74,9 @@ List *getNextCell(Cell *cell) {
 // 第1引数: リストの先頭へのポインタ
 // 返り値  : headが空リストの時：1、headが空リストで無い時：0
 int isEmptyList(List *head) {
-	printf("start isEmptyList\n");
 	if (head == getEmptyList()) {
-		printf("end isEmptyList\n");
 		return (1);
 	} else {
-		printf("end isEmptyList\n");
 		return (0);
 	}
 }
@@ -94,7 +88,6 @@ int isEmptyList(List *head) {
 // 第2引数: リストの先頭へ挿入するセルの整数データ
 // 返り値  : 追加に成功した時：1、失敗した時：0
 int insertHead(List **head, int data) {
-	printf("start insertHead\n");
 	// 新しいセルをひとつ作る -> この時、現在のheadがnextになる
 	Cell *p;
 	p = createCell(data, *head);
@@ -107,7 +100,6 @@ int insertHead(List **head, int data) {
 	// 新しく作ったセルリストの先頭にする
 	*head = p;
 
-	printf("end insertHead\n");
 	return (1);
 }
 
@@ -182,32 +174,11 @@ List **getNextCellHead(Cell *cell) {
 // 第2引数: 新たに挿入するセルの整数値データ
 // 返り値  : 追加に成功した時：1、失敗した時：0(元のリストは不変)
 int insertUpOrder(List **head, int data) {
-	// リストの連続する2要素を見て、dataがその中間かどうか調べる
-	Cell *before, *after;
+	while (isEmptyList(*head) == 0 && getCellData(*head) < data) {
+		head = getNextCellHead(*head);
+	}
 
-	if (isEmptyList(*head) == 1) {
-		// まだリストが空（比較対象が無い）
-		insertHead(head, data);
-		return (1);
-	} else if (isEmptyList(getNextCell(*head)) == 1) {
-		// 二つ以上セルが存在しない（やっぱり比較できない）
-		insertHead(getNextCellHead(*head), data);
-		return (1);
-	} else {
-		// 既に二つ以上のセルが存在する
-		before = getNextCell(*head);
-		after = getNextCell(*getNextCellHead(*head));
-		int data1, data2;
-		data1 = getCellData(before);
-		data2 = getCellData(after);
-
-		while (data1 <= data && data <= data2) {
-			before = getNextCell(before);
-			after = getNextCell(after);
-			data1 = getCellData(before);
-			data2 = getCellData(after);
-		}
-		}
+	return (insertHead(head, data));
 }
 
 /*
