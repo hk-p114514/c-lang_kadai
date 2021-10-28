@@ -194,6 +194,13 @@ int insertUpOrder(List **head, int data) {
 // 第1引数: リストの先頭アドレスを格納している変数へのポインタ
 // 返り値  : 正しく削除できた時：1、空リストから削除しようとした時：0
 int removeTail(List **head) {
+	Cell **before = getNextCellHead(*head);
+	while (isEmptyList(*head) == 0 && isEmptyList(getNextCell(*head)) == 0 && isEmptyList(*before) == 0) {
+		before = head;
+		head = getNextCellHead(*head);
+	}
+
+	return (removeHead(before));
 }
 
 /*
