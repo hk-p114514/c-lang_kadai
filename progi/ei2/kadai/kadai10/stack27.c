@@ -19,9 +19,6 @@ int push(Stack *s, int data) {
 // スタックからデータを取り出す
 // 引数: 操作対象のスタックを指すポインタ、取り出したデータを格納する変数へのポインタ
 // 戻り地: 取り出しに成功した場合は1、取り出しに失敗した場合は0
-// Summary: Extracting data from the stack
-// Arguments: A pointer to the stack, a pointer to the variable to store the extracted
-// data Return: 1 if the extraction is successful, 0 if the extraction is failed
 int pop(Stack *s, int *data) {
 	if (isEmptyList(*s->head)) {
 		return 0;
