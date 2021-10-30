@@ -1,33 +1,51 @@
-#include <stdio.h>
-#include <hamakou.h>
 #include "list.h"
+// #include <hamakou.h>
+#include <stdio.h>
+#include <string.h>
+int getint(char *msg);
 
-main()
-{
-  int data, state, i, n;
-  List *head;
-  
-                       ; // headを空リストにする
+int main() {
+	int data, state, i, n;
+	List *head;
 
-  n = getint("データの個数："); // リストに格納するデータの個数
-  for (i = 1; i <= n; i++) {
-    data = getint("Input data: ");  // 新しいセルへ格納するデータの入力
-    if (insertHead(     ,     ) == 0) {  // 新しいセルの挿入
-      fprintf(stderr, "Error: セルを追加できませんでした。\n");
-      break;
-    }
-  }
+	head = getEmptyList(); // headを空リストにする
 
-  putchar('\n');     // 見やすくするために改行
-  printf("削除前: ");
-  printList(    );   // リスト構造に格納されているデータの表示
-  putchar('\n');
-  
-  removeList(     ); // リスト全体を削除
+	n = getint("データの個数："); // リストに格納するデータの個数
+	for (i = 1; i <= n; i++) {
+		data = getint("Input data: "); // 新しいセルへ格納するデータの入力
+		if (insertHead(&head, data) == 0) { // 新しいセルの挿入
+			fprintf(stderr, "Error: セルを追加できませんでした。\n");
+			break;
+		}
+	}
 
-  printf("削除後: ");
-  printList(    );   // 削除されたことを確認
-  putchar('\n');
-  
-  return(0);
+	putchar('\n'); // 見やすくするために改行
+	printf("削除前: ");
+	printList(head); // リスト構造に格納されているデータの表示
+	putchar('\n');
+
+	removeList(&head); // リスト全体を削除
+
+	printf("削除後: ");
+	printList(head); // 削除されたことを確認
+	putchar('\n');
+
+	return (0);
+}
+
+// 自宅用にgetint()を作成
+int getint(char *msg) {
+	char line[ 100 ];
+	int value;
+
+	while (1) {
+		(void)printf("%s", msg);
+		(void)fgets(line, sizeof(line), stdin);
+		if (sscanf(line, "%d", &value) == 1)
+			break;
+		line[ strlen(line) - 1 ] = '\0';
+		(void)fprintf(stderr, "`%s` is not numerical value\n", line);
+	}
+
+	return (value);
 }

@@ -113,6 +113,10 @@ int removeHead(List **head) {
 	List *p;
 	p = *head;
 
+	if (isEmptyList(*head) == 1) {
+		return (0);
+	}
+
 	// 現在の先頭のnextを新たな先頭にする
 	*head = getNextCell(*head);
 
@@ -195,7 +199,7 @@ int insertUpOrder(List **head, int data) {
 // 返り値  : 正しく削除できた時：1、空リストから削除しようとした時：0
 int removeTail(List **head) {
 	Cell **before = getNextCellHead(*head);
-	while (isEmptyList(*head) == 0 && isEmptyList(getNextCell(*head)) == 0 && isEmptyList(*before) == 0) {
+	while (isEmptyList(*head) == 0 && isEmptyList(getNextCell(*head)) == 0) {
 		before = head;
 		head = getNextCellHead(*head);
 	}
@@ -208,4 +212,10 @@ int removeTail(List **head) {
 */
 // 第1引数: リストの先頭アドレスを格納している変数へのポインタ
 // 返り値  : なし
-void removeList(List **head);
+void removeList(List **head) {
+	// removeHeadで前から順に削除していく
+	while (removeHead(head))
+		;
+
+	return;
+}
