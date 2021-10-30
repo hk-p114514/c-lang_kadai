@@ -1,5 +1,4 @@
 #include "stack27.h"
-#include "list.h"
 #include <stdio.h>
 
 void initStack(Stack *stack);
