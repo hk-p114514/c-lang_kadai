@@ -1,8 +1,6 @@
+#include "hamako.h"
 #include "queue27.h"
-// #include <hamakou.h>
 #include <stdio.h>
-
-int getint(char *str);
 
 int main() {
 	Queue q;
@@ -29,13 +27,4 @@ int main() {
 	freeQueue(&q); // キューの解放(このプログラムではなくても問題)
 
 	return (0);
-}
-
-int getint(char *str) {
-	int num;
-
-	printf("%s", str);
-	scanf("%d", &num);
-
-	return (num);
 }

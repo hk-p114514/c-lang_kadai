@@ -1,4 +1,4 @@
 #!/bin/bash
 
 ./dlib2
-cc "$1" -L . -l stack27 -l list
+cc "$1" -L . -l stack27 -l list -l hamako

@@ -1,8 +1,7 @@
+#include "hamako.h"
 #include "list.h"
-// #include <hamakou.h>
 #include <stdio.h>
 #include <string.h>
-int getint(char *msg);
 
 int main() {
 	int data, state, i, n;
@@ -31,21 +30,4 @@ int main() {
 	putchar('\n');
 
 	return (0);
-}
-
-// 自宅用にgetint()を作成
-int getint(char *msg) {
-	char line[ 100 ];
-	int value;
-
-	while (1) {
-		(void)printf("%s", msg);
-		(void)fgets(line, sizeof(line), stdin);
-		if (sscanf(line, "%d", &value) == 1)
-			break;
-		line[ strlen(line) - 1 ] = '\0';
-		(void)fprintf(stderr, "`%s` is not numerical value\n", line);
-	}
-
-	return (value);
 }

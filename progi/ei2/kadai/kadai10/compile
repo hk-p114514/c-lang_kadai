@@ -1,4 +1,4 @@
 #!/bin/bash
 
 ./dlib
-cc "$1" -L . -l list
+cc "$1" -L . -l list -l hamako

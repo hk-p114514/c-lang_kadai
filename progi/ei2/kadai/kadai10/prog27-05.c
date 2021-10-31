@@ -1,8 +1,6 @@
+#include "hamako.h"
 #include "stack27.h"
-// #include <hamakou.h>
 #include <stdio.h>
-
-int getint(char *str);
 
 int main() {
 	Stack x;
@@ -28,13 +26,4 @@ int main() {
 	freeStack(&x); // スタックの解放(このプログラムではなくても問題)
 
 	return (0);
-}
-
-int getint(char *str) {
-	int num;
-
-	printf("%s", str);
-	scanf("%d", &num);
-
-	return (num);
 }

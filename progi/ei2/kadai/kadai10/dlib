@@ -1,3 +1,4 @@
 #!/bin/bash
 
 cc -c -shared -fPIC -o liblist.so list.c
+cc -c -shared -fPIC -o libhamako.so hamako.c

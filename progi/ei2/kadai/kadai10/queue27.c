@@ -25,17 +25,16 @@ int enQueue(Queue *q, int data) {
 //         data - pointer to the data to be removed
 // Returns: when successful - (1) , fails otherwise - (0)
 int deQueue(Queue *q, int *data) {
-	Cell **before = getNextCellHead(*q->head);
-	while (isEmptyList(*before) == 0 && isEmptyList(getNextCell(*q->head)) == 0) {
-		before = q->head;
-		q->head = getNextCellHead(*q->head);
-	}
-	if (isEmptyList(*before) == 0) {
+	if (isEmptyList(*q->head) == 1) {
 		return (0);
 	}
-	*data = getCellData(*before);
-	removeHead(before);
-	return (1);
+
+	while (isEmptyList(getNextCell(*q->head)) == 0) {
+		q->head = getNextCellHead(*q->head);
+	}
+	*data = getCellData(*q->head);
+
+	return (removeTail(q->head));
 }
 
 // Function: freeQueue
