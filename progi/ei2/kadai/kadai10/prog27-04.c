@@ -1,7 +1,6 @@
 #include "hamako.h"
 #include "list.h"
 #include <stdio.h>
-#include <string.h>
 
 int main() {
 	int data, state, i, n;
