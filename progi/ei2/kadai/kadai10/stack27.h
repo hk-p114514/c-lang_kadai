@@ -1,9 +1,6 @@
 #include "list.h"
-// make type stack use the type List
 
-typedef struct {
-	List **head;
-} Stack;
+typedef List *Stack;
 
 void initStack(Stack *stack);
 int push(Stack *stack, int data);

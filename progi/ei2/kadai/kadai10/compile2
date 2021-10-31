@@ -1,4 +1,6 @@
 #!/bin/bash
 
-./dlib2
-cc "$1" -L . -l stack27 -l list -l hamako
+gcc-8 -c -shared -fPIC -o liblist.so list.c
+gcc-8 -c -shared -fPIC -o libstack27.so stack27.c
+gcc-8 -c -shared -fPIC -o libhamako.so hamako.c
+gcc-8 "$1" -L . -l stack27 -l list -l hamako
