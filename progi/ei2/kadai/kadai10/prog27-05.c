@@ -1,4 +1,4 @@
-#include <hamako.h>
+#include "hamako.h"
 #include "stack27.h"
 #include <stdio.h>
 

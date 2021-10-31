@@ -7,6 +7,7 @@
 // Returns: void
 void initQueue(Queue *q) {
 	*q->head = getEmptyList();
+	*q->tail = getEmptyList();
 	return;
 }
 
@@ -16,7 +17,9 @@ void initQueue(Queue *q) {
 //            data - the data to be added
 // Returns: when successful, returns (1), fails otherwise (0)
 int enQueue(Queue *q, int data) {
-	return (insertHead(q->head, data));
+	if (insertHead(q->head, data) == 0) {
+		return 0;
+	}
 }
 
 // Function: deQueue
