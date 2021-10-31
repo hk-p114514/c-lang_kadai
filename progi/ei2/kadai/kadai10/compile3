@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cc -c -shared -fPIC -o liblist.so list.c
+cc -c -shared -fPIC -o libqueue27.so queue27.c
+cc "$1" -L . -l queue27 -l list

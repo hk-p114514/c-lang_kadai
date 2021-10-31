@@ -25,6 +25,7 @@ int pop(Stack *s, int *data) {
 	}
 	*data = getCellData(*s->head);
 	removeHead(s->head);
+
 	return (1);
 }
 

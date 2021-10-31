@@ -2,7 +2,8 @@
   "files.associations": {
     "*.tcc": "c",
     "cstdlib": "c",
-    "memory": "c"
+    "memory": "c",
+    "random": "c"
   },
   "workbench.colorTheme": "Default High Contrast"
 }
