@@ -2,5 +2,4 @@
 
 cc -c -shared -fPIC -o liblist.so list.c
 cc -c -shared -fPIC -o libqueue27.so queue27.c
-cc -c -shared -fPIC -o libhamako.so hamako.c
-cc "$1" -L . -l queue27 -l list -l hamako
+cc "$1" -L . -l queue27 -l list

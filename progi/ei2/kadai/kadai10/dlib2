@@ -2,4 +2,3 @@
 
 cc -c -shared -fPIC -o liblist.so list.c
 cc -c -shared -fPIC -o libstack27.so stack27.c
-cc -c -shared -fPIC -o libhamako.so hamako.c
