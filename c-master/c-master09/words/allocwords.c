@@ -30,7 +30,6 @@ char **allocwords(int *line_nums) {
 	for (int i = 0; i < n; i++) {
 		char s[ 1024 ];
 		// 入力を受け取る
-		// printf("Input %d :", i + 1);
 		fgets(buff, sizeof(buff), stdin);
 		strcpy(s, buff);
 

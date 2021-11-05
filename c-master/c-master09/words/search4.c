@@ -6,7 +6,7 @@
 int main(int argc, char const *argv[]) {
 	int n;
 	char **p;
-	int l = 0, r, m, place = -1, i = 0;
+	int l = 0, r, m, place = -1;
 
 	// コマンドライン引数の確認
 	if (argc <= 1 || argc > 2) {
@@ -23,18 +23,17 @@ int main(int argc, char const *argv[]) {
 		r = n - 1;
 		m = (l + r) / 2;
 		while (place == -1 && l <= r) {
-			if (strcmp(argv[ i ], p[ i ]) < 0) {
+			if (strcmp(argv[ 1 ], p[ m ]) < 0) {
 				r = m - 1;
-			} else if (strcmp(p[ i ], argv[ 1 ]) > 0) {
+			} else if (strcmp(argv[ 1 ], p[ m ]) > 0) {
 				l = m + 1;
 			} else {
 				place = m;
 			}
 			m = (l + r) / 2;
-			i++;
 		}
 
-		if (strcmp(p[ m ], argv[ 1 ]) != 0) {
+		if (place != -1) {
 			printf("\nline %d: '%s' found\n", place + 1, argv[ 1 ]);
 		} else {
 			fprintf(stderr, "\n%s does not found\n", argv[ 1 ]);
