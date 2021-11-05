@@ -33,7 +33,6 @@ int main(int argc, char const *argv[]) {
 
 		// 探索
 		while (strcmp(p[ i ], argv[ 1 ]) != 0) {
-			printf("%s\n", p[ i ]);
 			i++;
 		}
 
