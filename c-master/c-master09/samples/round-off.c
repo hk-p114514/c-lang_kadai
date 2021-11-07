@@ -1,7 +1,7 @@
 #include <stdio.h>
 int main() {
 	long int i;
-	double s;
+	float s;
 
 	s = 0;
 	for (i = 0; i < 10000; i++) {
