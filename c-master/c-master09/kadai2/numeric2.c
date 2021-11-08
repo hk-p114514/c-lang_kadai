@@ -8,19 +8,19 @@
 
 int main() {
 	// 各型で表すことのできる最大値・最小値を表示
-	printf("float: %.1e to %.1e\n", FLT_MAX, FLT_MIN);
-	printf("double: %.1e to %.1e\n", DBL_MAX, DBL_MIN);
-	printf("long double: %.1Le to %.1Le\n", LDBL_MAX, LDBL_MIN);
+	printf("float        : %e   to %e\n", FLT_MIN, FLT_MAX);
+	printf("double       : %e  to %e\n", DBL_MIN, DBL_MAX);
+	printf("long double  : %Le to %Le\n", LDBL_MIN, LDBL_MAX);
 
 	// 計算機εを表示
-	printf("float ε: %.1e\n", FLT_EPSILON);
-	printf("double ε: %.1e\n", DBL_EPSILON);
-	printf("long double ε: %.1Le\n", LDBL_EPSILON);
+	printf("float ε      : %e\n", FLT_EPSILON);
+	printf("double ε     : %e\n", DBL_EPSILON);
+	printf("long double ε: %Le\n", LDBL_EPSILON);
 
 	// 10進数で表現できる有効桁数を表示
-	printf("float: %d\n", FLT_DIG);
-	printf("double: %d\n", DBL_DIG);
-	printf("long double: %d\n", LDBL_DIG);
+	printf("float        : %d\n", FLT_DIG);
+	printf("double       : %d\n", DBL_DIG);
+	printf("long double  : %d\n", LDBL_DIG);
 
 	return 0;
 }

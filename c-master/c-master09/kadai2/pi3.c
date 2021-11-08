@@ -1,6 +1,3 @@
-#include <float.h>
-#include <math.h>
-#include <stdio.h>
 // atan(x)の級数展開によりπを求める
 /*
  * atan(π/4) = 1 なので、
@@ -16,26 +13,34 @@
  * この(|s-d|)/|d| < 必要精度　の計算を行う際、実際の値を比較するのではなく、
  * 計算機ε(DBL_EPSILON)を用いて、|s-d| < εとなるような値を求める。
  */
+#include <float.h>
+#include <math.h>
+#include <stdio.h>
 
 int main() {
-	double s = 1;                             // 合計の初期値
-	double d = 0;                             // 前回の合計
-	int sign = -1;                            // 符号の初期値
-	int denominator = 3;                      // 分母の初期値
-	double requiredAccuracy = 1e-6;           // 必要精度
-	double condition = fabs(s - d) / fabs(d); // 相対打ち切り誤差
+	double s = 1;                                       // 合計の初期値
+	double before = 0;                                  // 前回の合計
+	int sign = -1;                                      // 符号の初期値
+	int denominator = 3;                                // 分母の初期値
+	double requiredAccuracy = 1e-6;                     // 必要精度
+	double condition = fabs(s - before) / fabs(before); // 相対打ち切り誤差
+	double loss = 0;                                    // 丸め誤差
 
 	// 1 - (1/3)から計算を始める
 	// 計算打ち切りの条件には、値そのものの比較ではなく、計算機ε(DBL_EPSILON)を用いる
 	do {
-		d = s;
-		s += sign * (1.0 / denominator);
+		before = s;
+		double si = sign * (1.0 / denominator);
+		s += si + loss;
 		sign *= -1;
 		denominator += 2;
 
 		// 条件を更新
-		condition = fabs(s - d) / fabs(d);
-	} while ((condition - requiredAccuracy) > DBL_EPSILON);
+		condition = fabs(s - before) / fabs(before);
+
+		// 丸め誤差を更新する
+		loss = si - (s - before);
+	} while (condition > requiredAccuracy);
 	printf("condition        = %.10lf\n", condition);
 	printf("requiredAccuracy = %.10lf\n", requiredAccuracy);
 	printf("DBL_EPSILON      = %.10lf\n", DBL_EPSILON);

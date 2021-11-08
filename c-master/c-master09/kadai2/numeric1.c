@@ -4,9 +4,10 @@
 #include <limits.h>
 #include <stdio.h>
 int main() {
-	printf("char     : %d to %d\n", CHAR_MIN, CHAR_MAX);
-	printf("int      : %d to %d\n", INT_MIN, INT_MAX);
-	printf("long     : %ld to %ld\n", LONG_MIN, LONG_MAX);
+	printf("char     : %20d to %d\n", CHAR_MIN, CHAR_MAX);
+	printf("int      : %20d to %d\n", INT_MIN, INT_MAX);
+	printf("long     : %20ld to %ld\n", LONG_MIN, LONG_MAX);
 	printf("long long: %lld to %lld\n", LLONG_MIN, LLONG_MAX);
+
 	return 0;
 }
