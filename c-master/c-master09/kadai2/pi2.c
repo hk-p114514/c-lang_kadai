@@ -10,11 +10,11 @@
 #define POW(x) ((x) * (x))
 
 int main() {
-	double n = 90000000; // 扇形を分割する数
-	double s = 0.0;      // 扇形の面積
-	double w = 1 / n;    // n分割する長方形の横幅
-	double loss = 0;     // 丸め誤差
-	double before = 0;   // 前回の計算結果
+	double n = 900000; // 扇形を分割する数(p1.cから十分の一)
+	double s = 0.0;    // 扇形の面積
+	double w = 1 / n;  // n分割する長方形の横幅
+	double loss = 0;   // 丸め誤差
+	double before = 0; // 前回の計算結果
 
 	// 中点法によりπを求める
 	// このとき、積み残し処理を行う
@@ -24,7 +24,8 @@ int main() {
 
 		// i番目の長方形の高さを求める
 		// 高さは、f(Xi)ではなく、f(Xi + (w/2))とする
-		double y = sqrt(1 - POW(w * i)) + (w / 2);
+		// double y = sqrt(1 - POW(w * i)) + (w / 2);
+		double y = sqrt(1 - POW(w * i)) - (w / 2);
 
 		// i番目の長方形の面積を求める
 		double si = w * y;

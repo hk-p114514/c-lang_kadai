@@ -13,7 +13,6 @@
  * この(|s-d|)/|d| < 必要精度　の計算を行う際、実際の値を比較するのではなく、
  * 計算機ε(DBL_EPSILON)を用いて、|s-d| < εとなるような値を求める。
  */
-#include <float.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -27,23 +26,19 @@ int main() {
 	double loss = 0;                                    // 丸め誤差
 
 	// 1 - (1/3)から計算を始める
-	// 計算打ち切りの条件には、値そのものの比較ではなく、計算機ε(DBL_EPSILON)を用いる
 	do {
 		before = s;
-		double si = sign * (1.0 / denominator);
-		s += si + loss;
-		sign *= -1;
-		denominator += 2;
+		double si = (sign * (1.0 / denominator)) + loss; // 前回の積み残しを加算
+		s += si;                                         // 加算
+		sign *= -1;                                      // 計算の符号を反転
+		denominator += 2;                                // 分母を2加算
 
 		// 条件を更新
 		condition = fabs(s - before) / fabs(before);
 
 		// 丸め誤差を更新する
 		loss = si - (s - before);
-	} while (condition > requiredAccuracy);
-	printf("condition        = %.10lf\n", condition);
-	printf("requiredAccuracy = %.10lf\n", requiredAccuracy);
-	printf("DBL_EPSILON      = %.10lf\n", DBL_EPSILON);
+	} while (condition >= requiredAccuracy);
 
 	printf("calc = %.10lf\n", 4 * s);
 	printf("M_PI = %.10lf\n", M_PI);
