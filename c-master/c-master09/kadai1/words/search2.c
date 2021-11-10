@@ -1,4 +1,4 @@
-#include "allocwords.h"
+#include "allocWords.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,7 +14,7 @@ int main(int argc, char const *argv[]) {
 		fprintf(stderr, "引数を正しく指定してください\n");
 		return (1);
 	} else {
-		if ((p = allocwords(&n)) == (char **)NULL) {
+		if ((p = allocWords(&n)) == NULL) {
 			fprintf(stderr, "words allocation failed\n");
 			exit(8);
 		}

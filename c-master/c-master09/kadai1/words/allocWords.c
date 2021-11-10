@@ -1,4 +1,4 @@
-#include "allocwords.h"
+#include "allocWords.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +8,7 @@
 */
 // 第1引数: 入力した文字列の行数を格納する変数へのポインタ
 // 返り値  : 入力行を正常に確保できた - 全入力行を格納した配列へのポインタ
-char **allocwords(int *line_nums) {
+char **allocWords(int *line_nums) {
 	// 入力用、動的メモリ用の変数を用意する
 	char buff[ 1024 ];
 	int n;
@@ -24,6 +24,7 @@ char **allocwords(int *line_nums) {
 
 	if (p == NULL) {
 		fprintf(stderr, "メモリを確保できませんでした\n");
+		*line_nums = 0;
 		exit(1);
 	}
 
@@ -43,6 +44,7 @@ char **allocwords(int *line_nums) {
 		if (p[ i ] == NULL) {
 			freeWords(p, i);
 			fprintf(stderr, "メモリを確保できませんでした。\n");
+			*line_nums = 0;
 			return ((char **)NULL);
 		}
 
