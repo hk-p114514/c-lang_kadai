@@ -1,5 +1,0 @@
-#!/bin/bash
-
-cc -c -shared -fPIC -o liballocWords.so allocWords.c
-echo "COMPILING..."
-cc $1 -L . -l allocWords

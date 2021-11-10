@@ -1,9 +1,9 @@
-#include "allocWords.h"
+#include "allocwords.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char const *argv[]) {
 	int n;
 	char **p;
 	int i = 0;
@@ -14,15 +14,13 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "引数を正しく指定してください\n");
 		return (1);
 	} else {
-		if ((p = allocWords(&n)) == (char **)NULL) {
+		if ((p = allocWords(&n)) == NULL) {
 			fprintf(stderr, "words allocation failed\n");
 			exit(8);
 		}
-		// 番兵を設置
-		p[ n ] = argv[ 1 ];
 
 		// 探索
-		while (strcmp(p[ i ], argv[ 1 ]) != 0) {
+		while (i < n && strcmp(p[ i ], argv[ 1 ]) != 0) {
 			i++;
 		}
 
@@ -32,7 +30,7 @@ int main(int argc, char *argv[]) {
 			fprintf(stderr, "\n%s does not found\n", argv[ 1 ]);
 		}
 
-		freeWords(p, n - 1);
+		freeWords(p, n);
 	}
 
 	return 0;
