@@ -8,9 +8,12 @@
 #include <stdio.h>
 
 #define POW(x) ((x) * (x))
+/*
+ * 中点法では、区分求積法に比べ、100倍程度高い精度で求めることができた。
+ */
 
 int main() {
-	double n = 900000; // 扇形を分割する数(p1.cから十分の一)
+	double n = 90000;  // 扇形を分割する数(p1.cから100分の一)
 	double s = 0.0;    // 扇形の面積
 	double w = 1 / n;  // n分割する長方形の横幅
 	double loss = 0;   // 丸め誤差
