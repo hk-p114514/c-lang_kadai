@@ -17,13 +17,13 @@
 #include <stdio.h>
 
 int main() {
-	double s = 1;                                       // 合計の初期値
-	double before = 0;                                  // 前回の合計
-	int sign = -1;                                      // 符号の初期値
-	int denominator = 3;                                // 分母の初期値
-	double requiredAccuracy = 1e-6;                     // 必要精度
-	double condition = fabs(s - before) / fabs(before); // 相対打ち切り誤差
-	double loss = 0;                                    // 丸め誤差
+	double s = 1;                   // 合計の初期値
+	double before = 0;              // 前回の合計
+	int sign = -1;                  // 符号の初期値
+	int denominator = 3;            // 分母の初期値
+	double requiredAccuracy = 1e-6; // 必要精度
+	double condition;               // 相対打ち切り誤差
+	double loss = 0;                // 丸め誤差
 
 	// 1 - (1/3)から計算を始める
 	do {
@@ -37,6 +37,7 @@ int main() {
 		condition = fabs(s - before) / fabs(before);
 
 		// 丸め誤差を更新する
+		// loss = si - (s - before);
 		loss = si - (s - before);
 	} while (condition >= requiredAccuracy);
 
