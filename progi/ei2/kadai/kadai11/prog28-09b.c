@@ -22,9 +22,13 @@ int main(int argc, char *argv[]) {
 void printBinaryN(int d, int n) {
 	if (d < 2) {
 		// 0を打つかどうか
+		// 1桁は自分自身を出力するのでn - 1個の0を出す
+		for (int i = 0; i < n - 1; i++) {
+			putchar('0');
+		}
 		printf("%d", d);
 	} else {
-		printBinary(d / 2);
+		printBinaryN(d / 2, n - 1);
 		printf("%d", d % 2);
 	}
 }

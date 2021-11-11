@@ -31,20 +31,20 @@ int rbSearch(char *target, char *words[], int n) {
 
 int rbSearchRec(char *target, char *words[], int lower, int upper) {
 	int m = (lower + upper) / 2;
-	int place = -1;
-	// 探索
-	while (place == -1 && lower <= upper) {
-		if (strcmp(target, words[ m ]) < 0) {
+	int result = strcmp(target, words[ m ]);
+
+	if (lower <= upper) {
+		if (result < 0) {
 			upper = m - 1;
-		} else if (strcmp(target, words[ m ]) > 0) {
+		} else if (result > 0) {
 			lower = m + 1;
-		} else {
-			place = m;
+		} else if (result == 0) {
+			return (m);
 		}
-		m = (lower + upper) / 2;
+		return (rbSearchRec(target, words, lower, upper));
+	} else {
+		return (-1);
 	}
-	
-	return (place);
 }
 
 // ====================================================================
