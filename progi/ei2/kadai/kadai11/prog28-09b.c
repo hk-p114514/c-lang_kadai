@@ -3,24 +3,28 @@
 
 void printBinaryN(int d, int n);
 
-int main(int argc, char *argv[])
-{
-  int d, n;
+int main(int argc, char *argv[]) {
+	int d, n;
 
-  if (argc < 3) {
-    fprintf(stderr, "10進整数と表示するビット長を引数に指定してください。\n");
-    exit(1);
-  }
-  sscanf(argv[1], "%d", &d);
-  sscanf(argv[2], "%d", &n);
+	if (argc < 3) {
+		fprintf(stderr, "10進整数と表示するビット長を引数に指定してください。\n");
+		exit(1);
+	}
+	sscanf(argv[ 1 ], "%d", &d);
+	sscanf(argv[ 2 ], "%d", &n);
 
-  printBinaryN(d, n);
-  putchar('\n');
+	printBinaryN(d, n);
+	putchar('\n');
 
-  return(0);
+	return (0);
 }
 
-void printBinaryN(int d, int n)
-{
-
+void printBinaryN(int d, int n) {
+	if (d < 2) {
+		// 0を打つかどうか
+		printf("%d", d);
+	} else {
+		printBinary(d / 2);
+		printf("%d", d % 2);
+	}
 }

@@ -3,23 +3,26 @@
 
 void printBinary(int d);
 
-int main(int argc, char *argv[])
-{
-  int d;
+int main(int argc, char *argv[]) {
+	int d;
 
-  if (argc < 2) {
-    fprintf(stderr, "10進整数を引数に指定してください。\n");
-    exit(1);
-  }
-  sscanf(argv[1], "%d", &d);
+	if (argc < 2) {
+		fprintf(stderr, "10進整数を引数に指定してください。\n");
+		exit(1);
+	}
+	sscanf(argv[ 1 ], "%d", &d);
 
-  printBinary(d);
-  putchar('\n');
+	printBinary(d);
+	putchar('\n');
 
-  return(0);
+	return (0);
 }
 
-void printBinary(int d)
-{
-
+void printBinary(int d) {
+	if (d < 2) {
+		printf("%d", d);
+	} else {
+		printBinary(d / 2);
+		printf("%d", d % 2);
+	}
 }
