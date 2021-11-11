@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 	}
 	sscanf(argv[ 1 ], "%d", &n);
 
-	printf("%ld\n", fib(n));
+	printf("%lld\n", fib(n));
 
 	return (0);
 }

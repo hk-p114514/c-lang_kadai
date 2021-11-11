@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
 		exit(1);
 	}
 	sscanf(argv[ 1 ], "%d", &n);
-	printf("%ld\n", stepCount(n));
+	printf("%lld\n", stepCount(n));
 
 	return (0);
 }

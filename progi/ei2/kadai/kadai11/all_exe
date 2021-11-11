@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# prog28-01.cからprog28-10.cをコンパイル、実行し、結果を表示
+
+echo "prog28-01.c"
+gcc prog28-01.c
+for i in {1..6}; do
+	./a.out "$i"
+done
+
+echo "prog28-02.c"
+gcc prog28-02.c
+./a.out 0
+./a.out 4
+./a.out 6
+
+echo "prog28-03.c"
+gcc prog28-03.c
+./a.out 2 0
+./a.out 2 4
+./a.out 2 -2
+
+echo "prog28-04.c"
+gcc prog28-04.c
+./a.out 1
+./a.out 6
+./a.out 7
+
+echo "prog28-05.c"
+gcc prog28-05.c
+./a.out 3
+./a.out 5
+./a.out 10
+
+echo "prog28-06.c"
+gcc prog28-06.c
+./a.out 24 18
+./a.out 264 128
+./a.out 48 64
+
+echo "prog28-07.c"
+gcc prog28-07.c
+./a.out 4 2
+./a.out 5 2
+./a.out 10 5
+
+echo "prog28-08.c"
+gcc prog28-08.c
+./a.out httpd <./words.sorted
+./a.out samba <./words.sorted
+
+echo "prog28-09a.c"
+gcc prog28-09a.c
+./a.out 0
+./a.out 1
+./a.out 5
+./a.out 10
+./a.out 53
+./a.out 255
+
+echo "prog28-09b.c"
+gcc prog28-09b.c
+./a.out 0 4
+./a.out 1 4
+./a.out 5 8
+./a.out 10 8
+./a.out 53 2
+./a.out 255 4
+
+echo "prog28-10.c"
+gcc prog28-10.c
+./a.out 4
+./a.out 8
+./a.out 10
+
+echo "END"
