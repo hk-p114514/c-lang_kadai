@@ -24,7 +24,7 @@ long long stepCount(int n) {
 	} else if (n == 2) {
 		return (2);
 	} else if (n == 3) {
-		return (4);
+		return (stepCount(n - 1) + stepCount(n - 2) + 1);
 	} else {
 		return (stepCount(n - 1) + stepCount(n - 2) + stepCount(n - 3));
 	}

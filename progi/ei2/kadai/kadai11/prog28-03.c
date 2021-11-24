@@ -23,7 +23,7 @@ double ipow(double a, int x) {
 	if (x > 0) {
 		return (ipow(a, x - 1) * a);
 	} else if (x < 0) {
-		return (1 / (ipow(a, -x - 1) * a));
+		return ((ipow(a, x + 1) / a));
 	} else {
 		return (1.0);
 	}
