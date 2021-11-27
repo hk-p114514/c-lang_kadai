@@ -35,16 +35,23 @@ int partitionNumberRec(int n, int a) {
 	static int memo[ 100 ][ 100 ] = {};
 
 	if (a == 1) {
+		// a = 1のとき、1以下の自然数の和で表す
+		// つまり、「全て1で表す」の１通りしか存在しない
 		memo[ n ][ a ] = 1;
+		return (1);
 	} else if (n < 0 || a <= 0) {
+		// nそのものがマイナス、またはaがマイナス、またはaが0のとき、
+		// そもそも分割できないので、0
 		memo[ n ][ a ] = 0;
+		return (0);
 	} else if (memo[ n ][ a ] == 0) {
 		/*
 		p(n,a)をnを自然数aで始まるように分割するときの分割数とすると、
 		p(n,a) = p(n-a,a) + p(n,a-1)といえる。
 		*/
 		memo[ n ][ a ] = partitionNumberRec(n - 1, a) + partitionNumberRec(n - 1, a - 1);
+	} else {
+		// すでに計算済みの値を使う
+		return (memo[ n ][ a ]);
 	}
-
-	return (memo[ n ][ a ]);
 }
