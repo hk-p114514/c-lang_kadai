@@ -2,5 +2,6 @@
   "files.associations": {
     "stdio.h": "c"
   },
-  "cSpell.words": ["combi"]
+  "cSpell.words": ["combi"],
+  "workbench.colorTheme": "Ayu Mirage Bordered"
 }
