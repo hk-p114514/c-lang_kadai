@@ -45,17 +45,18 @@ int tileCount(char room[ H ][ W ], int row, int col, int h, int w) {
 	int left = col - 1;
 	int right = col + 1;
 
-	// 範囲外、もしくはそのマスが赤いタイルならば、0を返す
+	// 範囲外、もしくはそのマスが赤いタイルのとき、どこにも行けない。-> 0を返す
 	if (row < 0 || row >= h || col < 0 || col >= w || room[ row ][ col ] == red) {
 		return (0);
 	} else {
-		// そのマスが赤いタイルでなければ、そのマスを赤いタイルにする
+		// そのマスが赤いタイルでなければ、そのマスを赤いタイルにする -> 重複を回避
 		room[ row ][ col ] = red;
+
 		// 現在のマスから上下左右のマスにそれぞれ移動する
-		count += tileCount(room, up, col, h, w);
-		count += tileCount(room, down, col, h, w);
-		count += tileCount(room, row, left, h, w);
-		count += tileCount(room, row, right, h, w);
+		count += tileCount(room, up, col, h, w);    // 上
+		count += tileCount(room, down, col, h, w);  // 下
+		count += tileCount(room, row, left, h, w);  // 左
+		count += tileCount(room, row, right, h, w); // 右
 	}
 
 	return (count);
