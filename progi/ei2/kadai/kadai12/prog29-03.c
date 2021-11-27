@@ -34,17 +34,28 @@ int main() {
 }
 
 int tileCount(char room[ H ][ W ], int row, int col, int h, int w) {
-	// 基底条件：もうどこにも行けない -> 1
+	// 基底条件：もうどこにも行けない -> 0
 	char red = '#';
 	char floor = '.';
 	int count = 1;
 
+	// 上下左右のタイルの位置
 	int up = row - 1;
 	int down = row + 1;
 	int left = col - 1;
 	int right = col + 1;
 
-	if ((row < 0 || row >= h || col < 0 || col >= w)) {
+	// 範囲外、もしくはそのマスが赤いタイルならば、0を返す
+	if (row < 0 || row >= h || col < 0 || col >= w || room[ row ][ col ] == red) {
+		return (0);
+	} else {
+		// そのマスが赤いタイルでなければ、そのマスを赤いタイルにする
+		room[ row ][ col ] = red;
+		// 現在のマスから上下左右のマスにそれぞれ移動する
+		count += tileCount(room, up, col, h, w);
+		count += tileCount(room, down, col, h, w);
+		count += tileCount(room, row, left, h, w);
+		count += tileCount(room, row, right, h, w);
 	}
 
 	return (count);

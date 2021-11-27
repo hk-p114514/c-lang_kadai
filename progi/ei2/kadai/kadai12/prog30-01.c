@@ -22,8 +22,10 @@ int combi(int n, int r) {
 	static int memo[ 100 ][ 100 ] = {};
 
 	if (r == 0 || r == n) {
+		memo[ r ][ n ] = 1;
 		return (1);
-	} else {
-		return (combi(n - 1, r - 1) + combi(n - 1, r));
+	} else if (memo[ r ][ n ] == 0) {
+		memo[ r ][ n ] = combi(n - 1, r - 1) + combi(n - 1, r);
 	}
+	return (memo[ r ][ n ]);
 }
