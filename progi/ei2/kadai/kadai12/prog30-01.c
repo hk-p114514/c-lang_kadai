@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 }
 
 int combi(int n, int r) {
-	static int memo[ 100 ][ 100 ] = {};
+	static int memo[ 100 ][ 100 ] = {{0}};
 
 	if (r == 0 || r == n) {
 		memo[ r ][ n ] = 1;

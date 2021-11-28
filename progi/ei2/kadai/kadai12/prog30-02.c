@@ -30,8 +30,8 @@ int partitionNumberRec(int n, int a) {
 	a = 1 (1以下の自然数の和で表す = 全て1)のとき = それ以上分割できないとき= 1
 	n < 0 or a <= 0 (範囲外)のとき、0
 	*/
-	static int memo[ ARR_SIZE ][ ARR_SIZE ] = {};
-	static int isRecorded[ ARR_SIZE ][ ARR_SIZE ] = {};
+	static int memo[ ARR_SIZE ][ ARR_SIZE ] = {{0}};
+	static int isRecorded[ ARR_SIZE ][ ARR_SIZE ] = {{0}};
 
 	if (a == 1) {
 		/*
