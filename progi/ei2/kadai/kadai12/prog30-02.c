@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define ARR_SIZE (100)
+#define ARR_SIZE (150)
+// 2147483647
 
 int partitionNumber(int n);
 int partitionNumberRec(int n, int a);

@@ -40,7 +40,7 @@ int countPath(int x, int y) {
 	}
 
 	// [x,y]が[1,1]のとき、1を返す
-	if (x == 1 && y == 1) {
+	if (x <= 1 && y <= 1) {
 		memo[ x ][ y ] = 1;
 		return (1);
 	}
