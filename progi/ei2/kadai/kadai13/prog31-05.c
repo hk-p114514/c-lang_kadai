@@ -30,17 +30,26 @@ int combi(int n, int r) {
 	}
 	combiTail(n, r, ans);
 
-	return (ans[ 0 ] + ans[ 1 ]);
+	return (ans[ 0 ] / ans[ 1 ]);
 }
 
 // ans[0] は nCr の分子、ans[1]は nCr の分母
 void combiTail(int n, int r, long long ans[]) {
-	if (r == 0 || r == n) {
-		ans[ 0 ] += 1;
-		ans[ 1 ] += 1;
+	/*
+	 * パスカルの三角形の上からn段目、左からr番目の値は
+	 * nCrの計算結果になっている。
+	 * nCr = n*(n-1)*(n-2)/r*(r-1)*(r-2)であるので、
+	 * r=0になるまでnとrをans[]のそれぞれに掛け、nとrを1ずつ減らしていけば良い。
+	 */
+	if (r <= 0) {
 		return;
 	} else {
-		combiTail(n - 1, r, ans);
-		combiTail(n - 1, r - 1, ans);
+		ans[ 0 ] *= n;
+		ans[ 1 ] *= r;
+		n--;
+		r--;
+		combiTail(n, r, ans);
 	}
+
+	return;
 }
