@@ -33,8 +33,8 @@ long long fib_tail(long long a, long long b, int n) {
 		return (a);
 	} else {
 		// 次の第n-1項の値はa+b
-		// 次の第n-2項の値はb+(a-b) -->(a-b)は第n-3項の値なので、b+(a-b)は次の第n-2項の値になる
+		// 次の第n-2項の値はb+(a-b) -->(a-b)は第n-3項の値なので、b+(a-b) = aは次の第n-2項の値になる
 		// nは1ずつ減らす
-		return (fib_tail(a + b, b + (a - b), n - 1));
+		return (fib_tail(a + b, a, n - 1));
 	}
 }
