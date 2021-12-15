@@ -24,12 +24,14 @@ unsigned int bit2int(char *bit, unsigned int dec) {
 	}
 
 	if (msb == 1) {
-		int add = 1; // 10進数における各桁の重み
-		for (int i = 0; i < len - 1; i++) {
-			add *= 2;
-		}
+		// 最上位ビットが 1 の場合、桁数に応じてdecに加算する
 
-		dec += add;
+		/*
+		 * len - 1は、最下位ビットから最上位ビットまでのビット数なので
+		 * 1をlen - 1回左シフトした値は、bit[ 0 ]が1ならば、
+		 * bitの最上位ビットを取り出した値となる。
+		 */
+		dec += 1 << (len - 1);
 	}
 
 	// 最上位ビットを除いて再帰的に処理
