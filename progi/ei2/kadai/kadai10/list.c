@@ -221,3 +221,23 @@ void removeList(List **head) {
 
 	return;
 }
+
+List *reverseList(List *head) {
+	// リスト*headを逆順にしたリストを再帰的に生成する
+	List *reversedList = getEmptyList();
+	List *next = head;
+
+	while (isEmptyList(next) == 0) {
+		// リストの先頭にnextを追加
+		if (insertHead(&reversedList, getCellData(next)) == 0) {
+			// 追加に失敗したら、生成途中のセルをすべて解放する
+			removeList(&reversedList);
+			return (getEmptyList());
+		}
+
+		// 次のセルを探索
+		next = getNextCell(next);
+	}
+
+	return (reversedList);
+}

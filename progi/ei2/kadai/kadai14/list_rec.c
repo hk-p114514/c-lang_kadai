@@ -130,11 +130,6 @@ int removeHead(List **head) {
 	// 現在の先頭のnextを新たな先頭にする
 	*head = getNextCell(*head);
 
-	// エラーチェック
-	// if (isEmptyList(*head) == 1) {
-	// return (0);
-	// }
-
 	// 保存してあった古いheadをfree()
 	free(p);
 
@@ -163,26 +158,22 @@ List **getNextCellHead(Cell *cell) {
 //  ［戻り値］なし
 //------------------------------------------------------------------------
 void printList(List *head) {
-	// headをコピー
-	Cell *cell = head;
-	if (isEmptyList(cell) != 1) {
-		// 最後のセルなら終了
+	if (isEmptyList(head) == 1) {
 		return;
-	} else {
-		// cell(head)の次のセルを取得
-		cell = getNextCell(cell);
-		int data = getCellData(cell);
-
-		printf("%d ", data);
-
-		// 次のセルを取得
-		cell = getNextCell(cell);
-		if (isEmptyList(cell) != 1) {
-			// 次のセルが存在するので矢印表示
-			printf("-> ");
-		}
-		printList(cell);
 	}
+
+	// データを表示
+	int data;
+	data = getCellData(head);
+	printf("%d ", data);
+
+	// 次のセルが存在するなら"-> "を表示
+	if (isEmptyList(getNextCell(head)) == 0) {
+		printf("-> ");
+	}
+
+	// 次のセルを表示
+	printList(getNextCell(head));
 }
 
 //------------------------------------------------------------------------
@@ -192,10 +183,14 @@ void printList(List *head) {
 //  ［戻り値］追加に成功したとき：１、失敗したとき：０（元のリストは不変）
 //------------------------------------------------------------------------
 int insertUpOrder(List **head, int data) {
-	// 対象のセルが空、もしくは、対象のセルのデータが新しいデータより大きい場合
-	if (isEmptyList(*head) == 1 || getCellData(*head) >= data) {
-		return (insertHead(head, data));
+	// 対象のセルが空でない、かつ、対象のデータが新しいデータより小さい場合
+	if (isEmptyList(*head) == 0 && getCellData(*head) < data) {
+		// 再帰でinsertUpOrder()を呼び出す
+		return (insertUpOrder(getNextCellHead(*head), data));
 	}
+
+	// insertHead()を呼び出し、リストの先頭にセルを追加
+	return (insertHead(head, data));
 }
 
 //------------------------------------------------------------------------
@@ -205,6 +200,18 @@ int insertUpOrder(List **head, int data) {
 //            空リストから削除しようとしたとき：０
 //------------------------------------------------------------------------
 int removeTail(List **head) {
+	if (isEmptyList(*head) == 1) {
+		// 空リストなら終了
+		return (0);
+	}
+
+	if (isEmptyList(getNextCell(*head)) == 0) {
+		// 次のセルが存在する限り、対象のセルを末尾の方向に移動
+		removeTail(getNextCellHead(*head));
+	}
+
+	// 先頭セルを削除
+	return (removeHead(head));
 }
 
 //------------------------------------------------------------------------
@@ -215,6 +222,24 @@ int removeTail(List **head) {
 // 　　　　　空リストまたは存在しないデータを削除しようとしたとき＝０
 //------------------------------------------------------------------------
 int removeSearch(List **head, int data) {
+	if (isEmptyList(*head) == 1) {
+		// 空リストなら終了
+		return (0);
+	}
+
+	// 先頭が指定した値と同じなら、先頭を削除
+	if (getCellData(*head) == data) {
+		return (removeHead(head));
+	}
+
+	// 次のセルの値がdataと同じなら、自分のnextを次の次のセルに設定し直し、次のセルを削除
+	Cell **target = getNextCellHead(*head);
+	if (getCellData(*target) == data) {
+		return (removeHead(target));
+	}
+
+	// 次のセルを探索
+	return (removeSearch(target, data));
 }
 
 //------------------------------------------------------------------------
@@ -223,6 +248,17 @@ int removeSearch(List **head, int data) {
 //  ［戻り値］格納されているデータの個数（headが空リストのときは０）
 //------------------------------------------------------------------------
 int countCells(List *head) {
+	if (isEmptyList(head) == 1) {
+		// 空リストなら終了
+		return (0);
+	}
+
+	/*
+	 * 空リストになった時、つまりはリストの最後尾セルに到達したときに0を返して、再帰で返って来るので、
+	 * 空リストで無いときは、1 + 次回の呼び出し結果を返すと、
+	 * セルの数だけ1 + 1 + 1 + ... 1 + 0という式が出来上がる。
+	 */
+	return (1 + countCells(getNextCell(head)));
 }
 
 //------------------------------------------------------------------------
@@ -231,6 +267,20 @@ int countCells(List *head) {
 //  ［戻り値］リストに格納されている全データの合計（空リストのときは０）
 //------------------------------------------------------------------------
 int sumOfCellsData(List *head) {
+	if (isEmptyList(head) == 1) {
+		// 空リストなら終了
+		return (0);
+	}
+
+	// 次のセルを探索
+	int data = getCellData(head);
+	Cell *next = getNextCell(head);
+	/*
+	 * 空リストになった時、つまりはリストの最後尾セルに到達したときに0を返して、再帰で返って来るので、
+	 * 空リストで無いときは、1 + 次回の呼び出し結果を返すと、
+	 * セルの数だけdata1 + data2 + data3 + ... dataN + 0という式が出来上がる。
+	 */
+	return (data + sumOfCellsData(next));
 }
 
 //------------------------------------------------------------------------
@@ -239,6 +289,12 @@ int sumOfCellsData(List *head) {
 //  ［戻り値］なし
 //------------------------------------------------------------------------
 void removeList(List **head) {
+	if (removeHead(head) == 1) {
+		// removeHead()によってheadの位置が更新されるので、headをそのままremoveList()に渡すだけで良い。
+		removeList(head);
+	}
+
+	return;
 }
 
 //------------------------------------------------------------------------
@@ -249,6 +305,21 @@ void removeList(List **head) {
 //　　　　　　※ 追加に失敗したとき、それ以前のリストは保持する
 //------------------------------------------------------------------------
 int appendTail(List **head, int data) {
+	if (isEmptyList(*head) == 1) {
+		*head = createCell(data, getEmptyList());
+
+		if (isEmptyList(*head) == 1) {
+			return (0);
+		}
+
+		return (1);
+	}
+
+	List **next;
+	next = getNextCellHead(*head);
+
+	// リストの最後尾でなければ、次のセルを指定し、appendTail()を再帰呼び出し
+	return (appendTail(next, data));
 }
 
 //------------------------------------------------------------------------
@@ -260,4 +331,15 @@ int appendTail(List **head, int data) {
 //            ※ 生成に失敗したときは、生成途中のセルをすべて解放する
 //------------------------------------------------------------------------
 List *reverseList(List *head) {
+	/*
+	 * 最終的にはリストheadの逆順リストを返す。
+	 * それまでは、リストの要素であるheadのセルを返すことになる。
+	 */
+
+	// headが空リストなら、空リストを返す
+	if (isEmptyList(head) == 1) {
+		return (getEmptyList());
+	}
+
+	Cell *cell;
 }

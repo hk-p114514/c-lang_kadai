@@ -1,4 +1,4 @@
-#include "hamako.h"
+// #include "hamako.h"
 #include "list.h"
 #include <stdio.h>
 
@@ -8,9 +8,11 @@ int main() {
 
 	head = getEmptyList(); // headを空リストにする
 
-	n = getint("データの個数："); // リストに格納するデータの個数
+	printf("データの個数：");
+	scanf("%d", &n);
 	for (i = 1; i <= n; i++) {
-		data = getint("Input data: "); // 新しいセルへ格納するデータの入力
+		printf("Input data: ");
+		scanf("%d", &data);
 		if (insertHead(&head, data) == 0) { // 新しいセルの挿入
 			fprintf(stderr, "Error: セルを追加できませんでした。\n");
 			break;
