@@ -331,15 +331,35 @@ int appendTail(List **head, int data) {
 //            ※ 生成に失敗したときは、生成途中のセルをすべて解放する
 //------------------------------------------------------------------------
 List *reverseList(List *head) {
-	/*
-	 * 最終的にはリストheadの逆順リストを返す。
-	 * それまでは、リストの要素であるheadのセルを返すことになる。
-	 */
 
-	// headが空リストなら、空リストを返す
+	/* 1. headが空リストなら、空リストを返す。
+	 * この処理は最初に渡されたリストがそもそも空リストである場合と、
+	 * 後の処理におけるnextが空リストである場合、つまり、その時指しているheadが
+	 * 最初に渡されたリストの最後尾セルであるかどうかを判定する場合の２つの意味を持つ。
+	 */
 	if (isEmptyList(head) == 1) {
 		return (getEmptyList());
 	}
 
-	Cell *cell;
+	Cell *next = getNextCell(head);
+
+	/* 2.
+	 * 1より、渡されたリストの最後尾に到達するまで再帰で呼び出し続ける。
+	 */
+	List *reverse = reverseList(next);
+
+	/* 3.
+	 * 2より、最初に渡されたリストの最後尾から
+	 * 新たに生成したリストreverseの最後尾にデータを追加しする。
+	 */
+	int data = getCellData(head);
+	int result = appendTail(&reverse, data);
+
+	if (result == 0) {
+		// appendTail()に失敗したときは、生成途中のセルをすべて解放する
+		removeList(&reverse);
+		return (getEmptyList());
+	}
+
+	return (reverse);
 }
