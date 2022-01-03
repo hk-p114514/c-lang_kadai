@@ -1,7 +1,7 @@
+#include "list.h"
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
-// #include <hamakou.h>
-#include "list.h"
 
 void removeList(List **head);
 
@@ -11,14 +11,10 @@ int main() {
 
 	head = getEmptyList();
 
-	// n = getint("データの個数："); // リストに格納するデータの個数
-	printf("データの個数：");
-	scanf("%d", &n);
+	n = getint("データの個数："); // リストに格納するデータの個数
 
 	for (i = 1; i <= n; i++) {
-		// data = getint("Input data: ");      // 新しいセルへ格納するデータの入力
-		printf("Input data: ");
-		scanf("%d", &data);
+		data = getint("Input data: ");      // 新しいセルへ格納するデータの入力
 		if (appendTail(&head, data) == 0) { // 新しいセルの挿入
 			fprintf(stderr, "Error: セルを追加できませんでした。\n");
 			break;

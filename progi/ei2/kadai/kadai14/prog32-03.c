@@ -1,5 +1,5 @@
 #include "list.h"
-// #include <hamakou.h>
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,7 +11,7 @@ int main() {
 
 	printf("Input data ([CTRL]+[D]で終了): ");
 
-	while (scanf("%d", &data) != EOF) { // 新しいセルへ格納するデータの入力([CTRL]+[D]で終了)
+	while (scanf("%d", &data) != EOF) {     // 新しいセルへ格納するデータの入力([CTRL]+[D]で終了)
 		if (insertHead(&head, data) == 0) { // 新しいセルの挿入
 			fprintf(stderr, "Error: セルを追加できませんでした。\n");
 			break;

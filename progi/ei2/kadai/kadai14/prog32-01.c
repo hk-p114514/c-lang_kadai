@@ -1,9 +1,7 @@
 #include "list.h"
-// #include <hamakou.h>
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-int getint(const char *str);
 
 int main() {
 	int data, i, n;
@@ -28,11 +26,4 @@ int main() {
 	} while (removeTail(&head) == 1); // 最後尾のセルを削除
 
 	return (0);
-}
-
-int getint(const char *str) {
-	int data;
-	printf("%s", str);
-	scanf("%d", &data);
-	return (data);
 }

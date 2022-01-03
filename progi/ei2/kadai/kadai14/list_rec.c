@@ -345,14 +345,23 @@ List *reverseList(List *head) {
 
 	/* 2.
 	 * 1より、渡されたリストの最後尾に到達するまで再帰で呼び出し続ける。
+	 * headの最後尾に到達した後は、headの一つ後のデータまで格納されたリストが返される。
 	 */
 	List *reverse = reverseList(next);
 
 	/* 3.
 	 * 2より、最初に渡されたリストの最後尾から
 	 * 新たに生成したリストreverseの最後尾にデータを追加しする。
+	 * 最後の要素からどんどん新たなリストの末尾に追加するので、
+	 * 最終的には元のリストの逆順リストが生成される。
 	 */
 	int data = getCellData(head);
+
+	/*
+	 * appendTail() では、headが空リストである場合には、
+	 * headそのものをcreateCell()で書き換えてくれるので、
+	 * headの末尾に到達したときに返される空リストをそのまま渡すだけで良い。
+	 */
 	int result = appendTail(&reverse, data);
 
 	if (result == 0) {
@@ -361,5 +370,9 @@ List *reverseList(List *head) {
 		return (getEmptyList());
 	}
 
+	/* 4.
+	 * 3より、headの最後尾側のデータから末尾に挿入されたリストを
+	 * 一つ前の呼び出しに渡す。
+	 */
 	return (reverse);
 }
