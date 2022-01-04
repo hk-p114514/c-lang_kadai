@@ -200,17 +200,17 @@ int insertUpOrder(List **head, int data) {
 //            空リストから削除しようとしたとき：０
 //------------------------------------------------------------------------
 int removeTail(List **head) {
+	// リストのセルを全て削除したときは、リストの先頭を空リストにする
 	if (isEmptyList(*head) == 1) {
-		// 空リストなら終了
 		return (0);
 	}
 
+	// 次のセルが存在するなら、次のセルを探す
 	if (isEmptyList(getNextCell(*head)) == 0) {
-		// 次のセルが存在する限り、対象のセルを末尾の方向に移動
-		removeTail(getNextCellHead(*head));
+		return (removeTail(getNextCellHead(*head)));
 	}
 
-	// 先頭セルを削除
+	// 次のセルが存在しないなら、リストの先頭を削除する
 	return (removeHead(head));
 }
 
@@ -232,6 +232,10 @@ int removeSearch(List **head, int data) {
 		return (removeHead(head));
 	}
 
+	// 次のセルが存在しないなら、終了
+	if (isEmptyList(getNextCell(*head)) == 1) {
+		return (0);
+	}
 	// 次のセルの値がdataと同じなら、自分のnextを次の次のセルに設定し直し、次のセルを削除
 	Cell **target = getNextCellHead(*head);
 	if (getCellData(*target) == data) {
