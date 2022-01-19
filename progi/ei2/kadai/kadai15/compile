@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# 入力された*.cファイルをライブラリ(list_rec)を使ってコンパイルする
+
+make lib && cc "$1" -L . -l tree
