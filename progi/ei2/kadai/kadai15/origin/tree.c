@@ -1,7 +1,7 @@
-#include "tree.h"
-#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <hamakou.h>
+#include "tree.h"
 
 void printTreeSub(Tree *root, int depth);
 
@@ -10,8 +10,8 @@ void printTreeSub(Tree *root, int depth);
 //  ［引　数］なし
 //  ［戻り値］空木へのポインタ(Tree *)NULL
 //-------------------------------------------------------------------------------
-Tree *getEmptyTree(void) {
-	return ((Tree *)NULL);
+Tree *getEmptyTree(void)
+{
 }
 
 //-------------------------------------------------------------------------------
@@ -20,18 +20,8 @@ Tree *getEmptyTree(void) {
 //  ［戻り値］ノードが正しく作れたとき　：　作られたノードへのポインタ
 //  　　　　　ノードの生成に失敗したとき：　空木
 //-------------------------------------------------------------------------------
-Node *createNode(int data) {
-	Node *node;
-	if ((node = (Node *)malloc(sizeof(Node))) != NULL) {
-		// 生成したノードに渡されたデータを格納
-		setNodeData(node, data);
-		// 左右の部分木に空木へのポインタを格納
-		setSubTree(node, getEmptyTree(), 'L');
-		setSubTree(node, getEmptyTree(), 'R');
-		return (node);
-	}
-
-	return (getEmptyTree());
+Node *createNode(int data)
+{
 }
 
 //-------------------------------------------------------------------------------
@@ -40,20 +30,19 @@ Node *createNode(int data) {
 //            data : ノードへ格納する整数値
 //  ［戻り値］なし
 //-------------------------------------------------------------------------------
-void setNodeData(Node *node, int data) {
-	node->data = data;
-	return;
+void setNodeData(Node *node, int data)
+{
 }
-
+    
 //-------------------------------------------------------------------------------
 // ④ 指定したノードのデータを取り出す
 //  ［引　数］node : 操作対象となるノードへのポインタ
 //  ［戻り値］取り出した整数値
 //-------------------------------------------------------------------------------
-int getNodeData(Node *node) {
-	return (node->data);
+int getNodeData(Node *node)
+{
 }
-
+  
 //-------------------------------------------------------------------------------
 // ⑤ 指定したノードの左または右部分木に新たな部分木を格納する
 //  ［引　数］cell    : 操作対象となるノードへのポインタ
@@ -64,22 +53,8 @@ int getNodeData(Node *node) {
 //   　　　　 targetが 'R' または 'r' のとき：subtreeを右部分木に格納する
 //   　　　　 targetが 'L','l','R','r' 以外のときは何もしない
 //-------------------------------------------------------------------------------
-void setSubTree(Node *node, Tree *subtree, char target) {
-	switch (target) {
-		// 右部分木を設定
-		case 'R':
-		case 'r':
-			node->right = subtree;
-			break;
-
-		// 左部分木を設定
-		case 'L':
-		case 'l':
-			node->left = subtree;
-			break;
-	}
-
-	return;
+void setSubTree(Node *node, Tree *subtree, char target)
+{
 }
 
 //-------------------------------------------------------------------------------
@@ -90,23 +65,10 @@ void setSubTree(Node *node, Tree *subtree, char target) {
 //  　　　　　target = 'R' または 'r' のとき　　  : 左部分木を指すポインタ
 //  　　　　　target = 'L','l','R','r' 以外のとき : NULLポインタ
 //-------------------------------------------------------------------------------
-Tree *getSubTree(Node *node, char target) {
-	switch (target) {
-		// 右部分木を返す
-		case 'R':
-		case 'r':
-			return (node->right);
-			break;
-
-		// 左部分木を返す
-		case 'L':
-		case 'l':
-			return (node->left);
-			break;
-	}
-	return (getEmptyTree());
+Tree *getSubTree(Node *node, char target)
+{
 }
-
+    
 //-------------------------------------------------------------------------------
 // ⑦ 指定したノードの左または右部分木を指すポインタを保持しているメンバ
 //   変数のアドレスを取得する
@@ -118,23 +80,19 @@ Tree *getSubTree(Node *node, char target) {
 //  　　　　　　　　　 右部分木のポインタを保持するメンバ変数のアドレス
 //  　　　　　target = 'L','l','R','r' 以外のときはNULLポインタを返す
 //-------------------------------------------------------------------------------
-Tree **getSubTreeRoot(Node *node, char target) {
-	return (&(getSubTree(node, target)));
+Tree **getSubTreeRoot(Node *node, char target)
+{
 }
 
 //-------------------------------------------------------------------------------
 // ⑧ 与えられた木が空木かどうか調べる
-//  ［関　数］int isEmptyTree(Tree *root);
+//  ［関　数］int isEmptyTree(Tree *root);  
 //  ［引　数］root : 木の根を指すポインタ
 //  ［戻り値］rootが空木のとき　　：１
 //  　　　　　rootが空木でないとき：０
 //-------------------------------------------------------------------------------
-int isEmptyTree(Tree *root) {
-	if (root == getEmptyTree()) {
-		return (1);
-	}
-
-	return (0);
+int isEmptyTree(Tree *root)
+{
 }
 
 //-------------------------------------------------------------------------------
@@ -146,70 +104,53 @@ int isEmptyTree(Tree *root) {
 //　　　　　　引数で渡されたnodeは空木にする。メモリを解放するのみで、
 //　　　　　　枝のつなぎ替えは行わない。また、空木のときは何もしない。
 //-------------------------------------------------------------------------------
-int freeNode(Node **node) {
-	if (isEmptyTree(*node) != 1) {
-		free(*node);
-		return (1);
-	}
-	return (0);
-}
+int freeNode(Node **node)
 
+{
+}
+ 
 //-------------------------------------------------------------------------------
 // ⑩ 指定した二分木のノードをすべて削除する
+//  ［引　数］root : 木の根を指すポインタを格納している領域のアドレス
+//  ［戻り値］なし
 //  ［機　能］rootで指定した木のノードをすべて削除する
 //-------------------------------------------------------------------------------
-void rmTree(Tree **root) {
-	/*
-	    rootそのものが空で無い
-	        rootの左の部分木が空で無い
-	            左の部分木について同じ問いを調べる
-	        rootの右の部分木が空で無い
-	            右の部分木について同じ問いを調べる
-	        rootの左右の部分木が空
-	            終了
-	*/
-	Tree subTree;
-	if (isEmptyTree(subTree = getSubTree(*root, 'L')) != 1) {
-		rmTree(subTree);
-	}
-
-	if (isEmptyTree(subTree = getSubTree(*root, 'R')) != 1) {
-		rmTree(subTree);
-	}
-
-	freeNode(root);
+void rmTree(Tree **root)
+{
 }
 
 //-------------------------------------------------------------------------------
 // ⑪ 与えられた二分木を表示する
-//  ［関　数］void printTree(Tree *root);
+//  ［関　数］void printTree(Tree *root);  
 //  ［引　数］root : 木の根を指すポインタ
-//  ［戻り値］なし// 二分木の表示
+//  ［戻り値］なし// 二分木の表示 
 //-------------------------------------------------------------------------------
-void printTree(Tree *root) {
-	printTreeSub(root, 0);
-	return;
+void printTree(Tree *root)
+{
+  printTreeSub(root, 0);
+  return;
 }
 
 //-------------------------------------------------------------------------------
 // 与えられた二分木を表示する（printTree()から呼び出すサブ関数）
-//  ［関　　数］void printTree(Tree *root);
+//  ［関　　数］void printTree(Tree *root);  
 //  ［第１引数］root  : 木の根を指すポインタ
 //  ［第２引数］depth : 表示対象部分木のレベル
 //  ［戻 り 値］なし
 //-------------------------------------------------------------------------------
-void printTreeSub(Tree *root, int depth) {
-	int i;
-
-	if (!isEmptyTree(root)) {
-		printTreeSub(getSubTree(root, 'R'), depth + 1);
-		for (i = 0; i < depth; i++) {
-			printf("   ");
-		}
-		printf("%d\n", getNodeData(root));
-		printTreeSub(getSubTree(root, 'L'), depth + 1);
-	}
-	return;
+void printTreeSub(Tree *root, int depth)
+{
+  int i;
+  
+  if (!isEmptyTree(root)) {
+    printTreeSub(getSubTree(root, 'R'), depth + 1);
+    for (i = 0; i < depth; i++) {
+      printf("   ");
+    }
+    printf("%d\n", getNodeData(root));
+    printTreeSub(getSubTree(root, 'L'), depth + 1);
+  }
+  return;
 }
 
 //-------------------------------------------------------------------------------
@@ -223,5 +164,6 @@ void printTreeSub(Tree *root, int depth) {
 //            木の生成が途中で失敗したときは、そこで生成を中止する
 //           （途中まで作られた木はそのまま残す）
 //-------------------------------------------------------------------------------
-int mkBalanceTree(Tree **root, int n) {
+int mkBalanceTree(Tree **root, int n)
+{
 }
