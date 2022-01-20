@@ -224,4 +224,21 @@ void printTreeSub(Tree *root, int depth) {
 //           （途中まで作られた木はそのまま残す）
 //-------------------------------------------------------------------------------
 int mkBalanceTree(Tree **root, int n) {
+	/*
+	    nが0
+	        終了
+	    データを受け取る
+	    今見ているノードにデータを格納する
+	    nが1
+	        終了
+	    n/2、rootの左部分木をmkBalanceTree()に渡す
+	    n-(n/2)-1、右部分木をmkBalanceTree()に渡す
+	 */
+	if (n <= 0) {
+		return (1);
+	}
+	int data;
+	char buff[ 1024 ];
+	fgets(buff, sizeof(buff), stdin);
+	sscanf(buff, "%d", &data);
 }
