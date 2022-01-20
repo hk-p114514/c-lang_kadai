@@ -1,9 +1,18 @@
 #include "tree.h"
-#include <hamakou.h>
+// #include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 void printTreeSub(Tree *root, int depth);
+
+int getint(char *str) {
+	int n;
+	printf("%s", str);
+	char buf[ 256 ];
+	fgets(buf, 256, stdin);
+	sscanf(buf, "%d", &n);
+	return n;
+}
 
 //-------------------------------------------------------------------------------
 // ① 空木を取得する
@@ -66,17 +75,17 @@ int getNodeData(Node *node) {
 //-------------------------------------------------------------------------------
 void setSubTree(Node *node, Tree *subtree, char target) {
 	switch (target) {
-		// 右部分木を設定
-		case 'R':
-		case 'r':
-			node->right = subtree;
-			break;
+	// 右部分木を設定
+	case 'R':
+	case 'r':
+		node->right = subtree;
+		break;
 
-		// 左部分木を設定
-		case 'L':
-		case 'l':
-			node->left = subtree;
-			break;
+	// 左部分木を設定
+	case 'L':
+	case 'l':
+		node->left = subtree;
+		break;
 	}
 
 	return;
@@ -92,18 +101,19 @@ void setSubTree(Node *node, Tree *subtree, char target) {
 //-------------------------------------------------------------------------------
 Tree *getSubTree(Node *node, char target) {
 	switch (target) {
-		// 右部分木を返す
-		case 'R':
-		case 'r':
-			return (node->right);
-			break;
+	// 右部分木を返す
+	case 'R':
+	case 'r':
+		return (node->right);
+		break;
 
-		// 左部分木を返す
-		case 'L':
-		case 'l':
-			return (node->left);
-			break;
+	// 左部分木を返す
+	case 'L':
+	case 'l':
+		return (node->left);
+		break;
 	}
+
 	return (getEmptyTree());
 }
 
@@ -120,17 +130,17 @@ Tree *getSubTree(Node *node, char target) {
 //-------------------------------------------------------------------------------
 Tree **getSubTreeRoot(Node *node, char target) {
 	switch (target) {
-		// 右部分木を返す
-		case 'R':
-		case 'r':
-			return (&(node->right));
-			break;
+	// 右部分木を返す
+	case 'R':
+	case 'r':
+		return (&(node->right));
+		break;
 
-		// 左部分木を返す
-		case 'L':
-		case 'l':
-			return (&(node->left));
-			break;
+	// 左部分木を返す
+	case 'L':
+	case 'l':
+		return (&(node->left));
+		break;
 	}
 
 	return ((Tree **)NULL);
@@ -162,7 +172,12 @@ int isEmptyTree(Tree *root) {
 //-------------------------------------------------------------------------------
 int freeNode(Node **node) {
 	if (isEmptyTree(*node) != 1) {
+		// nodeを開放する
 		free(*node);
+
+		// nodeを空木にする
+		*node = getEmptyTree();
+
 		return (1);
 	}
 	return (0);
@@ -248,12 +263,39 @@ int mkBalanceTree(Tree **root, int n) {
 	    n/2、rootの左部分木をmkBalanceTree()に渡す
 	    n-(n/2)-1、右部分木をmkBalanceTree()に渡す
 	 */
-	if (n <= 1) {
+	if (n < 1) {
+		/*
+		 * n(ノードの個数)が0の場合、
+		 * つまり、前回の再帰でノード1つの部分木(葉)を作成した場合、
+		 * 木の生成に成功しているので、１を返す。
+		 */
 		return (1);
 	}
+
 	int data;
 	char buff[ 1024 ];
 	printf("ノードへ格納する値: ");
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &data);
+
+	// rootにノードを作成する
+	*root = createNode(data);
+	if (*root == getEmptyTree()) {
+		return (0);
+	}
+
+	setSubTree(*root, getEmptyTree(), 'L');
+	setSubTree(*root, getEmptyTree(), 'R');
+
+	// 左部分木を作成する
+	if (mkBalanceTree(getSubTreeRoot(*root, 'L'), n / 2) == 0) {
+		return (0);
+	}
+
+	// 右部分木を作成する
+	if (mkBalanceTree(getSubTreeRoot(*root, 'R'), n - (n / 2) - 1) == 0) {
+		return (0);
+	}
+
+	return (1);
 }

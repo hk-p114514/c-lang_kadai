@@ -19,3 +19,4 @@ int freeNode(Node **node);                               // 操作関数⑨
 void rmTree(Tree **root);                                // 操作関数⑩
 void printTree(Tree *root);                              // 操作関数⑪
 int mkBalanceTree(Tree **root, int n);
+int getint(char *str);
