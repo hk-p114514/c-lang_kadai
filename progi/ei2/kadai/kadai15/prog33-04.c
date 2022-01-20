@@ -44,7 +44,7 @@ int rmSearchNodeAll(Tree **root, int target) {
 	Tree *rm_node, **most_left;
 
 	if (isEmptyTree(*root)) { // 指定した値を持つノードは存在しない
-		return (0);
+		return (1);
 	} else if (target == getNodeData(*root)) {
 		// 指定した値を持つノードが見つかった
 		rm_node = *root;
