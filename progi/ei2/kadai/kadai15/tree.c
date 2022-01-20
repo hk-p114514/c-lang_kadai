@@ -119,7 +119,21 @@ Tree *getSubTree(Node *node, char target) {
 //  　　　　　target = 'L','l','R','r' 以外のときはNULLポインタを返す
 //-------------------------------------------------------------------------------
 Tree **getSubTreeRoot(Node *node, char target) {
-	return (&(getSubTree(node, target)));
+	switch (target) {
+		// 右部分木を返す
+		case 'R':
+		case 'r':
+			return (&(node->right));
+			break;
+
+		// 左部分木を返す
+		case 'L':
+		case 'l':
+			return (&(node->left));
+			break;
+	}
+
+	return ((Tree **)NULL);
 }
 
 //-------------------------------------------------------------------------------
@@ -168,13 +182,13 @@ void rmTree(Tree **root) {
 	        rootの左右の部分木が空
 	            終了
 	*/
-	Tree subTree;
+	Tree *subTree;
 	if (isEmptyTree(subTree = getSubTree(*root, 'L')) != 1) {
-		rmTree(subTree);
+		rmTree(&subTree);
 	}
 
 	if (isEmptyTree(subTree = getSubTree(*root, 'R')) != 1) {
-		rmTree(subTree);
+		rmTree(&subTree);
 	}
 
 	freeNode(root);
@@ -234,11 +248,12 @@ int mkBalanceTree(Tree **root, int n) {
 	    n/2、rootの左部分木をmkBalanceTree()に渡す
 	    n-(n/2)-1、右部分木をmkBalanceTree()に渡す
 	 */
-	if (n <= 0) {
+	if (n <= 1) {
 		return (1);
 	}
 	int data;
 	char buff[ 1024 ];
+	printf("ノードへ格納する値: ");
 	fgets(buff, sizeof(buff), stdin);
 	sscanf(buff, "%d", &data);
 }
