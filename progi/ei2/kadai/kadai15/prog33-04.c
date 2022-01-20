@@ -2,10 +2,10 @@
 //  木から指定した値を持つノードをすべて削除するプログラム
 //  （注：このプログラムでは、削除した結果バランス木はくずれる）
 //
+#include "tree.h"
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
-// #include <hamakou.h>
-#include "tree.h"
 
 int rmSearchNodeAll(Tree **root, int target);
 Tree **mostLeftLeafRoot(Tree **root);

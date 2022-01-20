@@ -2,7 +2,7 @@
 //  ｎ個のノードからなるバランスされた木を作り、それを完全に削除する
 //
 #include "tree.h"
-// #include <hamakou.h>
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
 

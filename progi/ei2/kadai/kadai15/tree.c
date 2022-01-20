@@ -5,15 +5,6 @@
 
 void printTreeSub(Tree *root, int depth);
 
-int getint(char *str) {
-	int n;
-	printf("%s", str);
-	char buf[ 256 ];
-	fgets(buf, 256, stdin);
-	sscanf(buf, "%d", &n);
-	return n;
-}
-
 //-------------------------------------------------------------------------------
 // ① 空木を取得する
 //  ［引　数］なし

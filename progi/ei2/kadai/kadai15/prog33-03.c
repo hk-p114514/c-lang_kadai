@@ -3,7 +3,7 @@
 //  （注：このプログラムでは、削除した結果バランスはくずれる）
 //
 #include "tree.h"
-// #include <hamakou.h>
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
 
