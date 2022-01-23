@@ -73,7 +73,8 @@ int rmSearchNodeAll(Tree **root, int target) {
 		}
 
 		// 最初の処理にて、該当するノードが見つからなくなる時まで、同じ条件で削除を繰り返す
-		return (rmSearchNodeAll(root, target));
+		// この時rmSearchNodeAll()は、全てのノードを削除した後に0を返す
+		rmSearchNodeAll(root, target)
 	} else {
 		// 指定した値を持つノードを左部分木から探す
 		if (rmSearchNodeAll(getSubTreeRoot(*root, 'L'), target) == 1) {
