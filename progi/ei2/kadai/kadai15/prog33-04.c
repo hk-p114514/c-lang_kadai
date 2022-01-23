@@ -44,7 +44,7 @@ int rmSearchNodeAll(Tree **root, int target) {
 	Tree *rm_node, **most_left;
 
 	if (isEmptyTree(*root)) { // 指定した値を持つノードは存在しない
-		return (1);
+		return (0);
 	} else if (target == getNodeData(*root)) {
 		// 指定した値を持つノードが見つかった
 		rm_node = *root;
@@ -72,9 +72,9 @@ int rmSearchNodeAll(Tree **root, int target) {
 			freeNode(most_left);
 		}
 
-		// 最初の処理にて、該当するノードが見つからなくなる時まで、同じ条件で削除を繰り返す
-		// この時rmSearchNodeAll()は、全てのノードを削除した後に0を返す
-		rmSearchNodeAll(root, target)
+		// 該当するノードが見つからなくなるまで、同じ条件で削除を繰り返す
+		rmSearchNodeAll(root, target);
+		return (1);
 	} else {
 		// 指定した値を持つノードを左部分木から探す
 		if (rmSearchNodeAll(getSubTreeRoot(*root, 'L'), target) == 1) {
