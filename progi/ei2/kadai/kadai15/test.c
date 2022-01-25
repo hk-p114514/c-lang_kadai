@@ -72,24 +72,18 @@ int rmSearchNodeAll(Tree **root, int target) {
 			freeNode(most_left);
 		}
 
-		if (isEmptyTree(*root) != 1) {
-			if (getNodeData(*root) == target) {
-				rmSearchNodeAll(root, target);
-			} else {
-				rmSearchNodeAll(getSubTreeRoot(*root, 'L'), target);
-				rmSearchNodeAll(getSubTreeRoot(*root, 'R'), target);
-			}
-		}
-
-		return (1);
+		// 該当するノードが見つからなくなるまで、同じ条件で削除を繰り返す
+		return (rmSearchNodeAll(root, target));
 	} else {
 		// 指定した値を持つノードを左部分木から探す
-		if ((rmSearchNodeAll(getSubTreeRoot(*root, 'L'), target) +
-		     rmSearchNodeAll(getSubTreeRoot(*root, 'R'), target)) > 0) {
+		if (rmSearchNodeAll(getSubTreeRoot(*root, 'L'), target) == 1) {
 			return (1);
+			// 指定した値を持つノードを右部分木から探す
+		} else if (rmSearchNodeAll(getSubTreeRoot(*root, 'R'), target) == 1) {
+			return (1);
+		} else {
+			return (0);
 		}
-
-		return (0);
 	}
 }
 
