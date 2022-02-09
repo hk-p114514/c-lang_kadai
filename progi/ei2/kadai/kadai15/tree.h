@@ -3,6 +3,7 @@ typedef struct node {   // 空木はNULLポインタ
 	int data;           // 整数値がここへ格納される
 	struct node *left;  // 左部分木へのポインタ
 	struct node *right; // 右部分木へのポインタ
+	int count;          // 同じ値が木に格納された回数
 } Tree;
 
 typedef Tree Node; // 使用場面に応じてTreeとNodeを使い分ける
@@ -19,3 +20,7 @@ int freeNode(Node **node);                               // 操作関数⑨
 void rmTree(Tree **root);                                // 操作関数⑩
 void printTree(Tree *root);                              // 操作関数⑪
 int mkBalanceTree(Tree **root, int n);
+
+void incrementEqualValueCount(Tree *root);
+void decrementEqualValueCount(Tree *root);
+int getEqualValueCount(Tree *root);

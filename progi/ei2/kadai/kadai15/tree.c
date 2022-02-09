@@ -66,17 +66,17 @@ int getNodeData(Node *node) {
 //-------------------------------------------------------------------------------
 void setSubTree(Node *node, Tree *subtree, char target) {
 	switch (target) {
-	// 右部分木を設定
-	case 'R':
-	case 'r':
-		node->right = subtree;
-		break;
+		// 右部分木を設定
+		case 'R':
+		case 'r':
+			node->right = subtree;
+			break;
 
-	// 左部分木を設定
-	case 'L':
-	case 'l':
-		node->left = subtree;
-		break;
+		// 左部分木を設定
+		case 'L':
+		case 'l':
+			node->left = subtree;
+			break;
 	}
 
 	return;
@@ -92,22 +92,21 @@ void setSubTree(Node *node, Tree *subtree, char target) {
 //-------------------------------------------------------------------------------
 Tree *getSubTree(Node *node, char target) {
 	switch (target) {
-	// 右部分木を返す
-	case 'R':
-	case 'r':
-		return (node->right);
-		break;
+		// 右部分木を返す
+		case 'R':
+		case 'r':
+			return (node->right);
+			break;
 
-	// 左部分木を返す
-	case 'L':
-	case 'l':
-		return (node->left);
-		break;
+		// 左部分木を返す
+		case 'L':
+		case 'l':
+			return (node->left);
+			break;
 	}
 
-	return (getEmptyTree());
+	return ((Tree *)NULL);
 }
-
 //-------------------------------------------------------------------------------
 // ⑦ 指定したノードの左または右部分木を指すポインタを保持しているメンバ
 //   変数のアドレスを取得する
@@ -121,17 +120,17 @@ Tree *getSubTree(Node *node, char target) {
 //-------------------------------------------------------------------------------
 Tree **getSubTreeRoot(Node *node, char target) {
 	switch (target) {
-	// 右部分木を返す
-	case 'R':
-	case 'r':
-		return (&(node->right));
-		break;
+		// 右部分木を返す
+		case 'R':
+		case 'r':
+			return (&(node->right));
+			break;
 
-	// 左部分木を返す
-	case 'L':
-	case 'l':
-		return (&(node->left));
-		break;
+		// 左部分木を返す
+		case 'L':
+		case 'l':
+			return (&(node->left));
+			break;
 	}
 
 	return ((Tree **)NULL);
@@ -188,14 +187,12 @@ void rmTree(Tree **root) {
 	        rootの左右の部分木が空
 	            終了
 	*/
-	Tree *subTree;
-	if (isEmptyTree(subTree = getSubTree(*root, 'L')) != 1) {
-		rmTree(&subTree);
+	if (isEmptyTree(*root) == 1) {
+		return;
 	}
 
-	if (isEmptyTree(subTree = getSubTree(*root, 'R')) != 1) {
-		rmTree(&subTree);
-	}
+	rmTree(getSubTreeRoot(*root, 'L'));
+	rmTree(getSubTreeRoot(*root, 'R'));
 
 	freeNode(root);
 }
@@ -219,16 +216,17 @@ void printTree(Tree *root) {
 //  ［戻 り 値］なし
 //-------------------------------------------------------------------------------
 void printTreeSub(Tree *root, int depth) {
+	if (isEmptyTree(root) == 1) {
+		return;
+	}
 	int i;
 
-	if (!isEmptyTree(root)) {
-		printTreeSub(getSubTree(root, 'R'), depth + 1);
-		for (i = 0; i < depth; i++) {
-			printf("   ");
-		}
-		printf("%d\n", getNodeData(root));
-		printTreeSub(getSubTree(root, 'L'), depth + 1);
+	printTreeSub(getSubTree(root, 'R'), depth + 1);
+	for (i = 0; i < depth; i++) {
+		printf("   ");
 	}
+	printf("%d\n", getNodeData(root));
+	printTreeSub(getSubTree(root, 'L'), depth + 1);
 	return;
 }
 
@@ -260,6 +258,7 @@ int mkBalanceTree(Tree **root, int n) {
 		 * つまり、前回の再帰でノード1つの部分木(葉)を作成した場合、
 		 * 木の生成に成功しているので、１を返す。
 		 */
+		*root = getEmptyTree();
 		return (1);
 	}
 
@@ -275,9 +274,6 @@ int mkBalanceTree(Tree **root, int n) {
 		return (0);
 	}
 
-	setSubTree(*root, getEmptyTree(), 'L');
-	setSubTree(*root, getEmptyTree(), 'R');
-
 	// 左部分木を作成する
 	if (mkBalanceTree(getSubTreeRoot(*root, 'L'), n / 2) == 0) {
 		return (0);
@@ -289,4 +285,22 @@ int mkBalanceTree(Tree **root, int n) {
 	}
 
 	return (1);
+}
+void printTree2(Tree *root) {
+	printTreeSub(root, 0);
+	return;
+}
+
+void incrementEqualValueCount(Tree *root) {
+	root->count++;
+}
+
+void decrementEqualValueCount(Tree *root) {
+	if (getEqualValueCount(root) > 0) {
+		root->count--;
+	}
+}
+
+int getEqualValueCount(Tree *root) {
+	return (root->count);
 }
