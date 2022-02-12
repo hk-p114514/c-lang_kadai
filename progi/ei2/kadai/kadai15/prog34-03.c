@@ -1,14 +1,7 @@
 #include "tree.h"
-// #include <hamakou.h>
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-int getint(char *string) {
-	int i;
-	printf("%s", string);
-	scanf("%d", &i);
-	return (i);
-}
 
 int mkBinSearchTree(Tree **root, int data);
 

@@ -1,0 +1,17 @@
+if (isEmptyTree(getSubTree(rm_node, 'R'))) {
+	// 削除ノードが右部分木を持たないとき、削除ノードの左部分木でつなぎ替える
+	*root = getSubTree(*root, 'L');
+	freeNode(&rm_node);
+} else if (isEmptyTree(getSubTree(rm_node, 'L'))) {
+	// 削除ノードが左部分木を持たないとき、削除ノードの右部分木でつなぎ替える
+	*root = getSubTree(*root, 'R');
+	freeNode(&rm_node);
+} else {
+	// 削除ノードが２つの子を持つとき、左部分木の最大値(最右端)で置き換える
+	maxvalue_node = maxValueNode(getSubTreeRoot(*root, 'L'));
+	setNodeData(*root, getNodeData(*maxvalue_node));
+	rm_node = *maxvalue_node;
+	*maxvalue_node = getSubTree(*maxvalue_node, 'L');
+	freeNode(&rm_node);
+}
+found = 1;

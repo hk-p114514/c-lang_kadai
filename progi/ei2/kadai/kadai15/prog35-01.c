@@ -1,18 +1,11 @@
 #include "tree.h"
-// #include <hamakou.h>
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 int mkBinSearchTree(Tree **root, int data);
 int rmBinSearchTreeNode(Tree **root, int data);
 Tree **maxValueNode(Tree **root);
-
-int getint(char *string) {
-	int i;
-	printf("%s", string);
-	scanf("%d", &i);
-	return (i);
-}
 
 int main() {
 	Tree *root, *node;
