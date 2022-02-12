@@ -7,7 +7,7 @@ int mkBinSearchTree(Tree **root, int data);
 void printUpOrder(Tree *root);
 void printDownOrder(Tree *root);
 
-main() {
+int main() {
 	Tree *root, *node;
 	int data, found;
 

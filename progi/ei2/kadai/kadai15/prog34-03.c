@@ -1,11 +1,18 @@
 #include "tree.h"
-#include <hamakou.h>
+// #include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+int getint(char *string) {
+	int i;
+	printf("%s", string);
+	scanf("%d", &i);
+	return (i);
+}
+
 int mkBinSearchTree(Tree **root, int data);
 
-main() {
+int main() {
 	Tree *root;
 	int n, i, data, found;
 
@@ -56,7 +63,6 @@ int mkBinSearchTree(Tree **root, int data) {
 			// 対象データが部分木の根の値と一致したとき
 			found = 1;
 			// rootと同じ値なら左部分木に追加する
-			mkBinSearchTree(getSubTreeRoot(*root, 'L'), data);
 			incrementEqualValueCount(*root);
 		}
 	}

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 void printTreeSub(Tree *root, int depth);
+void printTreeSub2(Tree *root, int depth);
 
 //-------------------------------------------------------------------------------
 // ① 空木を取得する
@@ -208,6 +209,11 @@ void printTree(Tree *root) {
 	return;
 }
 
+void printTree2(Tree *root) {
+	printTreeSub2(root, 0);
+	return;
+}
+
 //-------------------------------------------------------------------------------
 // 与えられた二分木を表示する（printTree()から呼び出すサブ関数）
 //  ［関　　数］void printTree(Tree *root);
@@ -229,7 +235,20 @@ void printTreeSub(Tree *root, int depth) {
 	printTreeSub(getSubTree(root, 'L'), depth + 1);
 	return;
 }
+void printTreeSub2(Tree *root, int depth) {
+	if (isEmptyTree(root) == 1) {
+		return;
+	}
+	int i;
 
+	printTreeSub2(getSubTree(root, 'R'), depth + 1);
+	for (i = 0; i < depth; i++) {
+		printf("   ");
+	}
+	printf("%d[%d]\n", getNodeData(root), getEqualValueCount(root) + 1);
+	printTreeSub2(getSubTree(root, 'L'), depth + 1);
+	return;
+}
 //-------------------------------------------------------------------------------
 // バランス木を生成する
 //   [引　数］root：木の根を指すポインタを格納している領域のアドレス
@@ -286,21 +305,48 @@ int mkBalanceTree(Tree **root, int n) {
 
 	return (1);
 }
-void printTree2(Tree *root) {
-	printTreeSub(root, 0);
-	return;
-}
 
+//-------------------------------------------------------------------------------
+// Tree型のカウントを一つ増やす
+//   [引　数］root：カウントを増やす木の根を指すポインタ
+//  ［戻り値］なし
+//-------------------------------------------------------------------------------
 void incrementEqualValueCount(Tree *root) {
 	root->count++;
 }
 
-void decrementEqualValueCount(Tree *root) {
+//-------------------------------------------------------------------------------
+// Tree型のカウントを一つ減らす
+//   [引　数］root：カウントを減らす木の根を指すポインタ
+//  ［戻り値］正しく減らした場合：　１、カウントが既に0だった場合：　０
+//-------------------------------------------------------------------------------
+int decrementEqualValueCount(Tree *root) {
 	if (getEqualValueCount(root) > 0) {
 		root->count--;
+		return (1);
 	}
+
+	return (0);
 }
 
+//-------------------------------------------------------------------------------
+// Tree型のカウントを取得する
+//   [引　数］root：カウントを取得する木の根を指すポインタ
+//  ［戻り値］カウントの値
+//-------------------------------------------------------------------------------
 int getEqualValueCount(Tree *root) {
 	return (root->count);
+}
+
+//-------------------------------------------------------------------------------
+// 対象のノードが複数のノードと等しい値を持っているかどうか
+//   [引　数］root：対象の木の根を指すポインタ
+//  ［戻り値］複数のノードと等しい値を持っている場合：　１、対象のノード一つだけだった場合：　０
+//-------------------------------------------------------------------------------
+int isExistEqualValueNode(Node *node) {
+	if (getEqualValueCount(node) > 0) {
+		return (1);
+	}
+
+	return (0);
 }

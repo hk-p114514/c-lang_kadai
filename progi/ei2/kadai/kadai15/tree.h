@@ -21,6 +21,8 @@ void rmTree(Tree **root);                                // 操作関数⑩
 void printTree(Tree *root);                              // 操作関数⑪
 int mkBalanceTree(Tree **root, int n);
 
+void printTree2(Tree *root);
 void incrementEqualValueCount(Tree *root);
-void decrementEqualValueCount(Tree *root);
+int decrementEqualValueCount(Tree *root);
 int getEqualValueCount(Tree *root);
+int isExistEqualValueNode(Node *node);
