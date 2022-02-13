@@ -245,7 +245,7 @@ void printTreeSub2(Tree *root, int depth) {
 	for (i = 0; i < depth; i++) {
 		printf("   ");
 	}
-	printf("%d[%d]\n", getNodeData(root), getEqualValueCount(root) + 1);
+	printf("%d[%d]\n", getNodeData(root), getEqualValueCount(root));
 	printTreeSub2(getSubTree(root, 'L'), depth + 1);
 	return;
 }
@@ -307,6 +307,16 @@ int mkBalanceTree(Tree **root, int n) {
 }
 
 //-------------------------------------------------------------------------------
+// Tree型のカウントを初期化する
+//   [引　数］root：カウント初期化する木の根を指すポインタ
+//  ［戻り値］なし
+//-------------------------------------------------------------------------------
+void initEqualValueCount(Tree *root) {
+	root->count = 1;
+	return;
+}
+
+//-------------------------------------------------------------------------------
 // Tree型のカウントを一つ増やす
 //   [引　数］root：カウントを増やす木の根を指すポインタ
 //  ［戻り値］なし
@@ -321,7 +331,7 @@ void incrementEqualValueCount(Tree *root) {
 //  ［戻り値］正しく減らした場合：　１、カウントが既に0だった場合：　０
 //-------------------------------------------------------------------------------
 int decrementEqualValueCount(Tree *root) {
-	if (getEqualValueCount(root) > 0) {
+	if (getEqualValueCount(root) >= 0) {
 		root->count--;
 		return (1);
 	}

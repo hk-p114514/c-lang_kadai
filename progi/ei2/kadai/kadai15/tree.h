@@ -22,6 +22,7 @@ void printTree(Tree *root);                              // 操作関数⑪
 int mkBalanceTree(Tree **root, int n);
 
 void printTree2(Tree *root);
+void initEqualValueCount(Tree *root);
 void incrementEqualValueCount(Tree *root);
 int decrementEqualValueCount(Tree *root);
 int getEqualValueCount(Tree *root);
