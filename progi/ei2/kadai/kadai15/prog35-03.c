@@ -59,6 +59,7 @@ int mkBinSearchTree(Tree **root, int data) {
 		if (isEmptyTree(*root)) {
 			return (-1); // ノード生成に失敗した
 		}
+		initEqualValueCount(*root);
 		found = 0;
 	} else {
 		if (data < getNodeData(*root)) {
@@ -98,38 +99,30 @@ int rmBinSearchTreeNode(Tree **root, int target) {
 		found = rmBinSearchTreeNode(getSubTreeRoot(*root, 'R'), target);
 	} else {
 		// 指定した値を持つノードを見つけたとき
-		/**
-		 * 1.同じ値を持つノードが複数存在する
-		 *  - カウントを一つ減らすだけ
-		 *  - 終了
-		 * 2.指定した値を持つノードが一つだけの場合
-		 * - 削除ノードが...部分木を持つ(持たない)場合...
-		 * - 35-01と同様 -
-		 */
 		if (isExistEqualValueNode(*root)) {
-			decrementEqualValueCount(*root);
-			found = 1;
-		} else {
-			Node *rm_node = *root;
-			Node **maxvalue_node;
-			if (isEmptyTree(getSubTree(rm_node, 'R'))) {
-				// 削除ノードが右部分木を持たないとき、削除ノードの左部分木でつなぎ替える
-				*root = getSubTree(*root, 'L');
-				freeNode(&rm_node);
-			} else if (isEmptyTree(getSubTree(rm_node, 'L'))) {
-				// 削除ノードが左部分木を持たないとき、削除ノードの右部分木でつなぎ替える
-				*root = getSubTree(*root, 'R');
-				freeNode(&rm_node);
-			} else {
-				// 削除ノードが２つの子を持つとき、左部分木の最大値(最右端)で置き換える
-				maxvalue_node = maxValueNode(getSubTreeRoot(*root, 'L'));
-				setNodeData(*root, getNodeData(*maxvalue_node));
-				rm_node = *maxvalue_node;
-				*maxvalue_node = getSubTree(*maxvalue_node, 'L');
-				freeNode(&rm_node);
-			}
-			found = 1;
+			found = decrementEqualValueCount(*root);
 		}
+		/* else { */
+		/* 	Node *rm_node = *root; */
+		/* 	Node **maxvalue_node; */
+		/* 	if (isEmptyTree(getSubTree(rm_node, 'R'))) { */
+		/* 		// 削除ノードが右部分木を持たないとき、削除ノードの左部分木でつなぎ替える */
+		/* 		*root = getSubTree(*root, 'L'); */
+		/* 		// freeNode(&rm_node); */
+		/* 	} else if (isEmptyTree(getSubTree(rm_node, 'L'))) { */
+		/* 		// 削除ノードが左部分木を持たないとき、削除ノードの右部分木でつなぎ替える */
+		/* 		*root = getSubTree(*root, 'R'); */
+		/* 		// freeNode(&rm_node); */
+		/* 	} else { */
+		/* 		// 削除ノードが２つの子を持つとき、左部分木の最大値(最右端)で置き換える */
+		/* 		maxvalue_node = maxValueNode(getSubTreeRoot(*root, 'L')); */
+		/* 		setNodeData(*root, getNodeData(*maxvalue_node)); */
+		/* 		rm_node = *maxvalue_node; */
+		/* 		*maxvalue_node = getSubTree(*maxvalue_node, 'L'); */
+		/* 		// freeNode(&rm_node); */
+		/* 	} */
+		/* 	found = 1; */
+		/* } */
 	}
 	return (found);
 }
