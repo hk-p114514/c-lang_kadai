@@ -44,6 +44,8 @@ int mkBinSearchTree(Tree **root, int data) {
 		if (isEmptyTree(*root)) {
 			return (-1); // ノード生成に失敗した
 		}
+		// rootのカウントを初期化する
+		initEqualValueCount(*root);
 		found = 0;
 	} else {
 		if (data < getNodeData(*root)) {
