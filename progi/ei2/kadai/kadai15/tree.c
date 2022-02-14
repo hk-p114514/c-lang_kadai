@@ -1,5 +1,5 @@
 #include "tree.h"
-// #include <hamakou.h>
+#include <hamakou.h>
 #include <stdio.h>
 #include <stdlib.h>
 
