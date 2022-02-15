@@ -29,6 +29,7 @@ Node *createNode(int data) {
 		// 左右の部分木に空木へのポインタを格納
 		setSubTree(node, getEmptyTree(), 'L');
 		setSubTree(node, getEmptyTree(), 'R');
+		initEqualValueCount(node);
 		return (node);
 	}
 
@@ -331,7 +332,7 @@ void incrementEqualValueCount(Tree *root) {
 //  ［戻り値］正しく減らした場合：　１、カウントが既に0だった場合：　０
 //-------------------------------------------------------------------------------
 int decrementEqualValueCount(Tree *root) {
-	if (getEqualValueCount(root) >= 0) {
+	if (getEqualValueCount(root) > 0) {
 		root->count--;
 		return (1);
 	}
