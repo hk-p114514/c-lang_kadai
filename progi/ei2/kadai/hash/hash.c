@@ -1,6 +1,7 @@
 #include "hash.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // 操作関数①   ：ハッシュテーブルの初期化（tbl[]の全要素のcountを0に、elementをNULLにする）
 //      tbl[]   ：ハッシュテーブル
@@ -22,6 +23,7 @@ void initHashTable(HashEntry tbl[], int tbl_size) {
 //	            ：メモリ確保に失敗したとき ＝ NULL
 HashElement *createElement(char *key, char *value) {
 	HashElement *elem = (HashElement *)malloc(sizeof(HashElement));
+
 	return (elem);
 }
 
@@ -31,6 +33,22 @@ HashElement *createElement(char *key, char *value) {
 //      戻り値  ：キーが見つかったとき ＝ キーに対応する要素へのポインタ
 //              ：キーが見つからなかったとき ＝ NULL
 HashElement *searchElement(HashEntry tbl[], char *key) {
+	// キーから配列上の添字を取得
+	int size = getTableSize(tbl);
+	int p = hash(key, size);
+
+	// 添字から要素を検索
+	HashEntry *found;
+	*found = tbl[ p ];
+	// シノニムの個数を取得
+	int synonym = getSynonymCount(found);
+
+	if (synonym > 0) {
+		// シノニム有り
+	} else {
+		// シノニムなし
+		return (getHashElement(found));
+	}
 }
 
 // 操作関数④   ：キーに対応する値のみを取得する
@@ -107,3 +125,57 @@ unsigned int hash(unsigned char *name, int tbl_size) {
 */
 // 第1引数: ハッシュテーブル
 // 返り値  : テーブルのサイズ
+int getTableSize(HashEntry tbl[]) {
+	return (sizeof(tbl) / TBL_SIZE);
+}
+
+/*
+    概要:ハッシュテーブル内のある一ハッシュ値に於けるシノニムの個数を返す
+*/
+// 第1引数: ハッシュテーブル内の一要素
+// 返り値  : シノニムの数
+int getSynonymCount(HashEntry *entry) {
+	return (entry->count);
+}
+
+/*
+    概要:シノニムの中からキーが一致する要素を探す
+*/
+// 第1引数: ハッシュテーブルの一要素
+// 返り値  : キーの一致した要素、なければNULLポインタ
+HashElement *searchElementInSynonym(HashElement *elem, char *key) {
+	if (getNextSynonym(elem)) {
+		return (NULL);
+	} else {
+		// todo: 操作関数作る
+		if (strcmp(key, elem->key) == 0) {
+			return (elem);
+		}
+		return (searchElementInSynonym(elem->next, key));
+	}
+}
+
+/*
+    概要:ハッシュテーブルの一要素の次の要素（シノニム）を返す
+*/
+// 第1引数: ハッシュテーブルの一要素
+// 返り値  : 次の要素（シノニム）
+HashElement *getNextSynonym(HashElement *elem) {
+	return (elem->next);
+}
+
+/*
+    概要:ハッシュの一要素を取り出す
+*/
+// 第1引数: ハッシュテーブル配列の一要素
+// 返り値  : ハッシュの一要素
+HashElement *getHashElement(HashEntry *elem) {
+	return (elem->element);
+}
+
+void setHashElement(HashElement *elem, char *key, char *value) {
+	elem->key = key;
+	elem->value = value;
+
+	return;
+}

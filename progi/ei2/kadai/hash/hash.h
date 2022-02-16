@@ -26,3 +26,10 @@ int removeElement(HashEntry tbl[], char *key);              // 操作関数⑦
 void freeHashTable(HashEntry tbl[], int tbl_size);          // 操作関数⑧
 void printHashTable(HashEntry tbl[], int tbl_size);         // 操作関数⑨
 unsigned int hash(unsigned char *key, int tbl_size);        // 操作関数⑩
+
+int getTableSize(HashEntry tbl[]);
+int getSynonymCount(HashEntry *entry);
+void setHashElement(HashElement *elem, char *key, char *value);
+HashElement *searchElementInSynonym(HashElement *elem, char *key);
+HashElement *getNextSynonym(HashElement *elem);
+HashElement *getHashElement(HashEntry *elem);
