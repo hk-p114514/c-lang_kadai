@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "hash.h"
+#define DEBUG
 
 int readData(char *filename, HashEntry tbl[]);
 unsigned int elfhash(unsigned char *name, int tbl_size);
@@ -52,8 +53,8 @@ int readData(char *filename, HashEntry tbl[]) {
 		return (0);
 	} else {
 		while (fgets(data, sizeof(data), fp) != NULL) { // テキストファイルから１行入力
-			sscanf(data, "%s %s", key, value); // データをキーと値のペアに分離
-			if (updateElement(tbl, key, value) == 0) { // キーと値のペアをハッシュテーブルに格納
+			sscanf(data, "%s %s", key, value);          // データをキーと値のペアに分離
+			if (updateElement(tbl, key, value) == 0) {  // キーと値のペアをハッシュテーブルに格納
 				// メモリの確保に失敗したらプログラムを終了
 				fprintf(stderr, "memory allocation failed.\n");
 				exit(15);
@@ -67,6 +68,9 @@ int readData(char *filename, HashEntry tbl[]) {
 
 // 処理メニューを選択する
 int selectMenu(HashEntry tbl[]) {
+#ifdef DEBUG
+	printf("START selectMenu()\n");
+#endif
 	char str[ 20 ];
 	int num;
 
@@ -80,24 +84,24 @@ int selectMenu(HashEntry tbl[]) {
 		putchar('\n');
 
 		switch (num) {
-		case 1: // キーによる検索
-			searchByKey(tbl);
-			break;
-		case 2: // キーによる更新
-			if (updateByKey(tbl) == 0) {
-				fprintf(stderr, "memory allocation error.\n");
-			}
-			break;
-		case 3: // キーによる削除
-			removeByKey(tbl);
-			break;
-		case 4: // ハッシュテーブルの全要素を表示
-			printHashTable(tbl, TBL_SIZE);
-			break;
-		case 5: // ハッシュテーブルの全要素の削除と終了
-		case 6:
-			freeHashTable(tbl, TBL_SIZE);
-			break;
+			case 1: // キーによる検索
+				searchByKey(tbl);
+				break;
+			case 2: // キーによる更新
+				if (updateByKey(tbl) == 0) {
+					fprintf(stderr, "memory allocation error.\n");
+				}
+				break;
+			case 3: // キーによる削除
+				removeByKey(tbl);
+				break;
+			case 4: // ハッシュテーブルの全要素を表示
+				printHashTable(tbl, TBL_SIZE);
+				break;
+			case 5: // ハッシュテーブルの全要素の削除と終了
+			case 6:
+				freeHashTable(tbl, TBL_SIZE);
+				break;
 		}
 		putchar('\n');
 	} while (num < 6);

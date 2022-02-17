@@ -43,17 +43,12 @@ HashElement *searchElement(HashEntry tbl[], char *key) {
 
 	if (hasSynonym(entry)) {
 		// シノニム有り
-		elem = searchElementInSynonym(elem, key);
-		if (elem) {
-			// シノニムの中からキーに対応する要素が見つかった
-			return (elem);
-		}
+		// searchElementInSynonym()は該当するシノニムが無かった時NULLを返す
+		return (searchElementInSynonym(elem, key));
 	} else {
 		// シノニムなし
 		return (elem);
 	}
-
-	return (NULL);
 }
 
 // 操作関数④   ：キーに対応する値のみを取得する
@@ -69,6 +64,34 @@ char *getValue(HashEntry tbl[], char *key) {
 	return (NULL);
 }
 
+/*	概要:ハッシュテーブルの一要素の値を設定する
+ */
+// 第1引数: ハッシュテーブルの一要素
+// 第2引数: 設定する値
+// 返り値  : なし
+void setValue(HashElement *elem, char *value) {
+	elem->value = value;
+	return;
+}
+
+/*	概要:ハッシュテーブルの一要素のキーを取得する
+ */
+// 第1引数: ハッシュテーブルの一要素
+// 返り値  : 渡されたハッシュテーブルの一要素のキー
+char *getKey(HashElement *elem) {
+	return (elem->key);
+}
+
+/* 概要:ハッシュテーブルの一要素のキーを設定する
+ */
+// 第1引数: ハッシュテーブルの一要素
+// 第2引数: 設定するキー
+// 返り値  : なし
+void setKey(HashElement *elem, char *key) {
+	elem->key = key;
+	return;
+}
+
 // 操作関数⑤   ：キーとそれに対応する値からなる要素をハッシュテーブルに挿入する
 //              ：ただし、同一のキーと値の要素が、ハッシュテーブルに存在するときは何もしない
 //      tbl[]   ：ハッシュテーブル
@@ -78,13 +101,22 @@ char *getValue(HashEntry tbl[], char *key) {
 //              ：同一のキーと値を持つ要素が存在したとき ＝ 2
 //              ：メモリ確保に失敗したとき               ＝ 0
 int insertElement(HashEntry tbl[], char *key, char *value) {
+	// todo:コアダンプ
 	// キーから配列上の添字を演算
 	int p = hash(key, TBL_SIZE);
+	// 対象となるテーブル箇所
+	HashEntry *entry = &tbl[ p ];
 	// 要素を作成
 	HashElement *elem = createElement(key, value);
 
-	// ハッシュテーブルに要素を挿入
-	// todo:
+	if (isEmptyEntry(tbl, key)) {
+		// 該当箇所が未使用
+		setHashElementProps(getHashElement(entry), key, value, NULL);
+	} else {
+		// 既に要素がある（シノニムとして追加）
+		increaseCount(entry);
+		// todo
+	}
 
 	return (0);
 }
@@ -96,6 +128,13 @@ int insertElement(HashEntry tbl[], char *key, char *value) {
 //      戻り値  ：更新または追加できたとき ＝ 1
 //              ：メモリ確保に失敗したとき ＝ 0
 int updateElement(HashEntry tbl[], char *key, char *value) {
+	int p = hash(key, TBL_SIZE);
+	if (isEmptyEntry(tbl, key)) {
+		// 該当箇所に要素は存在しないので新たに作る
+		if (insertElement(tbl, key, value)) {
+			return (1);
+		}
+	}
 	return (0);
 }
 
@@ -182,34 +221,6 @@ HashElement *getHashElement(HashEntry *entry) {
 	return (entry->element);
 }
 
-/* 概要:ハッシュテーブルの一要素のキーを設定する
- */
-// 第1引数: ハッシュテーブルの一要素
-// 第2引数: 設定するキー
-// 返り値  : なし
-void setHashElementKey(HashElement *element, char *key) {
-	element->key = key;
-	return;
-}
-
-/*	概要:ハッシュテーブルの一要素のキーを取得する
- */
-// 第1引数: ハッシュテーブルの一要素
-// 返り値  : 渡されたハッシュテーブルの一要素のキー
-char *getKey(HashElement *element) {
-	return (element->key);
-}
-
-/*	概要:ハッシュテーブルの一要素の値を設定する
- */
-// 第1引数: ハッシュテーブルの一要素
-// 第2引数: 設定する値
-// 返り値  : なし
-void setHashElementValue(HashElement *element, char *value) {
-	element->value = value;
-	return;
-}
-
 /*	概要:ハッシュテーブルの一要素の次の要素（シノニム）を設定する
  */
 // 第1引数: シノニムを設定する要素
@@ -230,8 +241,8 @@ HashElement *getHashElementNext(HashElement *element) {
 }
 
 void setHashElementProps(HashElement *elem, char *key, char *value, HashElement *next) {
-	setHashElementKey(elem, key);
-	setHashElementValue(elem, value);
+	setKey(elem, key);
+	setValue(elem, value);
 	setHashElementNext(elem, next);
 
 	return;
@@ -241,7 +252,7 @@ void setHashElementProps(HashElement *elem, char *key, char *value, HashElement 
     概要:シノニムの中からキーが一致する要素を探す
 */
 // 第1引数: ハッシュテーブルの一要素
-// 返り値  : キーの一致した要素、なければNULLポインタ
+// 返り値  : キーの一致した要素、なければNULL
 HashElement *searchElementInSynonym(HashElement *elem, char *key) {
 	if (getNextSynonym(elem)) {
 		return (NULL);
@@ -252,5 +263,43 @@ HashElement *searchElementInSynonym(HashElement *elem, char *key) {
 		}
 		// 次のシノニムと比較しに行く
 		return (searchElementInSynonym(getHashElementNext(elem), key));
+	}
+}
+
+/*
+    概要:ハッシュテーブルの該当箇所が未使用かどうか調べる
+*/
+// 第1引数: ハッシュテーブル
+// 第2引数: キー
+// 返り値  : 該当箇所が未使用：1、使用済み：0
+int isEmptyEntry(HashEntry tbl[], char *key) {
+	if (getValue(tbl, key) != NULL) {
+		return (0);
+	} else {
+		return (1);
+	}
+}
+
+/*
+    概要:シノニムの個数を表すカウントを増加させる
+*/
+// 第1引数: ハッシュテーブルの一要素
+// 返り値  : 変化後の値
+int increaseCount(HashEntry *entry) {
+	entry->count++;
+	return (entry->count);
+}
+
+/*
+    概要:シノニムの個数を表すカウントを減少させる
+*/
+// 第1引数: ハッシュテーブルの一要素
+// 返り値  : 正常に減少させた：変化後の値、0から引こうとした：-1
+int decreaseCount(HashEntry *entry) {
+	if (entry->count > 0) {
+		entry->count--;
+		return (entry->count);
+	} else {
+		return (-1);
 	}
 }
