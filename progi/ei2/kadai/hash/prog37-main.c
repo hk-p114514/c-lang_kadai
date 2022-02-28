@@ -54,6 +54,7 @@ int readData(char *filename, HashEntry tbl[]) {
 	} else {
 		while (fgets(data, sizeof(data), fp) != NULL) { // テキストファイルから１行入力
 			sscanf(data, "%s %s", key, value);          // データをキーと値のペアに分離
+      printf("%s : %s\n", key, value);
 			if (updateElement(tbl, key, value) == 0) {  // キーと値のペアをハッシュテーブルに格納
 				// メモリの確保に失敗したらプログラムを終了
 				fprintf(stderr, "memory allocation failed.\n");

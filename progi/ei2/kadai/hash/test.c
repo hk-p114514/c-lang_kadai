@@ -1,18 +1,14 @@
-#include "hash.h"
 #include <stdio.h>
+#include <string.h>
 
-int main() {
-	HashEntry tbl[ TBL_SIZE ];
-	initHashTable(tbl, TBL_SIZE);
-	char key[] = "key";
-	char value[] = "value";
+int main(int argc, char *argv[]) {
+	char s[ 100 ];
+	char buffer[ 100 ];
 
-	HashElement *elem = createElement(key, value);
-	int n = hash(key, TBL_SIZE);
-	tbl[ n ].element = elem;
+	fgets(buffer, sizeof(buffer), stdin);
+	sscanf(buffer, "%s", s);
 
-	// キーに対応する要素を検索
-	printf("%s\n", getValue(tbl, key));
+	printf("%d\n", strcmp(s, "umaibo"));
 
-	return (0);
+	return 0;
 }

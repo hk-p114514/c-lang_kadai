@@ -20,7 +20,7 @@ void initHashTable(HashEntry tbl[], int tbl_size);      // 操作関数①
 HashElement *createElement(char *key, char *value);     // 操作関数②
 HashElement *searchElement(HashEntry tbl[], char *key); // 操作関数③
 char *getValue(HashEntry tbl[], char *key);             // 操作関数④
-void setValue(HashElement *element, char *value);
+int setValue(HashElement *element, char *value);
 int insertElement(HashEntry tbl[], char *key, char *value); // 操作関数⑤
 int updateElement(HashEntry tbl[], char *key, char *value); // 操作関数⑥
 int removeElement(HashEntry tbl[], char *key);              // 操作関数⑦
@@ -31,13 +31,13 @@ unsigned int hash(char *key, int tbl_size);                 // 操作関数⑩
 int increaseCount(HashEntry *entry);
 int decreaseCount(HashEntry *entry);
 int getSynonymCount(HashEntry *entry);
-void setKey(HashElement *elem, char *key);
+int setKey(HashElement *elem, char *key);
 char *getKey(HashElement *elem);
 int setHashElementNext(HashElement *elem, HashElement *next);
 HashElement *getHashElementNext(HashElement *elem);
-void setHashElementProps(HashElement *elem, char *key, char *value, HashElement *next);
+void setHashElementProps(HashElement *elem, char *key, char *value);
 HashElement *searchElementInSynonym(HashElement *elem, char *key);
 HashElement *getNextSynonym(HashElement *elem);
-HashElement *getHashElement(HashEntry *entry);
+/* HashElement *getHashElement(HashEntry *entry); */
 int hasSynonym(HashEntry *entry);
 int isEmptyEntry(HashEntry tbl[], char *key);
