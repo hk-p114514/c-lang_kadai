@@ -23,7 +23,10 @@ void initHashTable(HashEntry tbl[], int tbl_size) {
 //	            ：メモリ確保に失敗したとき ＝ NULL
 HashElement *createElement(char *key, char *value) {
 	HashElement *elem = (HashElement *)malloc(sizeof(HashElement));
-	setHashElementProps(elem, key, value, NULL);
+	/* setHashElementProps(elem, key, value); */
+	// todo: キーとバリューの領域も動的に確保する必要がある
+	setKey(elem, key);
+	setValue(elem, value);
 
 	return (elem);
 }
@@ -39,7 +42,8 @@ HashElement *searchElement(HashEntry tbl[], char *key) {
 
 	// 添字から要素を検索
 	HashEntry *entry = &tbl[ p ];
-	HashElement *elem = getHashElement(entry);
+	/* HashElement *elem = getHashElement(entry); */
+	HashElement *elem = entry->element;
 
 	if (hasSynonym(entry)) {
 		// シノニム有り
@@ -68,10 +72,15 @@ char *getValue(HashEntry tbl[], char *key) {
  */
 // 第1引数: ハッシュテーブルの一要素
 // 第2引数: 設定する値
-// 返り値  : なし
-void setValue(HashElement *elem, char *value) {
-	elem->value = value;
-	return;
+// 返り値 : 正常に終了：1、領域の確保に失敗：0
+int setValue(HashElement *elem, char *value) {
+	int n = strlen(value);
+	elem->value = (char *)malloc(sizeof(char) * n);
+	if (elem->value == NULL) {
+		return (0);
+	}
+	strcpy(elem->value, value);
+	return (1);
 }
 
 /*	概要:ハッシュテーブルの一要素のキーを取得する
@@ -86,10 +95,15 @@ char *getKey(HashElement *elem) {
  */
 // 第1引数: ハッシュテーブルの一要素
 // 第2引数: 設定するキー
-// 返り値  : なし
-void setKey(HashElement *elem, char *key) {
-	elem->key = key;
-	return;
+// 返り値 : 正常に終了：1、領域の確保に失敗：0
+int setKey(HashElement *elem, char *key) {
+	int n = strlen(key);
+	elem->key = (char *)malloc(sizeof(char) * n);
+	if (elem->key == NULL) {
+		return (0);
+	}
+	strcpy(elem->key, key);
+	return (1);
 }
 
 // 操作関数⑤   ：キーとそれに対応する値からなる要素をハッシュテーブルに挿入する
@@ -102,20 +116,25 @@ void setKey(HashElement *elem, char *key) {
 //              ：メモリ確保に失敗したとき               ＝ 0
 int insertElement(HashEntry tbl[], char *key, char *value) {
 	// todo:コアダンプ
-	// キーから配列上の添字を演算
-	int p = hash(key, TBL_SIZE);
-	// 対象となるテーブル箇所
-	HashEntry *entry = &tbl[ p ];
-	// 要素を作成
-	HashElement *elem = createElement(key, value);
-
 	if (isEmptyEntry(tbl, key)) {
 		// 該当箇所が未使用
-		setHashElementProps(getHashElement(entry), key, value, NULL);
+		// 要素を挿入
+
+		// キーから配列上の添字を演算
+		int p = hash(key, TBL_SIZE);
+
+		// 対象となるテーブル箇所
+		HashEntry *entry = &tbl[ p ];
+
+		// 要素を作成
+		HashElement *elem = createElement(key, value);
+		if (elem == NULL) {
+			return (0);
+		}
+
+		return (1);
 	} else {
-		// 既に要素がある（シノニムとして追加）
-		increaseCount(entry);
-		// todo
+		return (2);
 	}
 
 	return (0);
@@ -129,12 +148,21 @@ int insertElement(HashEntry tbl[], char *key, char *value) {
 //              ：メモリ確保に失敗したとき ＝ 0
 int updateElement(HashEntry tbl[], char *key, char *value) {
 	int p = hash(key, TBL_SIZE);
-	if (isEmptyEntry(tbl, key)) {
-		// 該当箇所に要素は存在しないので新たに作る
-		if (insertElement(tbl, key, value)) {
-			return (1);
-		}
-	}
+
+	int result = insertElement(tbl, key, value);
+
+	if (result == 2) {
+    // 値を更新する
+    if (removeElement(tbl, key) == 1) {
+      if (insertElement(tbl, key, value) != 0) {
+        return (1);
+      }
+    }
+    
+  } else if (result == 1) {
+    return (1);
+  }
+
 	return (0);
 }
 
@@ -217,9 +245,9 @@ int hasSynonym(HashEntry *entry) {
 */
 // 第1引数: ハッシュテーブル配列の一要素
 // 返り値  : ハッシュの一要素
-HashElement *getHashElement(HashEntry *entry) {
-	return (entry->element);
-}
+/* HashElement *getHashElement(HashEntry *entry) { */
+/* 	return (entry->element); */
+/* } */
 
 /*	概要:ハッシュテーブルの一要素の次の要素（シノニム）を設定する
  */
@@ -240,10 +268,9 @@ HashElement *getHashElementNext(HashElement *element) {
 	return (element->next);
 }
 
-void setHashElementProps(HashElement *elem, char *key, char *value, HashElement *next) {
+void setHashElementProps(HashElement *elem, char *key, char *value) {
 	setKey(elem, key);
 	setValue(elem, value);
-	setHashElementNext(elem, next);
 
 	return;
 }
