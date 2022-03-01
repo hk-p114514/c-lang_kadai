@@ -38,6 +38,6 @@ HashElement *getHashElementNext(HashElement *elem);
 void setHashElementProps(HashElement *elem, char *key, char *value);
 HashElement *searchElementInSynonym(HashElement *elem, char *key);
 HashElement *getNextSynonym(HashElement *elem);
-/* HashElement *getHashElement(HashEntry *entry); */
+HashElement *getHashElement(HashEntry *entry);
 int hasSynonym(HashEntry *entry);
 int isEmptyEntry(HashEntry tbl[], char *key);

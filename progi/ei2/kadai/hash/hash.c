@@ -23,10 +23,18 @@ void initHashTable(HashEntry tbl[], int tbl_size) {
 //	            ：メモリ確保に失敗したとき ＝ NULL
 HashElement *createElement(char *key, char *value) {
 	HashElement *elem = (HashElement *)malloc(sizeof(HashElement));
-	/* setHashElementProps(elem, key, value); */
 	// todo: キーとバリューの領域も動的に確保する必要がある
-	setKey(elem, key);
-	setValue(elem, value);
+	if (elem == NULL) {
+		return NULL;
+	}
+
+	// キーとバリューは文字列なので、動的にメモリー確保する
+	elem->key = (char *)malloc(KEY_LEN + 1);
+	elem->value = (char *)malloc(VAL_LEN + 1);
+
+	// キーとバリューを設定する
+	elem->key = key;
+	elem->value = value;
 
 	return (elem);
 }
@@ -40,9 +48,8 @@ HashElement *searchElement(HashEntry tbl[], char *key) {
 	// キーから配列上の添字を取得
 	int p = hash(key, TBL_SIZE);
 
-	// 添字から要素を検索
+	// 添字から要素を検索 - clear
 	HashEntry *entry = &tbl[ p ];
-	/* HashElement *elem = getHashElement(entry); */
 	HashElement *elem = entry->element;
 
 	if (hasSynonym(entry)) {
@@ -62,7 +69,7 @@ HashElement *searchElement(HashEntry tbl[], char *key) {
 //              ：キーが見つからなかったとき ＝ NULL
 char *getValue(HashEntry tbl[], char *key) {
 	HashElement *target = searchElement(tbl, key);
-	if (target) {
+	if (target != NULL) {
 		return (target->value);
 	}
 	return (NULL);
@@ -128,6 +135,8 @@ int insertElement(HashEntry tbl[], char *key, char *value) {
 
 		// 要素を作成
 		HashElement *elem = createElement(key, value);
+		printf("insert!!!\n");
+		printf("key '%s' : value '%s'\n", elem->key, elem->value);
 		if (elem == NULL) {
 			return (0);
 		}
@@ -152,16 +161,16 @@ int updateElement(HashEntry tbl[], char *key, char *value) {
 	int result = insertElement(tbl, key, value);
 
 	if (result == 2) {
-    // 値を更新する
-    if (removeElement(tbl, key) == 1) {
-      if (insertElement(tbl, key, value) != 0) {
-        return (1);
-      }
-    }
-    
-  } else if (result == 1) {
-    return (1);
-  }
+		// 値を更新する
+		if (removeElement(tbl, key) == 1) {
+			if (insertElement(tbl, key, value) != 0) {
+				return (1);
+			}
+		}
+
+	} else if (result == 1) {
+		return (1);
+	}
 
 	return (0);
 }
@@ -172,6 +181,22 @@ int updateElement(HashEntry tbl[], char *key, char *value) {
 //      戻り値  ：キーが見つかり要素を削除したとき ＝ 1
 //              ：キーが見つからなかったとき       ＝ 0
 int removeElement(HashEntry tbl[], char *key) {
+	// テーブルから要素を探索
+	HashElement *remove = searchElement(tbl, key);
+
+	if (remove == NULL) {
+		// キーが見つからない
+		return (0);
+	} else {
+		// 削除する
+		char *removeKey = getKey(remove);
+		char *removeValue = getValue(tbl, key);
+		free(removeKey);
+		free(removeValue);
+		free(remove);
+		return (1);
+	}
+
 	return (0);
 }
 
@@ -245,9 +270,9 @@ int hasSynonym(HashEntry *entry) {
 */
 // 第1引数: ハッシュテーブル配列の一要素
 // 返り値  : ハッシュの一要素
-/* HashElement *getHashElement(HashEntry *entry) { */
-/* 	return (entry->element); */
-/* } */
+HashElement *getHashElement(HashEntry *entry) {
+	return (entry->element);
+}
 
 /*	概要:ハッシュテーブルの一要素の次の要素（シノニム）を設定する
  */
