@@ -16,6 +16,7 @@ typedef struct {          // ハッシュテーブルはこのデータ型の配
 	HashElement *element; // 格納する要素(キーと値のペア)へのポインタ
 } HashEntry;
 
+char *getstring(char *msg, char *input);
 void initHashTable(HashEntry tbl[], int tbl_size);          // 操作関数①
 HashElement *createElement(char *key, char *value);         // 操作関数②
 HashElement *searchElement(HashEntry tbl[], char *key);     // 操作関数③
@@ -25,4 +26,10 @@ int updateElement(HashEntry tbl[], char *key, char *value); // 操作関数⑥
 int removeElement(HashEntry tbl[], char *key);              // 操作関数⑦
 void freeHashTable(HashEntry tbl[], int tbl_size);          // 操作関数⑧
 void printHashTable(HashEntry tbl[], int tbl_size);         // 操作関数⑨
-unsigned int hash(unsigned char *key, int tbl_size);        // 操作関数⑩
+unsigned int hash(char *key, int tbl_size);                 // 操作関数⑩
+int elemCmp(HashEntry tbl[], HashElement *elem1, HashElement *elem2);
+int addSynonym(HashEntry *entry, char *key, char *value);
+int removeSynonym(HashEntry tbl[], char *key);
+HashElement *searchInSynonymByKey(HashEntry *entry, char *key);
+HashElement *searchInNextByKey(HashElement *elem, char *key);
+int setValue(HashElement *elem, char *value);
