@@ -14,6 +14,7 @@ void removeByKey(HashEntry tbl[]);
 void printHashTableCondition(HashEntry tbl[], int tbl_size);
 
 int main(int argc, char *argv[]) {
+	printf("main TBLSIZE: %d\n", TBL_SIZE);
 	HashEntry tbl[ TBL_SIZE ];
 	char key[ KEY_LEN ], *value;
 

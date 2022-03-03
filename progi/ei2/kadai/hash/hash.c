@@ -17,6 +17,7 @@ char *getstring(char *msg, char *input) {
 //      tbl_size：ハッシュテーブルのサイズ
 //      戻り値  ：なし
 void initHashTable(HashEntry tbl[], int tbl_size) {
+	printf("init tbl_size = %d\n", tbl_size);
 	for (int i = 0; i < tbl_size; i++) {
 		tbl[ i ].count = 0;
 		tbl[ i ].element = NULL;
@@ -62,7 +63,8 @@ HashElement *createElement(char *key, char *value) {
 //              ：キーが見つからなかったとき ＝ NULL
 HashElement *searchElement(HashEntry tbl[], char *key) {
 	// 配列上の添字を取得
-	HashEntry *entry = &tbl[ hash(key, TBL_SIZE) ];
+	int n = hash(key, TBL_SIZE);
+	HashEntry *entry = &tbl[ n ];
 
 	HashElement *elem = entry->element;
 
@@ -317,6 +319,7 @@ void printAllSynonyms(HashElement *elem, int index) {
 //      戻り値  ：ハッシュ値（ハッシュテーブルのサイズを超えない非負整数）
 #ifndef MY_HASH
 unsigned int hash(char *key, int tbl_size) {
+	printf("hash tbl_size: %d\n", tbl_size);
 	unsigned int hash_value;
 
 	for (hash_value = 0; *key != '\0'; key++) {
