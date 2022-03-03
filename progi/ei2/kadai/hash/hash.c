@@ -64,15 +64,19 @@ HashElement *createElement(char *key, char *value) {
 HashElement *searchElement(HashEntry tbl[], char *key) {
 	// 配列上の添字を取得
 	int n = hash(key, TBL_SIZE);
-	HashEntry entry = tbl[ n ];
+	HashEntry *entry = &tbl[ n ];
 
-	if (entry.element != NULL) {
+	if (entry->element != NULL) {
 		// シノニムの有無を確認
-		if (entry.count > 0) {
+		if (entry->count > 0) {
 			// シノニム有り
+			HashElement *synonym = searchInSynonymByKey(entry, key);
+			if (synonym != NULL) {
+				return (synonym);
+			}
 		} else {
 			// シノニムなし
-			return (entry.element);
+			return (entry->element);
 		}
 	}
 
@@ -132,6 +136,7 @@ int insertElement(HashEntry tbl[], char *key, char *value) {
 	HashElement *search = searchElement(tbl, key);
 	if (search == NULL) {
 		//  まだ使われていないハッシュ値(まだリストが存在しない)
+
 		// 要素を挿入
 		HashElement *elem = createElement(key, value);
 
@@ -142,15 +147,24 @@ int insertElement(HashEntry tbl[], char *key, char *value) {
 		int n = hash(key, TBL_SIZE);
 		tbl[ n ].element = elem;
 
-		return (1);
 	} else {
-		// 既にハッシュ値(テーブルに於ける添字)を使っている(リストが存在する)
-		// リストに要素を追加する
-		return (addSynonym(&tbl[ hash(key, TBL_SIZE) ], key, value));
-	}
+		int isSameKey = strcmp(getKey(search), key);
+		int isSameValue = strcmp(getValue(tbl, key), value);
 
-	// 同一のキーと値を持つ要素が存在する
-	return (2);
+		if (isSameKey == 0) {
+			// キーが同じ
+			if (isSameValue == 0) {
+				// 値も同じ
+				return (2);
+			}
+			// キーが同じだが、値が違う -> 値を更新
+			if (setValue(search, value) == 0) {
+				return (0);
+			}
+			return (1);
+		}
+	}
+	return (1);
 }
 
 // 操作関数⑥   ：指定したキーがあればその値を更新し、なければ新たに要素を挿入する
@@ -187,11 +201,13 @@ int removeElement(HashEntry tbl[], char *key) {
 	HashElement *remove = searchElement(tbl, key);
 	int n = hash(key, TBL_SIZE);
 	int count = tbl[ n ].count;
-	/*! TODO: Replacing a synonym pointer
-	 *  \todo Replacing a synonym pointer
-	 *  \todo free memory of key and value
-	 *  \todo free element themselves
-	 */
+	if (count > 0) {
+		// シノニム(リスト)の中からkeyが同じものを探す必要がある
+		return (removeSynonym(tbl, key));
+	} else {
+		// シノニム(リスト)が存在しない
+		freeElement(&tbl[ n ].element);
+	}
 
 	return (0);
 }
@@ -201,7 +217,10 @@ int removeElement(HashEntry tbl[], char *key) {
 //      tbl_size：ハッシュテーブルのサイズ
 //      戻り値  ：なし
 void freeHashTable(HashEntry tbl[], int tbl_size) {
-	printf("FREE HASH TABLE\n");
+	for (int i = 0; i < TBL_SIZE; i++) {
+		HashEntry remove = tbl[ i ];
+		int count = remove.count;
+	}
 	return;
 }
 
@@ -210,7 +229,32 @@ void freeHashTable(HashEntry tbl[], int tbl_size) {
 //      tbl_size：ハッシュテーブルのサイズ
 // i     戻り値  ：なし
 void printHashTable(HashEntry tbl[], int tbl_size) {
-	printf("PRINT HASH TABLE\n");
+	printf("Index\tKey\t\t\tValue\n");
+	printf("------------------------------\n");
+	for (int i = 0; i < TBL_SIZE; i++) {
+		HashEntry entry = tbl[ i ];
+		HashElement *elem = entry.element;
+		if (elem != NULL) {
+			printElement(elem, i);
+
+			// シノニムの表示
+		}
+	}
+	return;
+}
+void printElement(HashElement *elem, int index) {
+	printf("%4d:\t%s\t\t%s\n", index, elem->key, elem->value);
+	return;
+}
+
+void printAllSynonyms(HashElement *elem, int index) {
+	if (elem == NULL) {
+		return;
+	}
+	printElement(elem, index);
+	if (strcmp(getKey(elem), getKey(getElementNext(elem))) != 0) {
+		printAllSynonyms(getElementNext(elem), index);
+	}
 	return;
 }
 
@@ -273,17 +317,25 @@ int elemCmp(HashEntry tbl[], HashElement *elem1, HashElement *elem2) {
  *
  * @return successfull: 1, failed to allocate of memory: 0
  */
-int addSynonym(HashEntry *entry, char *key, char *value) {
-	HashElement *new_elem;
-	new_elem = createElement(key, value);
-
-	if (new_elem == NULL) {
+int addSynonym(HashEntry tbl[], char *key, char *value) {
+	HashElement *elem = createElement(key, value);
+	if (elem == NULL) {
 		return (0);
 	}
 
-	// add new element to the list
-	new_elem->next = entry->element;
-	*entry->element = *new_elem;
+	/*
+	 * リストの先頭に次々とシノニムを追加する
+	 * */
+	int n = hash(key, TBL_SIZE);
+	HashElement **head = &tbl[ n ].element;
+
+	// 追加するシノニムの次の要素を現在の先頭要素にする
+	elem->next = *head;
+
+	// 先頭に追加
+	tbl[ n ].element = elem;
+
+	tbl[ n ].count++;
 
 	return (1);
 }
@@ -308,21 +360,9 @@ int addSynonymRec(HashElement *head, char *key, char *value) {
 		// 同じキーを持つ要素が存在する
 		return (2);
 	} else {
-		return (addSynonymRec(head->next, key, value));
+		return (addSynonymRec(getElementNext(head), key, value));
 	}
 
-	return (0);
-}
-
-/**
- * @brief remove the element which has the specified key.
- *
- * @param entry Pointer to the entry with element to be removed.
- * @param key the key of the element to be removed.
- *
- * @return successfull: 1, not found: 0
- */
-int removeSynonym(HashEntry *entry, char *key) {
 	return (0);
 }
 
@@ -336,7 +376,12 @@ int removeSynonym(HashEntry *entry, char *key) {
  *          NULL if the element is not found.
  */
 HashElement *searchInSynonymByKey(HashEntry *entry, char *key) {
-	return (searchInNextByKey(entry->element, key));
+	HashElement *search = searchInNextByKey(entry->element, key);
+	if (search != NULL) {
+		return (search);
+	} else {
+		return (NULL);
+	}
 }
 
 /**
@@ -353,9 +398,123 @@ HashElement *searchInNextByKey(HashElement *elem, char *key) {
 		return (NULL);
 	}
 
-	if (strcmp(key, elem->key) == 0) {
+	if (strcmp(key, getKey(elem)) == 0) {
 		return (elem);
 	}
 
-	return (searchInNextByKey(elem->next, key));
+	return (searchInNextByKey(getElementNext(elem), key));
+}
+
+/**
+ * @brief return next element
+ *
+ * @param elem the element of list
+ *
+ * @return the next element of list
+ */
+HashElement *getElementNext(HashElement *elem) {
+	if (elem == NULL) {
+		return (NULL);
+	}
+	return (elem->next);
+}
+
+HashElement **getElementNextHead(HashElement *elem) {
+	if (elem == NULL) {
+		return (NULL);
+	}
+	return (&(elem->next));
+}
+
+/**
+ * @brief free element
+ *
+ * @param elem the element to free
+ */
+void freeElement(HashElement **elem) {
+	if (elem == NULL) {
+		return;
+	}
+
+	HashElement **next = getElementNextHead(*elem);
+	if (*next != NULL) {
+		free(next);
+	}
+	HashElement *tmp = *elem;
+
+	free(tmp->key);
+	free(tmp->value);
+	free(elem);
+
+	return;
+}
+
+/**
+ * @brief remove the synonym which has specified key
+ *
+ * @param tbl[] hash table
+ * @param key the key to be removed
+ *
+ * @return successfull: 1, failed(not found the key): 0
+ */
+int removeSynonym(HashEntry tbl[], char *key) {
+	int result = removeSynonymRec(tbl[ hash(key, TBL_SIZE), TBL_SIZE ].element, key);
+	if (result == 0) {
+		return (0);
+	} else {
+		tbl[ hash(key, TBL_SIZE) ].count--;
+		return (1);
+	}
+}
+
+int removeSynonymRec(HashElement *current, char *key) {
+	if (current == NULL) {
+		return (0);
+	}
+
+	// 先頭の要素を削除しようとしていた場合
+	if (strcmp(key, getKey(current)) == 0) {
+		return (removeSynonymHead(&current));
+	}
+
+	// 次のセルのキーがkeyと同じなら、その次のセルをnextとしてつなぎ替える
+	HashElement *next = getElementNext(current);
+	if (strcmp(key, getKey(current)) == 0) {
+		return (removeSynonymHead(&next));
+	}
+
+	return (removeSynonymRec(next, key));
+}
+
+/**
+ * @brief remove head of list and change head
+ *
+ * @param head   the element to be removed
+ *
+ * @return       successfull: 1, failed(when the head is empty): 0
+ */
+int removeSynonymHead(HashElement **head) {
+	if (*head != NULL) {
+		HashElement **p = head;
+
+		// headをheadの次の要素につなぎ替える
+		head = getElementNextHead(*head);
+
+		free(p);
+
+		return (1);
+	}
+
+	return (0);
+}
+
+/**
+ * @brief remove and free all synonyms
+ *
+ * @param entry the entry which has elements to be removed
+ */
+void removeAllSynonyms(HashEntry *entry) {
+	if (removeSynonymHead(getElementNextHead(entry->element)) == 1) {
+		removeAllSynonyms(entry);
+	}
 }
