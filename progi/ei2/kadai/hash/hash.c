@@ -610,13 +610,17 @@ void printHashTableStatus(HashEntry tbl[], int tbl_size) {
 	int count = 0;
 	for (int i = 0; i < tbl_size; i++) {
 		if (tbl[ i ].element != NULL) {
+			HashElement *elem = tbl[ i ].element;
+			printf("%s : %s\n", getKey(elem), getValue2(elem));
 			synonyms += tbl[ i ].count;
 			count++;
 		}
 	}
 
+	count += synonyms;
+
 	printf(
-	    "データ数: %4d, シノニム: %4d, シノニムの割合: %.2f%%\n",
+	    "データ数: %d,\tシノニム: %d,\tシノニムの割合: %.2f%%\n",
 	    count,
 	    synonyms,
 	    (double)synonyms / count * 100);
