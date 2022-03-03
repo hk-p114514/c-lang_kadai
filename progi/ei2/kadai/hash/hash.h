@@ -44,7 +44,7 @@ HashElement **getElementNextHead(HashElement *elem);
 
 void freeElement(HashElement **elem);
 int removeSynonym(HashEntry tbl[], char *key);
-int removeSynonymRec(HashElement *current, char *key);
+int removeSynonymRec(HashElement **current, char *key);
 int removeSynonymHead(HashElement **head);
 void removeAllSynonyms(HashEntry *entry);
 
