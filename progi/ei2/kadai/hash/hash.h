@@ -27,7 +27,6 @@ int removeElement(HashEntry tbl[], char *key);              // 操作関数⑦
 void freeHashTable(HashEntry tbl[], int tbl_size);          // 操作関数⑧
 void printHashTable(HashEntry tbl[], int tbl_size);         // 操作関数⑨
 unsigned int hash(char *key, int tbl_size);                 // 操作関数⑩
-int elemCmp(HashEntry tbl[], HashElement *elem1, HashElement *elem2);
 
 HashElement *searchInSynonymByKey(HashEntry *entry, char *key);
 HashElement *searchInNextByKey(HashElement *elem, char *key);

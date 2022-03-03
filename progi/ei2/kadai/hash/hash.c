@@ -17,7 +17,6 @@ char *getstring(char *msg, char *input) {
 //      tbl_size：ハッシュテーブルのサイズ
 //      戻り値  ：なし
 void initHashTable(HashEntry tbl[], int tbl_size) {
-	printf("init tbl_size = %d\n", tbl_size);
 	for (int i = 0; i < tbl_size; i++) {
 		tbl[ i ].count = 0;
 		tbl[ i ].element = NULL;
@@ -319,7 +318,6 @@ void printAllSynonyms(HashElement *elem, int index) {
 //      戻り値  ：ハッシュ値（ハッシュテーブルのサイズを超えない非負整数）
 #ifndef MY_HASH
 unsigned int hash(char *key, int tbl_size) {
-	printf("hash tbl_size: %d\n", tbl_size);
 	unsigned int hash_value;
 
 	for (hash_value = 0; *key != '\0'; key++) {
@@ -329,40 +327,21 @@ unsigned int hash(char *key, int tbl_size) {
 	return (hash_value % tbl_size);
 }
 #else
-unsigned int hash(unsigned char *name, int tbl_size) {
+unsigned int hash(char *key, int tbl_size) {
 	// ここに、自分で考えたハッシュ関数を記述する
+	unsigned int hashVal = 0;
+	int i = 0;
+	int n = strlen(key);
+
+	for (i = 0; i < n; i++) {
+		char s = key[ i ];
+		char t = key[ n - i ];
+		hashVal += (s * (n - i) + (s * t)) * 1773107171;
+	}
+
+	return hashVal % tbl_size;
 }
 #endif
-
-/**
- * @brief Compare two elements and
- *        returns 0 if the contents are the same,
- *        otherwise returns non-zero.
- * @param tbl[] hash table
- * @param elem1 one of the elements to compare
- * @param elem2 one of the elements to compare
- *
- * @return same: 0. not same: 1
- */
-int elemCmp(HashEntry tbl[], HashElement *elem1, HashElement *elem2) {
-	// compare keys
-	char key1[ KEY_LEN ];
-	char key2[ KEY_LEN ];
-
-	strcpy(getKey(elem1), key1);
-	strcpy(getKey(elem2), key2);
-
-	// compare keys
-	if (strcmp(key1, key2) != 0) {
-		return (1);
-	}
-
-	// compare values
-	if (strcmp(getValue(tbl, key1), getValue(tbl, key2)) != 0) {
-		return (1);
-	}
-	return (0);
-}
 
 /**
  * @brief add a new element as a synonym

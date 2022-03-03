@@ -9,3 +9,6 @@ b:
 
 c:
 	gcc -c -shared -fPIC -o libhash.so hash.c && gcc -D TBL_SIZE=6007 prog37-main.c -L . -l hash
+
+d:
+	gcc -c -shared -fPIC -o libhash.so hash.c && gcc -D MY_HASH prog37-main.c -L . -l hash
