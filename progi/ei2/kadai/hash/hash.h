@@ -28,16 +28,28 @@ void freeHashTable(HashEntry tbl[], int tbl_size);          // 操作関数⑧
 void printHashTable(HashEntry tbl[], int tbl_size);         // 操作関数⑨
 unsigned int hash(char *key, int tbl_size);                 // 操作関数⑩
 int elemCmp(HashEntry tbl[], HashElement *elem1, HashElement *elem2);
-int addSynonym(HashEntry tbl[], char *key, char *value);
+
 HashElement *searchInSynonymByKey(HashEntry *entry, char *key);
 HashElement *searchInNextByKey(HashElement *elem, char *key);
+
 int setValue(HashElement *elem, char *value);
+int setKey(HashElement *elem, char *key);
+char *getValue2(HashElement *elem);
+char *getKey(HashElement *elem);
+
 HashElement *getElementNext(HashElement *elem);
 HashElement **getElementNextHead(HashElement *elem);
+void setElementNext(HashElement *elem, HashElement *next);
+
 void freeElement(HashElement **elem);
 int removeSynonym(HashEntry tbl[], char *key);
 int removeSynonymRec(HashElement *current, char *key);
 int removeSynonymHead(HashElement **head);
 void removeAllSynonyms(HashEntry *entry);
+
 void printElement(HashElement *elem, int index);
 void printAllSynonyms(HashElement *elem, int index);
+
+int addSynonym(HashEntry tbl[], char *key, char *value);
+int addSynonymRec(HashElement *head, char *key, char *value);
+int insertSynonymHead(HashElement **head, char *key, char *value);

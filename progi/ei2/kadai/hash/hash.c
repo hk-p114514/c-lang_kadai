@@ -51,7 +51,7 @@ HashElement *createElement(char *key, char *value) {
 	// keyとvalueに格納する
 	strcpy(elem->key, key);
 	strcpy(elem->value, value);
-	elem->next = NULL;
+	// setElementNext(elem, NULL);
 
 	return (elem);
 }
@@ -63,10 +63,11 @@ HashElement *createElement(char *key, char *value) {
 //              ：キーが見つからなかったとき ＝ NULL
 HashElement *searchElement(HashEntry tbl[], char *key) {
 	// 配列上の添字を取得
-	int n = hash(key, TBL_SIZE);
-	HashEntry *entry = &tbl[ n ];
+	HashEntry *entry = &tbl[ hash(key, TBL_SIZE) ];
 
-	if (entry->element != NULL) {
+	HashElement *elem = entry->element;
+
+	if (elem != NULL) {
 		// シノニムの有無を確認
 		if (entry->count > 0) {
 			// シノニム有り
@@ -74,9 +75,9 @@ HashElement *searchElement(HashEntry tbl[], char *key) {
 			if (synonym != NULL) {
 				return (synonym);
 			}
-		} else {
-			// シノニムなし
-			return (entry->element);
+		} else if (strcmp(getKey(elem), key) == 0) {
+			// シノニム無し
+			return (elem);
 		}
 	}
 
@@ -98,10 +99,14 @@ char *getKey(HashElement *elem) {
 char *getValue(HashEntry tbl[], char *key) {
 	HashElement *elem = searchElement(tbl, key);
 	if (elem != NULL) {
-		return (elem->value);
+		return (getValue2(elem));
 	} else {
 		return (NULL);
 	}
+}
+
+char *getValue2(HashElement *elem) {
+	return (elem->value);
 }
 
 /**
@@ -113,13 +118,35 @@ char *getValue(HashEntry tbl[], char *key) {
  * @return successfull: 1, failed to allocate memory: 0
  */
 int setValue(HashElement *elem, char *value) {
-	elem->value = (char *)malloc(sizeof(char) * TBL_SIZE);
+	int n = strlen(value);
+	elem->value = (char *)realloc(elem->value, sizeof(char) * n);
 
 	if (elem->value == NULL) {
 		return (0);
 	}
 
 	strcpy(elem->value, value);
+
+	return (1);
+}
+
+/**
+ * @brief set the key of the element
+ *
+ * @param elem the element to set the key.
+ * @param key the key to set.
+ *
+ * @return successfull: 1, failed to allocate memory: 0
+ */
+int setKey(HashElement *elem, char *key) {
+	int n = strlen(key);
+	elem->key = (char *)realloc(elem->key, sizeof(char) * n);
+
+	if (elem->key == NULL) {
+		return (0);
+	}
+
+	strcpy(elem->key, key);
 
 	return (1);
 }
@@ -134,34 +161,30 @@ int setValue(HashElement *elem, char *value) {
 //              ：メモリ確保に失敗したとき               ＝ 0
 int insertElement(HashEntry tbl[], char *key, char *value) {
 	HashElement *search = searchElement(tbl, key);
+
 	if (search == NULL) {
-		//  まだ使われていないハッシュ値(まだリストが存在しない)
-
-		// 要素を挿入
+		// キーが未使用 -> 新規ハッシュ値 or シノニムを挿入
+		HashEntry *entry = &tbl[ hash(key, TBL_SIZE) ];
 		HashElement *elem = createElement(key, value);
-
 		if (elem == NULL) {
 			return (0);
 		}
-
-		int n = hash(key, TBL_SIZE);
-		tbl[ n ].element = elem;
-
+		if (entry->element == NULL) {
+			// 新規ハッシュ値
+			entry->element = elem;
+		} else {
+			// シノニムを挿入
+			int result = addSynonym(tbl, key, value);
+			return (result);
+		}
 	} else {
-		int isSameKey = strcmp(getKey(search), key);
-		int isSameValue = strcmp(getValue(tbl, key), value);
-
-		if (isSameKey == 0) {
-			// キーが同じ
-			if (isSameValue == 0) {
-				// 値も同じ
-				return (2);
-			}
-			// キーが同じだが、値が違う -> 値を更新
-			if (setValue(search, value) == 0) {
-				return (0);
-			}
-			return (1);
+		// キーが既に使われている -> 上書き or シノニム追加
+		if (strcmp(value, getValue2(search)) == 0) {
+			// 値が同じ -> 何もしない
+			return (2);
+		} else {
+			// 値が違う -> シノニム追加
+			return (addSynonym(tbl, key, value));
 		}
 	}
 	return (1);
@@ -199,14 +222,17 @@ int updateElement(HashEntry tbl[], char *key, char *value) {
 //              ：キーが見つからなかったとき       ＝ 0
 int removeElement(HashEntry tbl[], char *key) {
 	HashElement *remove = searchElement(tbl, key);
-	int n = hash(key, TBL_SIZE);
-	int count = tbl[ n ].count;
-	if (count > 0) {
-		// シノニム(リスト)の中からkeyが同じものを探す必要がある
-		return (removeSynonym(tbl, key));
-	} else {
-		// シノニム(リスト)が存在しない
-		freeElement(&tbl[ n ].element);
+	if (remove != NULL) {
+		int n = hash(key, TBL_SIZE);
+		int count = tbl[ n ].count;
+		if (count > 0) {
+			// シノニム(リスト)の中からkeyが同じものを探す必要がある
+			return (removeSynonym(tbl, key));
+		} else {
+			// シノニム(リスト)が存在しない
+			freeElement(&(tbl[ n ].element));
+			return (1);
+		}
 	}
 
 	return (0);
@@ -230,20 +256,24 @@ void freeHashTable(HashEntry tbl[], int tbl_size) {
 // i     戻り値  ：なし
 void printHashTable(HashEntry tbl[], int tbl_size) {
 	printf("Index\tKey\t\t\tValue\n");
-	printf("------------------------------\n");
+	printf("-----------------------------------------\n");
 	for (int i = 0; i < TBL_SIZE; i++) {
 		HashEntry entry = tbl[ i ];
 		HashElement *elem = entry.element;
 		if (elem != NULL) {
 			printElement(elem, i);
-
-			// シノニムの表示
+			int count = entry.count;
+			while (count > 0) {
+				elem = elem->next;
+				printElement(elem, i);
+				count--;
+			}
 		}
 	}
 	return;
 }
 void printElement(HashElement *elem, int index) {
-	printf("%4d:\t%s\t\t%s\n", index, elem->key, elem->value);
+	printf("%4d:\t%s\t\t%s\n", index, getKey(elem), getValue2(elem));
 	return;
 }
 
@@ -310,6 +340,7 @@ int elemCmp(HashEntry tbl[], HashElement *elem1, HashElement *elem2) {
 /**
  * @brief add a new element as a synonym
  *        for the specified element.
+ *        and increment the counter.
  *
  * @param entry Pointer to head of list.
  * @param key the key of the synonym to be added.
@@ -318,24 +349,47 @@ int elemCmp(HashEntry tbl[], HashElement *elem1, HashElement *elem2) {
  * @return successfull: 1, failed to allocate of memory: 0
  */
 int addSynonym(HashEntry tbl[], char *key, char *value) {
-	HashElement *elem = createElement(key, value);
-	if (elem == NULL) {
-		return (0);
-	}
 
 	/*
 	 * リストの先頭に次々とシノニムを追加する
 	 * */
 	int n = hash(key, TBL_SIZE);
-	HashElement **head = &tbl[ n ].element;
+	HashEntry *entry = &tbl[ n ];
+	HashElement **head = &entry->element;
 
-	// 追加するシノニムの次の要素を現在の先頭要素にする
-	elem->next = *head;
+	if (head == NULL) {
+		*head = createElement(key, value);
+	} else {
+		int result = insertSynonymHead(head, key, value);
+		if (result == 0) {
+			return (0);
+		} else {
+			entry->count++;
+			return (1);
+		}
+	}
 
-	// 先頭に追加
-	tbl[ n ].element = elem;
+	return (1);
+}
 
-	tbl[ n ].count++;
+/**
+ * @brief insert a element into the list
+ *
+ * @param head the element to be added.
+ * @param key the key of the element to be added
+ * @param value the value of the element to be added
+ *
+ * @return successfull: 1, failed: 0
+ */
+int insertSynonymHead(HashElement **head, char *key, char *value) {
+	HashElement *elem = createElement(key, value);
+
+	if (elem == NULL) {
+		return (0);
+	}
+	setElementNext(elem, *head);
+
+	*head = elem;
 
 	return (1);
 }
@@ -417,6 +471,17 @@ HashElement *getElementNext(HashElement *elem) {
 		return (NULL);
 	}
 	return (elem->next);
+}
+
+/**
+ * @brief set element to element as the next element.
+ *
+ * @param elem the element to be set as the next element.
+ * @param next the element to set elem.
+ */
+void setElementNext(HashElement *elem, HashElement *next) {
+	elem->next = next;
+	return;
 }
 
 HashElement **getElementNextHead(HashElement *elem) {
