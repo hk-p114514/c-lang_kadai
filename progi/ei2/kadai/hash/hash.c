@@ -51,7 +51,6 @@ HashElement *createElement(char *key, char *value) {
 	// keyとvalueに格納する
 	strcpy(elem->key, key);
 	strcpy(elem->value, value);
-	// setElementNext(elem, NULL);
 
 	return (elem);
 }
@@ -223,14 +222,14 @@ int updateElement(HashEntry tbl[], char *key, char *value) {
 int removeElement(HashEntry tbl[], char *key) {
 	HashElement *remove = searchElement(tbl, key);
 	if (remove != NULL) {
-		int n = hash(key, TBL_SIZE);
-		int count = tbl[ n ].count;
+		HashEntry *entry = &tbl[ hash(key, TBL_SIZE) ];
+		int count = entry->count;
 		if (count > 0) {
 			// シノニム(リスト)の中からkeyが同じものを探す必要がある
 			return (removeSynonym(tbl, key));
 		} else {
 			// シノニム(リスト)が存在しない
-			freeElement(&(tbl[ n ].element));
+			freeElement(&(entry->element));
 			return (1);
 		}
 	}
@@ -244,9 +243,21 @@ int removeElement(HashEntry tbl[], char *key) {
 //      戻り値  ：なし
 void freeHashTable(HashEntry tbl[], int tbl_size) {
 	for (int i = 0; i < TBL_SIZE; i++) {
-		HashEntry remove = tbl[ i ];
-		int count = remove.count;
+		HashEntry *remove = &tbl[ i ];
+		HashElement **head = &(remove->element);
+		if (remove->element != NULL) {
+			// シノニム(リスト)が存在する場合は、それを解放する
+			if (remove->count > 0) {
+				removeAllSynonyms(remove);
+			}
+			// 要素を解放する
+			freeElement(&(remove->element));
+		}
 	}
+
+	// 初期化
+	initHashTable(tbl, tbl_size);
+
 	return;
 }
 
@@ -255,7 +266,7 @@ void freeHashTable(HashEntry tbl[], int tbl_size) {
 //      tbl_size：ハッシュテーブルのサイズ
 // i     戻り値  ：なし
 void printHashTable(HashEntry tbl[], int tbl_size) {
-	printf("Index\tKey\t\t\tValue\n");
+	printf("Index\tKey\t\tValue\n");
 	printf("-----------------------------------------\n");
 	for (int i = 0; i < TBL_SIZE; i++) {
 		HashEntry entry = tbl[ i ];
@@ -264,7 +275,7 @@ void printHashTable(HashEntry tbl[], int tbl_size) {
 			printElement(elem, i);
 			int count = entry.count;
 			while (count > 0) {
-				elem = elem->next;
+				elem = getElementNext(elem);
 				printElement(elem, i);
 				count--;
 			}
@@ -272,11 +283,24 @@ void printHashTable(HashEntry tbl[], int tbl_size) {
 	}
 	return;
 }
+
+/**
+ * @brief print a element
+ *
+ * @param elem the element to print
+ * @param index array index of the element
+ */
 void printElement(HashElement *elem, int index) {
-	printf("%4d:\t%s\t\t%s\n", index, getKey(elem), getValue2(elem));
+	printf("%5d:\t%-20s\t%s\n", index, getKey(elem), getValue2(elem));
 	return;
 }
 
+/**
+ * @brief print all synonyms
+ *
+ * @param elem head of list
+ * @param index array element
+ */
 void printAllSynonyms(HashElement *elem, int index) {
 	if (elem == NULL) {
 		return;
@@ -497,20 +521,12 @@ HashElement **getElementNextHead(HashElement *elem) {
  * @param elem the element to free
  */
 void freeElement(HashElement **elem) {
-	if (elem == NULL) {
-		return;
+	if (*elem != NULL) {
+		free(getKey(*elem));
+		free(getValue2(*elem));
+		free(*elem);
+		*elem = NULL;
 	}
-
-	HashElement **next = getElementNextHead(*elem);
-	if (*next != NULL) {
-		free(next);
-	}
-	HashElement *tmp = *elem;
-
-	free(tmp->key);
-	free(tmp->value);
-	free(elem);
-
 	return;
 }
 
@@ -576,10 +592,33 @@ int removeSynonymHead(HashElement **head) {
 /**
  * @brief remove and free all synonyms
  *
- * @param entry the entry which has elements to be removed
+ * @param entry entry to be removed.
  */
 void removeAllSynonyms(HashEntry *entry) {
-	if (removeSynonymHead(getElementNextHead(entry->element)) == 1) {
-		removeAllSynonyms(entry);
+	HashElement **head = &entry->element;
+	if (*head == NULL) {
+		return;
 	}
+	freeElement(head);
+	entry->count--;
+
+	removeAllSynonyms(entry);
+}
+
+void printHashTableStatus(HashEntry tbl[], int tbl_size) {
+	int synonyms = 0;
+	int count = 0;
+	for (int i = 0; i < tbl_size; i++) {
+		if (tbl[ i ].element != NULL) {
+			synonyms += tbl[ i ].count;
+			count++;
+		}
+	}
+
+	printf(
+	    "データ数: %4d, シノニム: %4d, シノニムの割合: %.2f%%\n",
+	    count,
+	    synonyms,
+	    (double)synonyms / count * 100);
+	return;
 }

@@ -40,6 +40,7 @@ char *getKey(HashElement *elem);
 HashElement *getElementNext(HashElement *elem);
 HashElement **getElementNextHead(HashElement *elem);
 void setElementNext(HashElement *elem, HashElement *next);
+HashElement **getElementNextHead(HashElement *elem);
 
 void freeElement(HashElement **elem);
 int removeSynonym(HashEntry tbl[], char *key);
@@ -53,3 +54,5 @@ void printAllSynonyms(HashElement *elem, int index);
 int addSynonym(HashEntry tbl[], char *key, char *value);
 int addSynonymRec(HashElement *head, char *key, char *value);
 int insertSynonymHead(HashElement **head, char *key, char *value);
+
+void printHashTableStatus(HashEntry tbl[], int tbl_size);

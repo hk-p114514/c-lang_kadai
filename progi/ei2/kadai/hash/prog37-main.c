@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
 		exit(8);
 	}
 
+	printHashTableStatus(tbl, TBL_SIZE);
 	selectMenu(tbl); // 処理メニューの選択
 
 	return (0);
