@@ -38,12 +38,14 @@ HashElement *createElement(char *key, char *value) {
 	}
 
 	// keyとvalueのメモリを確保し、それぞれのポインタを格納する
-	elem->key = (char *)malloc(sizeof(char) * KEY_LEN);
-	elem->value = (char *)malloc(sizeof(char) * VAL_LEN);
-
-	if (elem->key == NULL || elem->value == NULL) {
+	elem->key = (char *)realloc(NULL, sizeof(char) * strlen(key));
+	if (elem->key == NULL) {
+		free(elem);
+		return (NULL);
+	}
+	elem->value = (char *)realloc(NULL, sizeof(char) * strlen(value));
+	if (elem->key == NULL) {
 		free(elem->key);
-		free(elem->value);
 		free(elem);
 		return (NULL);
 	}
@@ -612,10 +614,6 @@ void printHashTableStatus(HashEntry tbl[], int tbl_size) {
 		}
 	}
 
-	printf(
-	    "データ数: %d,\tシノニム: %d,\tシノニムの割合: %.1f%%\n",
-	    data,
-	    synonyms,
-	    (double)synonyms / data * 100);
+	printf("データ数: %d,\tシノニム: %d,\tシノニムの割合: %.1f%%\n", data, synonyms, (double)synonyms / data * 100);
 	return;
 }
