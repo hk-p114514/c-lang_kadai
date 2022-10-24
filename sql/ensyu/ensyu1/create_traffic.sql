@@ -1,0 +1,10 @@
+CREATE TABLE `ei2030`.(
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`date` DATE NOT NULL,
+	`time` TIME NOT NULL,
+	`direction` VARCHAR(8) NOT NULL,
+	`point` VARCHAR(128) NOT NULL,
+	`distance` INT NOT NULL,
+	`elapse` INT NOT NULL,
+	PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
