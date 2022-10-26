@@ -8,3 +8,4 @@ CREATE TABLE `ei2030`.(
 	`elapse` INT NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
+

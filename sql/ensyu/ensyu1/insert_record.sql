@@ -1,5 +1,4 @@
-INSERT INTO
-	`ei2030`.`traffic` (
+INSERT INTO `ei2030`.`traffic` (
 		`id`,
 		`date`,
 		`time`,
@@ -8,8 +7,7 @@ INSERT INTO
 		`distance`,
 		`elapse`
 	)
-VALUES
-	(
+VALUES (
 		NULL,
 		'2022-09-13',
 		'10:00:00',
