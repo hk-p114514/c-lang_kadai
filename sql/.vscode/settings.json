@@ -1,5 +1,5 @@
 {
   "[sql]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "mtxr.sqltools"
   }
 }
