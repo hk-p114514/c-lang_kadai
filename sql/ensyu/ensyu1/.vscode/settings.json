@@ -1,5 +1,6 @@
 {
   "[sql]": {
     "editor.defaultFormatter": "adpyke.vscode-sql-formatter"
-  }
+  },
+  "cSpell.words": ["kadai"]
 }

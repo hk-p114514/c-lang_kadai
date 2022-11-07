@@ -1,0 +1,262 @@
+kadai1.sql
+kadai2.sql
+kadai3.sql
+kadai4.sql
+kadai5.sql
+kadai6.sql
+kadai7.sql
+kadai8.sql
+kadai9.sql
+kadai10.sql
+kadai11.sql
+kadai12.sql
+kadai13.sql
+kadai14.sql
+kadai15.sql
+kadai16.sql
+kadai17.sql
+kadai18.sql
+kadai19.sql
+kadai20.sql
+01
+02
+03
+04
+05
+06
+07
+08
+09
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+kadai1.sql=========SQL01-01
+SELECT *
+FROM traffic
+success 0 SQL01-20
+SELECT *
+FROM traffic
+kadai2.sql=========SQL01-02
+SELECT id,
+	date
+FROM traffic
+success 1 SQL01-20
+SELECT id,
+	date
+FROM traffic
+kadai3.sql=========SQL01-03
+SELECT id,
+	date AS '日付'
+FROM traffic
+success 2 SQL01-20
+SELECT id,
+	date AS '日付'
+FROM traffic
+kadai4.sql=========SQL01-04
+SELECT *
+FROM traffic
+WHERE direction = '上り'
+success 3 SQL01-20
+SELECT *
+FROM traffic
+WHERE direction = '上り'
+kadai5.sql=========SQL01-05
+SELECT *
+FROM traffic
+WHERE date = '2022-09-13'
+	OR date = '2022-09-14'
+success 4 SQL01-20
+SELECT *
+FROM traffic
+WHERE date = '2022-09-13'
+	OR date = '2022-09-14'
+kadai6.sql=========SQL01-06
+-- 1
+
+SELECT date, direction, point
+FROM traffic
+WHERE
+    date = '2022-09-13'
+   or date = '2022-09-14'
+	
+-- 2
+
+SELECT date, direction, point
+FROM traffic
+WHERE date >= '2022-09-13' AND
+date <= '2022-09-14'
+success 5 SQL01-20
+-- 1
+
+SELECT date, direction, point
+FROM traffic
+WHERE
+    date = '2022-09-13'
+   or date = '2022-09-14'
+	
+-- 2
+
+SELECT date, direction, point
+FROM traffic
+WHERE date >= '2022-09-13' AND
+date <= '2022-09-14'
+kadai7.sql=========SQL01-07
+SELECT date,
+	time,
+	point
+FROM traffic
+WHERE point LIKE '%IC%'
+success 6 SQL01-20
+SELECT date,
+	time,
+	point
+FROM traffic
+WHERE point LIKE '%IC%'
+kadai8.sql=========SQL01-08
+SELECT date,
+	time,
+	point
+FROM traffic
+WHERE point LIKE '%音羽%'
+	OR point LIKE '%小牧%'
+success 7 SQL01-20
+SELECT date,
+	time,
+	point
+FROM traffic
+WHERE point LIKE '%音羽%'
+	OR point LIKE '%小牧%'
+kadai9.sql=========SQL01-09
+SELECT date,
+	distance
+FROM traffic
+ORDER BY distance
+success 8 SQL01-20
+SELECT date,
+	distance
+FROM traffic
+ORDER BY distance
+kadai10.sql=========SQL01-10
+SELECT date,
+	distance,
+	elapse
+FROM traffic
+WHERE elapse >= 20
+success 9 SQL01-20
+SELECT date,
+	distance,
+	elapse
+FROM traffic
+WHERE elapse >= 20
+kadai11.sql=========SQL01-11
+SELECT COUNT(elapse)
+FROM traffic
+WHERE elapse > 0
+success 10 SQL01-20
+SELECT COUNT(elapse)
+FROM traffic
+WHERE elapse > 0
+kadai12.sql=========SQL01-12
+SELECT AVG(distance),
+	SUM(distance)
+FROM traffic
+success 11 SQL01-20
+SELECT AVG(distance),
+	SUM(distance)
+FROM traffic
+kadai13.sql=========SQL01-13
+SELECT MAX(elapse),
+	point
+FROM traffic
+success 12 SQL01-20
+SELECT MAX(elapse),
+	point
+FROM traffic
+kadai14.sql=========SQL01-14
+SELECT DISTINCT point
+FROM traffic
+WHERE elapse > 0
+success 13 SQL01-20
+SELECT DISTINCT point
+FROM traffic
+WHERE elapse > 0
+kadai15.sql=========SQL01-15
+SELECT date,
+	AVG(elapse)
+FROM traffic --
+success 14 SQL01-20
+SELECT date,
+	AVG(elapse)
+FROM traffic --
+kadai16.sql=========SQL01-16
+SELECT point,
+	SUM(distance)
+FROM traffic
+GROUP BY point
+success 15 SQL01-20
+SELECT point,
+	SUM(distance)
+FROM traffic
+GROUP BY point
+kadai17.sql=========SQL01-17
+SELECT point,
+	direction,
+	SUM(distance),
+	AVG(distance)
+FROM traffic
+GROUP BY point,
+	direction
+success 16 SQL01-20
+SELECT point,
+	direction,
+	SUM(distance),
+	AVG(distance)
+FROM traffic
+GROUP BY point,
+	direction
+kadai18.sql=========SQL01-18
+SELECT point,
+	direction,
+	SUM(distance),
+	AVG(distance)
+FROM traffic
+GROUP BY point,
+	direction
+ORDER BY distance DESC
+success 17 SQL01-20
+SELECT point,
+	direction,
+	SUM(distance),
+	AVG(distance)
+FROM traffic
+GROUP BY point,
+	direction
+ORDER BY distance DESC
+kadai19.sql=========SQL01-19
+SELECT point,
+	SUM(distance)
+FROM traffic
+GROUP BY point
+HAVING SUM(distance) >= 50
+success 18 SQL01-20
+SELECT point,
+	SUM(distance)
+FROM traffic
+GROUP BY point
+HAVING SUM(distance) >= 50
+kadai20.sql=========SQL01-20
+SELECT *,
+	elapse / distance as ''
+FROM traffic
+success 19 SQL01-20
+SELECT *,
+	elapse / distance as ''
+FROM traffic
