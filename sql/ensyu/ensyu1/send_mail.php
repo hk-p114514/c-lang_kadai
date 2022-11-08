@@ -20,7 +20,8 @@ for ($i=1; $i <= $max; $i++) {
 
 mb_language("Japanese");
 mb_internal_encoding("UTF-8");
-$to = "ei2030@hamako-ths.ed.jp";
+/* $to = "ei2030@hamako-ths.ed.jp"; */
+$to = "takesi@hamako-ths.ed.jp";
 $headers = "From: ei2030@hamako-ths.ed.jp";
 
 for ($i = 0; $i < 20; $i++) {
@@ -29,8 +30,9 @@ for ($i = 0; $i < 20; $i++) {
     if ($content == false) {
         throw new RuntimeException('file not found');
     }
+    $title = $titles[$i];
 
-    echo $filename . "=========" . $titles[$i] . PHP_EOL;
+    echo $filename . "=========" . $title . PHP_EOL;
     echo $content . PHP_EOL;
 
 
