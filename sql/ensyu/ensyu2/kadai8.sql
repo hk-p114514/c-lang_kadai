@@ -1,0 +1,1 @@
+SELECT kyoka,AVG(tokuten) FROM seiseki GROUP BY kyoka 
