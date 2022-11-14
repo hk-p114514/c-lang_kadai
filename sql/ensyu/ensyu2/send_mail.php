@@ -4,10 +4,14 @@ $max = 14;
 
 $filenames = [];
 
-for ($i=1; $i <= 20; $i++) {
+$log = fopen("./mail_log.txt", "w");
+
+for ($i=1; $i <= $max; $i++) {
     $filename =  "kadai$i.sql";
     array_push($filenames, $filename);
-    echo $filename . PHP_EOL;
+    $log1 = $filename . PHP_EOL;
+    echo $log1;
+    fwrite($log, $log1);
 }
 
 $titles = [];
@@ -24,7 +28,7 @@ $to = "ei2030@hamako-ths.ed.jp";
 // $to = "takesi@hamako-ths.ed.jp";
 $headers = "From: ei2030@hamako-ths.ed.jp";
 
-for ($i = 0; $i < 20; $i++) {
+for ($i = 0; $i < $max; $i++) {
     $filename = $filenames[$i];
     $content = file_get_contents($filename);
     if ($content == false) {
@@ -32,8 +36,12 @@ for ($i = 0; $i < 20; $i++) {
     }
     $title = $titles[$i];
 
-    echo $filename . "=========" . $title . PHP_EOL;
-    echo $content . PHP_EOL;
+    $log2 = $filename . "=========" . $title . PHP_EOL;
+    $log3 = $content . PHP_EOL;
+    echo $log2;
+    echo $log3;
+    fwrite($log, $log2);
+    fwrite($log, $log3);
 
 
     if (

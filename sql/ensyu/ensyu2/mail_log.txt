@@ -1,0 +1,135 @@
+kadai1.sql
+kadai2.sql
+kadai3.sql
+kadai4.sql
+kadai5.sql
+kadai6.sql
+kadai7.sql
+kadai8.sql
+kadai9.sql
+kadai10.sql
+kadai11.sql
+kadai12.sql
+kadai13.sql
+kadai14.sql
+kadai1.sql=========SQL02-01
+CREATE TABLE `seiseki` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `student_no` varchar(10) NOT NULL,
+ `kyoka` varchar(10) NOT NULL,
+ `tokuten` int(11) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8
+
+CREATE TABLE `students` (
+ `student_no` varchar(10) NOT NULL,
+ `class` varchar(3) NOT NULL,
+ `name` varchar(20) NOT NULL,
+ `sex` varchar(2) NOT NULL,
+ PRIMARY KEY (`student_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `teachers` (
+ `class` varchar(2) NOT NULL,
+ `teacher` varchar(5) NOT NULL,
+ `kyoka` varchar(5) NOT NULL,
+ PRIMARY KEY (`class`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `ei2030`. ( `class` VARCHAR(2) NOT NULL , `teacher` VARCHAR(10) NOT NULL , `kyoka` VARCHAR(10) NOT NULL , PRIMARY KEY (`class`)) ENGINE = InnoDB;
+
+
+kadai2.sql=========SQL02-02
+-- seiseki
+
+INSERT INTO
+    seiseki (id, student_no, kyoka, tokuten)
+VALUES (NULL, '2022-001', '国語', '75');
+
+-- teachers
+
+INSERT INTO
+    teachers (class, teacher, kyoka)
+VALUES ('A', '福沢', '理科'), ('B', '樋口' '国語'), ('C', '野口', '社会'), ('D', '岩倉', '算数');
+
+-- students
+
+INSERT INTO
+    `ei2030`.`students` (
+        `student_no`,
+        `class`,
+        `name`,
+        `sex`
+    )
+VALUES ('2022-003', 'C', '鈴木一郎', '男');
+kadai3.sql=========SQL02-03
+SELECT name, kyoka, tokuten
+FROM students INNER JOIN seiseki ON
+students.student_no = seiseki.student_no;
+
+
+kadai4.sql=========SQL02-04
+SELECT name, kyoka, tokuten
+FROM students
+    LEFT OUTER JOIN seiseki ON students.student_no = seiseki.student_no
+WHERE kyoka is not null;
+kadai5.sql=========SQL02-05
+SELECT name, kyoka, tokuten
+FROM students
+    RIGHT OUTER JOIN seiseki ON students.student_no = seiseki.student_no
+WHERE kyoka is not null;
+kadai6.sql=========SQL02-06
+SELECT name, kyoka, tokuten
+FROM students, seiseki
+WHERE
+    students.student_no = seiseki.student_no
+kadai7.sql=========SQL02-07
+SELECT
+    students.student_no,
+    teachers.class,
+    teachers.teacher,
+    students.name
+FROM students
+    RIGHT OUTER JOIN teachers ON students.class = teachers.class
+kadai8.sql=========SQL02-08
+SELECT kyoka,AVG(tokuten) FROM seiseki GROUP BY kyoka 
+kadai9.sql=========SQL02-09
+SELECT class, name, tokuten
+FROM students
+    LEFT OUTER JOIN seiseki ON students.student_no = seiseki.student_no
+WHERE tokuten IS NOT null
+kadai10.sql=========SQL02-10
+SELECT class, name, tokuten
+FROM students
+    LEFT OUTER JOIN seiseki ON students.student_no = seiseki.student_no
+kadai11.sql=========SQL02-11
+SELECT class, AVG(tokuten)
+FROM students
+    LEFT OUTER JOIN seiseki ON students.student_no = seiseki.student_no
+GROUP BY class
+kadai12.sql=========SQL02-12
+SELECT
+    class,
+    name,
+    AVG(seiseki.tokuten)
+FROM students
+    LEFT OUTER JOIN seiseki ON students.student_no = seiseki.student_no
+WHERE
+    seiseki.tokuten IS NOT null
+GROUP BY seiseki.student_no
+kadai13.sql=========SQL02-13
+SELECT
+    class,
+    name,
+    AVG(seiseki.tokuten)
+FROM students
+    LEFT OUTER JOIN seiseki ON students.student_no = seiseki.student_no
+GROUP BY seiseki.student_no
+kadai14.sql=========SQL02-14
+SELECT
+    teacher,
+    teachers.kyoka,
+    AVG(seiseki.tokuten) AS avg
+FROM teachers
+    LEFT OUTER JOIN seiseki ON teachers.kyoka = seiseki.kyoka
+GROUP BY kyoka
